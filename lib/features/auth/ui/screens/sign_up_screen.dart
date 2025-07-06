@@ -1,4 +1,4 @@
-import 'package:cash_books/app/app_colors.dart';
+import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/auth/ui/screens/sign_in_screen.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
 import 'package:flutter/gestures.dart';
@@ -54,28 +54,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
           TextFormField(
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(hintText: 'Email'),
+            decoration: const InputDecoration(labelText: 'Email'),
           ),
           const SizedBox(height: 8),
           TextFormField(
             textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(hintText: 'FirstName'),
+            decoration: const InputDecoration(labelText: 'Firstname'),
           ),
           const SizedBox(height: 8),
           TextFormField(
             textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(hintText: 'LastName'),
+            decoration: const InputDecoration(labelText: 'Lastname'),
           ),
           const SizedBox(height: 8),
           TextFormField(
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.phone,
-            decoration: const InputDecoration(hintText: 'phone'),
+            decoration: const InputDecoration(labelText: 'phone'),
           ),
           const SizedBox(height: 8),
           TextFormField(
             textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(hintText: 'Password'),
+            decoration: const InputDecoration(labelText: 'Password'),
           ),
           const SizedBox(height: 16),
           ElevatedButton(
@@ -106,10 +106,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void _onTapSignUpButton() {
-    Navigator.pushNamed(context, SignInScreen.name);
+
   }
 
   void _onTapSignInButton() {
-    Navigator.pushNamed(context, SignInScreen.name);
+    Navigator.pop(context);
   }
 }
