@@ -2,6 +2,7 @@ import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/auth/ui/screens/forgot_password_screen.dart';
 import 'package:cash_books/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
+import 'package:cash_books/features/common/ui/screens/main_bottom_nav_bar_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -191,6 +192,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _onTapSignInButton() {
     if(_formKey.currentState!.validate()){
+      Navigator.pushReplacementNamed(context, MainBottomNavBarScreen.name);
       _saveRememberedData();
     }
   }
