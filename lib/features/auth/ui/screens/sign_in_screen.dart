@@ -169,11 +169,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Future<void> _loadRememberedData()async {
     final SharedPreferences localData = await SharedPreferences.getInstance();
-    final savedEmail = localData.getString('email');
-    final savedPassword = localData.getString('password');
+
     final remember = localData.getBool('rememberMe') ?? false;
 
     if(remember){
+      final savedEmail = localData.getString('email');
+      final savedPassword = localData.getString('password');
       _emailTEController.text = savedEmail ?? '';
       _passwordTEController.text = savedPassword ?? '';
       rememberMe = true;
