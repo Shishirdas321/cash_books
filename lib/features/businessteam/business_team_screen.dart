@@ -1,5 +1,5 @@
 import 'package:cash_books/core/theme/app_colors.dart';
-import 'package:cash_books/features/home/ui/screens/add_team_member_screen.dart';
+import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/features/home/ui/widgets/team_diagram.dart';
 import 'package:flutter/material.dart';
 

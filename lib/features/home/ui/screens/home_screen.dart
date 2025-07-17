@@ -1,9 +1,10 @@
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
-import 'package:cash_books/features/home/ui/screens/business_team_screen.dart';
+import 'package:cash_books/features/businessteam/business_team_screen.dart';
 import 'package:cash_books/features/home/ui/widgets/book_card.dart';
 import 'package:cash_books/features/home/ui/widgets/business_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,7 +14,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Map<String, String>> businesses = [{}];
+  final ScrollController _scrollController = ScrollController(); // [1] ScrollController added
+  bool _isScrollingDown = false; // [2] Track scroll direction
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+        if (!_isScrollingDown) {
+          setState(() {
+            _isScrollingDown = true;
+          });
+        }
+      } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
+        if (_isScrollingDown) {
+          setState(() {
+            _isScrollingDown = false;
+          });
+        }
+      }
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       'Tap to switch business',
                       style:
-                          textTheme.bodySmall?.copyWith(color: Colors.black45),
+                      textTheme.bodySmall?.copyWith(color: Colors.black45),
                     ),
                   ],
                 ),
@@ -58,20 +82,65 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: ListView.builder(
+      body: ListView(
+        controller: _scrollController, // [3] Attach controller here
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Your Books',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.search,
+                    color: AppColors.themeColor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          ListView.builder(
             shrinkWrap: true,
-            primary: false,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: 10,
             itemBuilder: (context, index) {
               return const BookCard();
-            }),
+            },
+          ),
+          const SizedBox(height: 50),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showCustomBottomSheet(context);
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: AnimatedSwitcher( // [4] Animated FAB
+        duration: const Duration(milliseconds: 50),
+        child: _isScrollingDown
+            ? FloatingActionButton(
+          key: const ValueKey('iconOnly'),
+          onPressed: () {
+            _showCustomBottomSheet(context);
+          },
+
+          backgroundColor: AppColors.themeColor,
+          foregroundColor: Colors.white,
+          child: const Icon(Icons.add),
+        )
+            : FloatingActionButton.extended(
+          key: const ValueKey('iconWithText'),
+          onPressed: () {
+            _showCustomBottomSheet(context);
+          },
+          label: const Text('Add New Book'),
+          icon: const Icon(Icons.add),
+          backgroundColor: AppColors.themeColor,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
       ),
     );
   }
@@ -86,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (BuildContext context) {
         return Padding(
           padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.all(16),
@@ -102,7 +171,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        icon: const Icon(Icons.close),
+                        icon: const Icon(
+                          Icons.close,
+                          color: AppColors.themeColor,
+                        ),
                       ),
                       const Text(
                         'Add New Book',
@@ -120,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 10),
                   TextFormField(
                     decoration:
-                        const InputDecoration(labelText: 'Enter Book name'),
+                    const InputDecoration(labelText: 'Enter Book name'),
                   ),
                   const SizedBox(height: 60),
                   ElevatedButton(
@@ -163,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const Text(
                       'Select Business',
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -189,5 +261,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }

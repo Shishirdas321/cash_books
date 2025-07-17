@@ -1,3 +1,5 @@
+import 'package:cash_books/features/businessteam/choose_role_screen.dart';
+import 'package:cash_books/features/home/ui/widgets/team_diagram.dart';
 import 'package:flutter/material.dart';
 
 class AddTeamMemberScreen extends StatefulWidget {
@@ -12,7 +14,7 @@ class AddTeamMemberScreen extends StatefulWidget {
 class _AddTeamMemberScreenState extends State<AddTeamMemberScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _addNewMemberTEController =
+  final TextEditingController _emailTEController =
   TextEditingController();
 
   @override
@@ -29,13 +31,13 @@ class _AddTeamMemberScreenState extends State<AddTeamMemberScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-             const SizedBox(height: 20),
+             //const SizedBox(height: 20),
               TextFormField(
-                controller: _addNewMemberTEController,
+                controller: _emailTEController,
                 textInputAction: TextInputAction.done,
-                decoration: const InputDecoration(labelText: 'Business Name'),
+                decoration: const InputDecoration(labelText: 'Email Address'),
                 validator: (String? value) {
                   if (value?.trim().isEmpty ?? true) {
                     return 'Enter your business name';
@@ -43,8 +45,11 @@ class _AddTeamMemberScreenState extends State<AddTeamMemberScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 100),
-              ElevatedButton(onPressed: () {}, child: const Text('NEXT'))
+              const TeamDiagram(),
+              //const SizedBox(height: 50),
+              ElevatedButton(onPressed: () {
+                Navigator.pushNamed(context, ChooseRoleScreen.name);
+              }, child: const Text('NEXT'))
             ],
           ),
         ),

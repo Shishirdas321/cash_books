@@ -1,4 +1,7 @@
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
+import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
+import 'package:cash_books/features/home/ui/screens/move_book_screen.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatefulWidget {
@@ -17,29 +20,34 @@ class _BookCardState extends State<BookCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        trailing: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const Text(
-              '20000',
-              style: TextStyle(color: AppColors.themeColor),
-            ),
-            //const SizedBox(width: 10),
-            _showEditBook(context),
-          ],
+    return GestureDetector(
+      onTap: (){
+        Navigator.pushNamed(context, BusinessBookScreen.name);
+      },
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
         ),
-        leading: const CircleAvatar(
-            radius: 20, child: Icon(Icons.book, color: AppColors.themeColor)),
-        title: const Text('Title will be here'),
-        subtitle: const Text('subtitle'),
+        child: ListTile(
+          trailing: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text(
+                '20000',
+                style: TextStyle(color: AppColors.themeColor),
+              ),
+              //const SizedBox(width: 10),
+              _showEditBook(context),
+            ],
+          ),
+          leading: const CircleAvatar(
+              radius: 20, child: Icon(Icons.book, color: AppColors.themeColor)),
+          title: const Text('Title will be here'),
+          subtitle: const Text('subtitle'),
+        ),
       ),
     );
   }
@@ -52,7 +60,9 @@ class _BookCardState extends State<BookCard> {
           _showRenameCashbook(context);
         } else if (value == 'duplicate') {
         } else if (value == 'add_members') {
+          Navigator.pushNamed(context, AddTeamMemberScreen.name);
         } else if (value == 'move') {
+          Navigator.pushNamed(context, MoveBookScreen.name);
         } else if (value == 'delete') {
           _showDeleteAlertDialog(context);
         }
@@ -82,7 +92,7 @@ class _BookCardState extends State<BookCard> {
         const PopupMenuItem<String>(
           value: 'move',
           child: ListTile(
-            leading: Icon(Icons.arrow_right_alt),
+            leading: Icon(Icons.arrow_right_alt,color: Colors.red,),
             title: Text('Move Book'),
           ),
         ),
