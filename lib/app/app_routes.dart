@@ -11,6 +11,7 @@ import 'package:cash_books/features/businessteam/staff_info_screen.dart';
 import 'package:cash_books/features/common/ui/screens/main_bottom_nav_bar_screen.dart';
 import 'package:cash_books/features/book/ui/screens/add_cash_in_entry_screen.dart';
 import 'package:cash_books/features/book/ui/screens/add_cash_out_entry_screen.dart';
+import 'package:cash_books/features/help/help_screen.dart';
 import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
 import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
@@ -57,6 +58,8 @@ class AppRoutes {
       route = const MemberAddToBookView();
     }else if(settings.name == MemberAddToSelectBook.name){
       route = const MemberAddToSelectBook();
+    }else if(settings.name == HelpScreen.name){
+      route = const HelpScreen();
     }
     return MaterialPageRoute(
       builder: (context) {

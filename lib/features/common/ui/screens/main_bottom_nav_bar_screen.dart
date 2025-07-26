@@ -1,6 +1,8 @@
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/common/controllers/main_bottom_nav_bar_controller.dart';
+import 'package:cash_books/features/help/help_screen.dart';
 import 'package:cash_books/features/home/ui/screens/home_screen.dart';
+import 'package:cash_books/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,8 +18,8 @@ class MainBottomNavBarScreen extends StatefulWidget {
 class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
-    const HomeScreen(),
-    const HomeScreen(),
+    const HelpScreen(),
+    const SettingsScreen(),
   ];
 
   @override
@@ -33,7 +35,7 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
           labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
           elevation: 50.0,
           indicatorColor: Colors.white60,
-          // surfaceTintColor: Colors.amber,
+
 
           selectedIndex: controller.selectedIndex,
           onDestinationSelected: controller.changeIndex,

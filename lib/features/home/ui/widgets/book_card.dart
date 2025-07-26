@@ -1,3 +1,4 @@
+import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
@@ -26,7 +27,7 @@ class _BookCardState extends State<BookCard> {
       },
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        elevation: 2,
+        elevation: 6,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -35,9 +36,9 @@ class _BookCardState extends State<BookCard> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Text(
+               Text(
                 '20000',
-                style: TextStyle(color: AppColors.themeColor),
+                style: AppTextStyles.titleSmall(fontSize: 12),
               ),
               //const SizedBox(width: 10),
               _showEditBook(context),
@@ -45,8 +46,8 @@ class _BookCardState extends State<BookCard> {
           ),
           leading: const CircleAvatar(
               radius: 20, child: Icon(Icons.book, color: AppColors.themeColor)),
-          title: const Text('Title will be here'),
-          subtitle: const Text('subtitle'),
+          title:  Text('Business Book',style: AppTextStyles.titleSmall(),),
+          subtitle:  Text('created on jul 01 2025',style: AppTextStyles.subtitleSmall(),),
         ),
       ),
     );
@@ -58,7 +59,6 @@ class _BookCardState extends State<BookCard> {
       onSelected: (value) {
         if (value == 'rename') {
           _showRenameCashbook(context);
-        } else if (value == 'duplicate') {
         } else if (value == 'add_members') {
           Navigator.pushNamed(context, AddTeamMemberScreen.name);
         } else if (value == 'move') {
@@ -68,39 +68,32 @@ class _BookCardState extends State<BookCard> {
         }
       },
       itemBuilder: (BuildContext context) => [
-        const PopupMenuItem<String>(
+         PopupMenuItem<String>(
           value: 'rename',
           child: ListTile(
-            leading: Icon(Icons.edit),
-            title: Text('Rename'),
+            leading: const Icon(Icons.edit,color: AppColors.themeColor,),
+            title: Text('Rename',style: AppTextStyles.titleSmall(),),
           ),
         ),
-        const PopupMenuItem<String>(
-          value: 'duplicate',
-          child: ListTile(
-            leading: Icon(Icons.copy),
-            title: Text('Duplicate Book'),
-          ),
-        ),
-        const PopupMenuItem<String>(
+         PopupMenuItem<String>(
           value: 'add_members',
           child: ListTile(
-            leading: Icon(Icons.person_add),
-            title: Text('Add Members'),
+            leading: const Icon(Icons.person_add,color: AppColors.themeColor,),
+            title: Text('Add Members',style: AppTextStyles.titleSmall(),),
           ),
         ),
-        const PopupMenuItem<String>(
+         PopupMenuItem<String>(
           value: 'move',
           child: ListTile(
-            leading: Icon(Icons.arrow_right_alt,color: Colors.red,),
-            title: Text('Move Book'),
+            leading: const Icon(Icons.arrow_right_alt,color: Colors.red,),
+            title: Text('Move Book',style: AppTextStyles.titleSmall(),),
           ),
         ),
-        const PopupMenuItem<String>(
+         PopupMenuItem<String>(
           value: 'delete',
           child: ListTile(
-            leading: Icon(Icons.delete, color: Colors.red),
-            title: Text('Delete Book'),
+            leading: const Icon(Icons.delete, color: Colors.red),
+            title: Text('Delete Book',style: AppTextStyles.titleSmall(),),
           ),
         ),
       ],
@@ -111,8 +104,9 @@ class _BookCardState extends State<BookCard> {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
+        title:  Text(
           'Are you sure you want to delete this book?',
+          style: AppTextStyles.bodyMedium(),
         ),
         actions: [
           Card(
@@ -174,10 +168,10 @@ class _BookCardState extends State<BookCard> {
                             color: AppColors.themeColor,
                           ),
                         ),
-                        const Text(
+                         Text(
                           'Rename Cashbook',
                           style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          AppTextStyles.bodyMediumPopins(color: AppColors.themeColor),
                         )
                       ],
                     ),
@@ -185,7 +179,7 @@ class _BookCardState extends State<BookCard> {
                    TextFormField(
                      controller: _renameCashBookTEController,
                      textInputAction: TextInputAction.done,
-                     decoration: const InputDecoration(labelText: 'Business Name'),
+                     decoration: const InputDecoration(hintText: 'Business Name',prefixIcon: Icon(Icons.drive_file_rename_outline_outlined,color: Colors.grey,)),
                      validator: (String? value) {
                        if (value?.trim().isEmpty ?? true) {
                          return 'Enter your business name';
@@ -196,6 +190,9 @@ class _BookCardState extends State<BookCard> {
                     const SizedBox(height: 15),
                     ElevatedButton(
                       onPressed: () {
+                        if(_formKey.currentState!.validate()){
+                          Navigator.pop(context);
+                        }
 
                       },
                       child: const Text('SAVE'),

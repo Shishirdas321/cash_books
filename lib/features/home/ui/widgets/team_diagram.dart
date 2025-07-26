@@ -1,6 +1,6 @@
-import 'dart:ui';
 
 import 'package:cash_books/app/assets_path.dart';
+import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 class TeamDiagram extends StatelessWidget {
@@ -8,40 +8,40 @@ class TeamDiagram extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return  Column(
       children: [
-        CircleAvatar(
+        const CircleAvatar(
           radius: 30,
           backgroundImage: AssetImage(AssetsPath.persons),
         ),
-        SizedBox(height: 4),
-        Text("You (Owner)"),
-        SizedBox(height: 16),
+        const SizedBox(height: 4),
+        Text("You (Owner)",style: AppTextStyles.subtitleSmall(color: Colors.white,fontWeight: FontWeight.normal),),
+        const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 24,
                   backgroundImage: AssetImage(AssetsPath.persons),
                 ),
-                SizedBox(height: 4),
-                Text("Business Partner"),
+                const SizedBox(height: 4),
+                Text("Business Partner",style: AppTextStyles.subtitleSmall(color: Colors.white,fontWeight: FontWeight.normal),),
                 Text("(Full access)",
-                    style: TextStyle(fontSize: 12, color: Colors.grey)),
+                    style: AppTextStyles.subtitleSmall(color: Colors.white,fontWeight: FontWeight.normal)),
               ],
             ),
             Column(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 24,
                   backgroundImage: AssetImage(AssetsPath.persons),
                 ),
-                SizedBox(height: 4),
-                Text("Staff Members"),
+                const SizedBox(height: 4),
+                Text("Staff Members",style: AppTextStyles.subtitleSmall(color: Colors.white,fontWeight: FontWeight.normal)),
                 Text("(Limited access)",
-                    style: TextStyle(fontSize: 12, color: Colors.grey)),
+                    style: AppTextStyles.subtitleSmall(color: Colors.white,fontWeight: FontWeight.normal)),
               ],
             ),
           ],

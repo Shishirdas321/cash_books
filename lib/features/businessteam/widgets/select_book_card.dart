@@ -1,30 +1,36 @@
+import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
-import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
-import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
-import 'package:cash_books/features/home/ui/screens/move_book_screen.dart';
 import 'package:flutter/material.dart';
 
 class SelectBookCard extends StatefulWidget {
-  const SelectBookCard({super.key});
+  final int index;
+  final int? selectedIndex;
+  final Function(int) onSelected;
+
+  const SelectBookCard({
+    super.key,
+    required this.index,
+    required this.selectedIndex,
+    required this.onSelected,
+  });
 
   @override
   State<SelectBookCard> createState() => _SelectBookCardState();
 }
 
 class _SelectBookCardState extends State<SelectBookCard> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  final TextEditingController _renameCashBookTEController =
-      TextEditingController();
-  bool isChecked = false;
+  String selectedRole = "Data Operator"; // আসল Role
+  String tempRole = "Data Operator"; // BottomSheet এর টেম্পোরারি Role
 
   @override
   Widget build(BuildContext context) {
+    bool isChecked = widget.selectedIndex == widget.index;
+
     return GestureDetector(
       onTap: () {},
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        elevation: 2,
+        elevation: 6,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -33,11 +39,10 @@ class _SelectBookCardState extends State<SelectBookCard> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Text(
+              Text(
                 'Role:',
-                style: TextStyle(color: Colors.grey, fontSize: 10),
+                style: AppTextStyles.titleSmall(fontSize: 10, color: Colors.black54),
               ),
-              //const SizedBox(width: 10),
               _showBusinessBook(context),
             ],
           ),
@@ -45,13 +50,14 @@ class _SelectBookCardState extends State<SelectBookCard> {
               activeColor: AppColors.themeColor,
               checkColor: Colors.white,
               shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(5))),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(5))),
               value: isChecked,
               onChanged: (bool? value) {
-                isChecked = value!;
-                setState(() {});
+                widget.onSelected(widget.index);
               }),
-          title: const Text('Business book'),
+          title: Text('Business book', style: AppTextStyles.titleSmall()),
         ),
       ),
     );
@@ -59,13 +65,13 @@ class _SelectBookCardState extends State<SelectBookCard> {
 
   PopupMenuButton<String> _showBusinessBook(context) {
     return PopupMenuButton<String>(
-      child: const Row(
+      child: Row(
         children: [
           Text(
-            'Data Operator',
-            style: TextStyle(color: AppColors.themeColor, fontSize: 12),
+            selectedRole,
+            style: AppTextStyles.titleSmall(fontSize: 12),
           ),
-          Icon(
+          const Icon(
             Icons.arrow_downward,
             color: AppColors.themeColor,
             size: 14,
@@ -73,40 +79,41 @@ class _SelectBookCardState extends State<SelectBookCard> {
         ],
       ),
       onSelected: (value) {
+        tempRole = value;
         if (value == 'Admin') {
           _buildAdminBottomSheet(context);
         } else if (value == 'Data Operator') {
           _buildDataOperatorBottomSheet(context);
         } else if (value == 'Viewer') {
           _buildViewerBottomSheet(context);
-
         }
       },
       itemBuilder: (BuildContext context) => [
-        const PopupMenuItem<String>(
+        PopupMenuItem<String>(
           value: 'Admin',
           child: ListTile(
-            leading: Icon(Icons.admin_panel_settings_outlined),
-            title: Text('Admin'),
+            leading: const Icon(Icons.admin_panel_settings_outlined, color: AppColors.themeColor),
+            title: Text('Admin', style: AppTextStyles.titleSmall()),
           ),
         ),
-        const PopupMenuItem<String>(
+        PopupMenuItem<String>(
           value: 'Data Operator',
           child: ListTile(
-            leading: Icon(Icons.dataset_linked),
-            title: Text('Data Operator'),
+            leading: const Icon(Icons.dataset_linked, color: AppColors.themeColor),
+            title: Text('Data Operator', style: AppTextStyles.titleSmall()),
           ),
         ),
-        const PopupMenuItem<String>(
+        PopupMenuItem<String>(
           value: 'Viewer',
           child: ListTile(
-            leading: Icon(Icons.remove_red_eye_outlined),
-            title: Text('Viewer'),
+            leading: const Icon(Icons.remove_red_eye_outlined, color: AppColors.themeColor),
+            title: Text('Viewer', style: AppTextStyles.titleSmall()),
           ),
         ),
       ],
     );
   }
+
 
   Future<dynamic> _buildAdminBottomSheet(BuildContext context) {
     return showModalBottomSheet(
@@ -118,7 +125,7 @@ class _SelectBookCardState extends State<SelectBookCard> {
       builder: (context) {
         return Padding(
           padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -133,9 +140,9 @@ class _SelectBookCardState extends State<SelectBookCard> {
                         Icons.close,
                         color: AppColors.themeColor,
                       )),
-                  const Text(
+                  Text(
                     "Choose Role of name",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: AppTextStyles.titleSmall(fontSize: 18,fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -143,11 +150,12 @@ class _SelectBookCardState extends State<SelectBookCard> {
               const Divider(),
 
               // User Info Row
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [Text('Book:'), Text(" Business Book")],
+                  children: [Text('Book:',style: AppTextStyles.titleSmall(color: Colors.black54),),
+                    Text(" Business Book",style:AppTextStyles.titleSmall(),)],
                 ),
               ),
 
@@ -155,12 +163,12 @@ class _SelectBookCardState extends State<SelectBookCard> {
               const Divider(),
 
               // Permissions Section
-              const Padding(
-                padding: EdgeInsets.only(left: 16, top: 12, bottom: 4),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, top: 12, bottom: 4),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Admin Permissions",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: AppTextStyles.bodyMediumWhite(color: AppColors.themeColor,fontWeight: FontWeight.bold)),
                 ),
               ),
               _infoTile(Icons.check_circle, "View entries and download reports",
@@ -179,12 +187,12 @@ class _SelectBookCardState extends State<SelectBookCard> {
                   "Access Book Active and Entry's Edit History", Colors.green),
 
               // Restrictions Section
-              const Padding(
-                padding: EdgeInsets.only(left: 16, top: 12, bottom: 4),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, top: 12, bottom: 4),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Restrictions",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                    style: AppTextStyles.bodyMediumWhite(color: AppColors.themeColor,fontWeight: FontWeight.bold),),
                 ),
               ),
               _infoTile(
@@ -198,7 +206,11 @@ class _SelectBookCardState extends State<SelectBookCard> {
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(48),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    selectedRole = tempRole;
+                    setState(() {});
+                    Navigator.pop(context);
+                  },
                   child: const Text("UPDATE"),
                 ),
               ),
@@ -220,7 +232,7 @@ class _SelectBookCardState extends State<SelectBookCard> {
       builder: (context) {
         return Padding(
           padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -237,10 +249,10 @@ class _SelectBookCardState extends State<SelectBookCard> {
                           Icons.close,
                           color: AppColors.themeColor,
                         )),
-                    const Text(
-                      "Choose Role of name",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    Text(
+                        "Choose Role of name",
+                        style:
+                        AppTextStyles.titleSmall(fontSize: 18,fontWeight: FontWeight.bold)
                     ),
                   ],
                 ),
@@ -248,11 +260,11 @@ class _SelectBookCardState extends State<SelectBookCard> {
                 const Divider(),
 
                 // User Info Row
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [Text('Book:'), Text(" Business Book")],
+                    children: [Text('Book:',style: AppTextStyles.titleSmall(color: Colors.black54),), Text(" Business Book",style: AppTextStyles.titleSmall(),)],
                   ),
                 ),
 
@@ -300,7 +312,11 @@ class _SelectBookCardState extends State<SelectBookCard> {
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(48),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      selectedRole = tempRole;
+                      setState(() {});
+                      Navigator.pop(context);
+                    },
                     child: const Text("UPDATE"),
                   ),
                 ),
@@ -339,10 +355,10 @@ class _SelectBookCardState extends State<SelectBookCard> {
                           Icons.close,
                           color: AppColors.themeColor,
                         )),
-                    const Text(
-                      "Choose Role of name",
-                      style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    Text(
+                        "Choose Role of name",
+                        style:
+                        AppTextStyles.titleSmall(fontSize: 18,fontWeight: FontWeight.bold)
                     ),
                   ],
                 ),
@@ -350,11 +366,11 @@ class _SelectBookCardState extends State<SelectBookCard> {
                 const Divider(),
 
                 // User Info Row
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [Text('Book:'), Text(" Business Book")],
+                    children: [Text('Book:',style: AppTextStyles.titleSmall(color: Colors.black54),), Text(" Business Book",style: AppTextStyles.titleSmall(),)],
                   ),
                 ),
 
@@ -381,7 +397,11 @@ class _SelectBookCardState extends State<SelectBookCard> {
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(48),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      selectedRole = tempRole;
+                      setState(() {});
+                      Navigator.pop(context);
+                    },
                     child: const Text("UPDATE"),
                   ),
                 ),
@@ -401,9 +421,14 @@ class _SelectBookCardState extends State<SelectBookCard> {
         children: [
           Icon(icon, color: iconColor),
           const SizedBox(width: 12),
-          Expanded(child: Text(text)),
+          Expanded(
+            child: Text(text,
+                style: AppTextStyles.titleSmall(color: Colors.black54, fontWeight: FontWeight.w300)),
+          ),
         ],
       ),
     );
   }
+
+
 }

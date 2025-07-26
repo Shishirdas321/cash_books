@@ -1,3 +1,5 @@
+import 'package:cash_books/core/fonts/app_text_style.dart';
+import 'package:cash_books/core/screen_background/screen_background_one.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/features/home/ui/widgets/team_diagram.dart';
@@ -17,62 +19,78 @@ class _BusinessTeamScreenState extends State<BusinessTeamScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 2,
-        title: const Text('Business Team'),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
+        backgroundColor: AppColors.themeColor,
+        elevation: 6,
+        title:  Text(
+          'Business Team',
+          style: AppTextStyles.appbar(),
+        ),
         actions: [
           IconButton(
             onPressed: () {},
             icon: const Icon(
               Icons.help_outline,
-              color: AppColors.themeColor,
+              color: Colors.white,
             ),
           ),
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: Stack(
         children: [
-          const SizedBox(height: 24),
-          const Text(
-            "Add members & assign roles",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          // const SizedBox(height: 4),
-          const Text(
-            "Give access to limited features & books",
-            style: TextStyle(color: Colors.grey),
-          ),
-          const SizedBox(height: 40),
-          const TeamDiagram(),
-          const SizedBox(height: 30),
-          InkWell(
-            onTap: () {},
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  color: AppColors.themeColor,
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "View roles & permission in detail",
-                  style: TextStyle(color: AppColors.themeColor),
-                )
-              ],
+          const Positioned.fill(child: ScreenBackgroundOne()),
+          Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const SizedBox(height: 24),
+             Text(
+              "Add members & assign roles",
+                style: AppTextStyles.bodyMedium(color: Colors.white),
+              ),
+            // const SizedBox(height: 4),
+             Text(
+              "Give access to limited features & books",
+              style: AppTextStyles.bodyMediumWhite(color: Colors.white70),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, AddTeamMemberScreen.name);
-              },
-              child: const Text('Add Team Member'),
+            const SizedBox(height: 40),
+            const TeamDiagram(),
+            const SizedBox(height: 30),
+            InkWell(
+              onTap: () {},
+              child:  Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.info_outline,
+                    color: AppColors.themeColor,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "View roles & permission in detail",
+                    style: AppTextStyles.subtitleSmall(color: AppColors.themeColor),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, AddTeamMemberScreen.name);
+                },
+                child: const Text('Add Team Member'),
+              ),
+            ),
+          ],
+        ),
+      ],
       ),
     );
   }

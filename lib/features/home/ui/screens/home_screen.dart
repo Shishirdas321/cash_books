@@ -1,3 +1,5 @@
+import 'package:cash_books/core/fonts/app_text_style.dart';
+import 'package:cash_books/core/screen_background/screen_background_two.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
 import 'package:cash_books/features/businessteam/business_team_screen.dart';
@@ -15,7 +17,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController(); // [1] ScrollController added
-  bool _isScrollingDown = false; // [2] Track scroll direction
+  bool _isScrollingDown = false;// [2] Track scroll direction
+
+  List<Map<String, String>> businesses = [
+    {"title": "Top Man", "subtitle": "Your Role: Member"},
+    {"title": "New Project", "subtitle": "Your Role: Owner"},
+    {"title": "Home Expense", "subtitle": "Your Role: Admin"},
+  ];
 
   @override
   void initState() {
@@ -41,33 +49,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: AppColors.themeColor,
         title: Row(
           children: [
-            const Icon(Icons.business_outlined),
+            const Icon(Icons.business_outlined,color: Colors.white,),
             const SizedBox(width: 8),
             Expanded(
               child: GestureDetector(
                 onTap: () {
                   _showBusinessSelector(context);
                 },
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Top Man',
-                      style: textTheme.titleSmall,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,
+                     color: Colors.white ),maxLines: 1,overflow: TextOverflow.ellipsis,
+
                     ),
                     Text(
                       'Tap to switch business',
-                      style:
-                      textTheme.bodySmall?.copyWith(color: Colors.black45),
+                      style: TextStyle(fontSize: 12,color: Colors.white54)
                     ),
                   ],
                 ),
@@ -77,43 +83,48 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.pushNamed(context, BusinessTeamScreen.name);
               },
-              icon: const Icon(Icons.person_add_alt),
+              icon: const Icon(Icons.person_add_alt,color: Colors.white,),
             ),
           ],
         ),
       ),
-      body: ListView(
-        controller: _scrollController, // [3] Attach controller here
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Your Books',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.search,
-                    color: AppColors.themeColor,
+      body: Stack(
+        children:[
+          const Positioned.fill(child: ScreenBackgroundTwo()),
+          ListView(
+          controller: _scrollController, // [3] Attach controller here
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                   Text(
+                    'Your Books',
+                    style: AppTextStyles.titleSmall(fontWeight: FontWeight.bold),
                   ),
-                ),
-              ],
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.search,
+                      color: AppColors.themeColor,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return const BookCard();
-            },
-          ),
-          const SizedBox(height: 50),
-        ],
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return const BookCard();
+              },
+            ),
+            const SizedBox(height: 50),
+          ],
+        ),
+      ],
       ),
       floatingActionButton: AnimatedSwitcher( // [4] Animated FAB
         duration: const Duration(milliseconds: 50),
@@ -191,8 +202,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
-                    decoration:
-                    const InputDecoration(labelText: 'Enter Book name'),
+                    decoration: const InputDecoration(
+                        hintText: 'Enter Book name',
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: Colors.grey,
+                        )),
                   ),
                   const SizedBox(height: 60),
                   ElevatedButton(
@@ -210,58 +225,75 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _showBusinessSelector(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        int selectedIndex = 0; // default selection
+
+
+
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.close, color: AppColors.themeColor)),
+                      Text(
+                        'Select Business',
+                        style: AppTextStyles.bodyMediumWhite(
+                            color: AppColors.themeColor),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Flexible(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: businesses.length,
+                      itemBuilder: (context, index) {
+                        return BusinessListTile(
+                          title: businesses[index]['title']!,
+                          subtitle: businesses[index]['subtitle']!,
+                          isSelected: selectedIndex == index,
+                          onTap: () {
+                            setState(() => selectedIndex = index);
+                            //Navigator.pop(context);
+                          },
+                        );
                       },
-                      icon: const Icon(
-                        Icons.close,
-                        color: AppColors.themeColor,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20,),
+                    child: ElevatedButton.icon(
+                      onPressed: () {Navigator.pushNamed(context, AddNewBusinessScreen.name);},
+                      icon: const Icon(Icons.add),
+                      label:  Text("Add New Business",style: AppTextStyles.bodyMediumPopins(),),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.themeColor,
+                        minimumSize: const Size.fromHeight(48),
                       ),
                     ),
-                    const Text(
-                      'Select Business',
-                      style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Flexible(
-                  child: ListView.builder(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return const BusinessListTile(
-                          isSelected: true,
-                        );
-                      }),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, AddNewBusinessScreen.name);
-                  },
-                  child: const Text('Add New Business'),
-                ),
-              ],
-            ),
-          );
-        });
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
+
 
   @override
   void dispose() {

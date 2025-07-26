@@ -1,5 +1,6 @@
+import 'package:cash_books/core/fonts/app_text_style.dart';
+import 'package:cash_books/core/screen_background/screen_background_one.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
-import 'package:cash_books/features/auth/ui/screens/sign_in_screen.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
@@ -34,11 +35,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: _buildForm(textTheme),
-        ),
+      //resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      body: Stack(
+        children:[
+          const Positioned.fill(child: ScreenBackgroundOne()),
+          Positioned.fill(
+            child: SingleChildScrollView(
+              child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: _buildForm(textTheme),
+                      ),
+            ),
+          ),
+    ],
       ),
     );
   }
@@ -54,22 +64,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
           const SizedBox(height: 24),
           Text(
             'Register Your Account',
-            style: textTheme.titleLarge,
+            style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 28),
           ),
           const SizedBox(height: 8),
-          const Text(
+           Text(
             'Get Started with your details',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-            ),
+            style:AppTextStyles.subtitleSmall(color: Colors.white60,fontSize: 18,),
           ),
           const SizedBox(height: 16),
           TextFormField(
             controller: _emailTEController,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(labelText: 'Email'),
+            decoration: const InputDecoration(hintText: 'Email',prefixIcon: Icon(Icons.email)),
             validator: (String? value){
               String email = value ?? '';
 
@@ -83,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           TextFormField(
             controller: _firstNameTEController,
             textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Firstname'),
+            decoration: const InputDecoration(hintText: 'Firstname',prefixIcon: Icon(Icons.drive_file_rename_outline)),
             validator: (String? value){
               if(value?.trim().isEmpty ?? true){
                 return 'Enter your first name';
@@ -95,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           TextFormField(
             controller: _lastNameTEController,
             textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Lastname'),
+            decoration: const InputDecoration(hintText: 'Lastname',prefixIcon: Icon(Icons.drive_file_rename_outline_outlined)),
             validator: (String? value){
               if(value?.trim().isEmpty ?? true){
                 return 'Enter your last name';
@@ -105,6 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           const SizedBox(height: 8),
           PhoneFormField(
+            textInputAction: TextInputAction.next,
             controller: _phoneController,
             defaultCountry: IsoCode.BD, // 🇧🇩 Bangladesh default
             validator: (PhoneNumber? number) {
@@ -119,7 +127,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               //print('Phone: ${phone?.international}');
             },
             decoration: const InputDecoration(
-              labelText: 'Phone',
+              hintText: 'Phone',
+              prefixIcon: Icon(Icons.phone),
               border: OutlineInputBorder(),
             ),
           ),
@@ -127,7 +136,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           TextFormField(
             controller: _passwordTEController,
             textInputAction: TextInputAction.done,
-            decoration: const InputDecoration(labelText: 'Password'),
+            decoration: const InputDecoration(hintText: 'Password',prefixIcon: Icon(Icons.password_outlined)),
             validator: (String? value){
               if((value?.isEmpty ?? true) || value!.length < 6){
                 return 'Enter a password more then 6 letters';
@@ -138,21 +147,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: _onTapSignUpButton,
-            child: const Text('Sign up'),
+            child:  Text('Sign up',style: AppTextStyles.bodyMediumPopins(),),
           ),
           const SizedBox(height: 24),
           RichText(
             text: TextSpan(
               text: "Already have an account? ",
-              style: const TextStyle(
-                  color: Colors.grey, fontWeight: FontWeight.w600),
+              style:AppTextStyles.titleSmall(color: Colors.black54),
               children: [
                 TextSpan(
                     text: 'Sign in',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.themeColor,
-                    ),
+                    style: AppTextStyles.bodyMedium(
+                        fontSize: 17,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.black,
+                        decorationThickness: 2,
+                        decorationStyle: TextDecorationStyle.solid),
                     recognizer: TapGestureRecognizer()
                       ..onTap = _onTapSignInButton),
               ],

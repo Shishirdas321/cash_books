@@ -1,3 +1,6 @@
+import 'package:cash_books/core/fonts/app_text_style.dart';
+import 'package:cash_books/core/screen_background/screen_background_one.dart';
+// import 'package:cash_books/core/screenbackground/screen_background_one.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/auth/ui/screens/forgot_password_screen.dart';
 import 'package:cash_books/features/auth/ui/screens/sign_up_screen.dart';
@@ -35,11 +38,20 @@ class _SignInScreenState extends State<SignInScreen> {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: _buildForm(textTheme),
-        ),
+      //resizeToAvoidBottomInset: false,
+     // extendBodyBehindAppBar: true,
+      body: Stack(
+        children: [
+          const Positioned.fill(child: ScreenBackgroundOne()),
+          Positioned.fill(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: _buildForm(textTheme),
+              ),
+            ),
+          ),
+    ],
       ),
     );
   }
@@ -54,25 +66,26 @@ class _SignInScreenState extends State<SignInScreen> {
           const SizedBox(height: 24),
           Text(
             'Welcome Back',
-            style: textTheme.titleLarge,
+            style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 28),
           ),
           const SizedBox(height: 8),
-          const Text(
+           Text(
             'Enter Your email and password',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-            ),
+            style: AppTextStyles.subtitleSmall(color: Colors.white60,fontSize: 18,),
           ),
           const SizedBox(height: 16),
           TextFormField(
             controller: _emailTEController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(labelText: 'Email'),
+            decoration: const InputDecoration(
+              hintText: 'Email',
+               prefixIcon: Icon(Icons.email_outlined)
+               // labelText: 'Email'
+            ),
             validator: (String? value){
               String email = value ?? '';
-
+      
               if(!EmailValidator.validate(email)){
                 return 'Enter a valid email';
               }
@@ -84,7 +97,9 @@ class _SignInScreenState extends State<SignInScreen> {
             controller: _passwordTEController,
             obscureText: _obscureText,
             decoration: InputDecoration(
-              labelText: 'Password',
+             // labelText: 'Password',
+              hintText: 'Password',
+              prefixIcon: const Icon(Icons.password),
               suffixIcon: IconButton(
                 icon: Icon(
                     _obscureText ? Icons.visibility_off : Icons.visibility,
@@ -105,7 +120,7 @@ class _SignInScreenState extends State<SignInScreen> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed:  _onTapSignInButton,
-            child: const Text('Sign in'),
+            child:  Text('Sign in',style: AppTextStyles.bodyMediumPopins(),),
           ),
           const SizedBox(height: 16),
           Row(
@@ -117,19 +132,23 @@ class _SignInScreenState extends State<SignInScreen> {
                     rememberMe = value ?? false;
                     setState(() {});
                   }),
-              const Text('Remember me'),
+               Text('Remember me',style: AppTextStyles.bodyMediumWhite(),),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           Center(
             child: TextButton(
               onPressed: _onTapForgotPasswordButton,
-              child: const Text(
+              child:  Text(
                 'Forgot password',
-                style: TextStyle(color: AppColors.themeColor),
+                style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 15,decoration: TextDecoration.underline,
+                    decorationColor: AppColors.themeColor,
+                    decorationThickness: 2,
+                    decorationStyle: TextDecorationStyle.solid),
               ),
             ),
           ),
+          const SizedBox(height: 10),
           _buildSignUpSection(),
         ],
       ),
@@ -140,14 +159,16 @@ class _SignInScreenState extends State<SignInScreen> {
     return RichText(
       text: TextSpan(
         text: "Don't have an account? ",
-        style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w600),
+        style:  AppTextStyles.titleSmall(color: Colors.black54),
         children: [
           TextSpan(
               text: 'Sign up',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: AppColors.themeColor,
-              ),
+              style: AppTextStyles.bodyMedium(
+                  fontSize: 17,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.black,
+                  decorationThickness: 2,
+                  decorationStyle: TextDecorationStyle.solid),
               recognizer: TapGestureRecognizer()..onTap = _onTapSignUpButton),
         ],
       ),

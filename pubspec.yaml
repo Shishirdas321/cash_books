@@ -87,7 +87,7 @@ flutter:
          - asset: assets/fonts/WinkyRough-VariableFont_wght.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-   - family: Trajan Pro
+   - family: popins
      fonts:
          - asset: assets/fonts/Poppins-SemiBold.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
