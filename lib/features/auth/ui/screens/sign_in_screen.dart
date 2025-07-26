@@ -213,7 +213,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _onTapSignInButton() {
-    if(_formKey.currentState!.validate()){
+    if(_formKey.currentState!.validate()){git
       Navigator.pushReplacementNamed(context, MainBottomNavBarScreen.name);
       _saveRememberedData();
     }
