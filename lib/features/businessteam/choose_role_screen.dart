@@ -21,6 +21,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
     final bool isStaff = selectedRole == 'Staff';
 
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
@@ -37,11 +38,8 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
           style: AppTextStyles.appbar(),
         ),
       ),
-      body: Stack(
-        children: [
-          const Positioned.fill(child: ScreenBackgroundOne()),
-          Positioned.fill(
-          child: Padding(
+      body:
+          Padding(
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
               child: Column(
@@ -49,13 +47,13 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                 children: [
                    Text(
                     " Choose their role in this business and add",
-                    style: AppTextStyles.bodyMediumPopins(),
+                    style: AppTextStyles.bodyMediumPopins(color: Colors.black.withOpacity(0.70)),
                   ),
                   const SizedBox(height: 16),
                    Row(
                     children: [
                       const CircleAvatar(
-                        child: Icon(Icons.mark_email_read_outlined),
+                        child: Icon(Icons.mark_email_read_outlined,color: Colors.grey,),
                       ),
                       const SizedBox(width: 10),
                       Column(
@@ -63,11 +61,11 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                         children: [
                           Text(
                             "dknnn22@gmail.com",
-                            style: AppTextStyles.bodyMediumPopins(),
+                            style: AppTextStyles.bodyMediumPopins(color: Colors.black54),
                           ),
                           Text(
                             "dknnn22@gmail.com",
-                            style: AppTextStyles.appbar(color: Colors.white60,fontSize: 16),
+                            style: AppTextStyles.appbar(color: Colors.black45,fontSize: 16),
                           ),
                         ],
                       ),
@@ -177,9 +175,6 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
               ),
             ),
           ),
-        ),
-    ],
-      ),
     );
   }
 

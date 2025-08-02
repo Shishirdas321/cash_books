@@ -2,6 +2,7 @@ import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/screen_background/screen_background_one.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AddCashOutEntryScreen extends StatefulWidget {
   const AddCashOutEntryScreen({super.key});
@@ -16,11 +17,13 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
  static DateTime selectedDate = DateTime.now();
  static TimeOfDay selectedTime = TimeOfDay.now();
   final TextEditingController _amountController = TextEditingController();
-  final TextEditingController _categorysController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
+  final GlobalKey<FormState> _formKey= GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       //resizeToAvoidBottomInset: false,
      // extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -39,38 +42,57 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
           )
         ],
       ),
-      body: Stack(
-        children:[
-          const Positioned.fill(child: ScreenBackgroundOne()),
+      body: 
           Padding(
           padding: const EdgeInsets.only(left: 16,right: 16,bottom: 20,top: 30),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 15),
               // Date and Time Row
               _buildDateAndTime(context),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               // Amount Field
-              TextFormField(
-                controller: _amountController,
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.money),
-                  hintText: 'Amount',
-                  border: OutlineInputBorder(),
-                  suffixText: 'Taka',suffixStyle: TextStyle(color: AppColors.themeColor),
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _categorysController,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.category_outlined,),
-                  hintText: 'Category',
-                  border: OutlineInputBorder(),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: _amountController,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.money),
+                        hintText: 'Only number of amount',
+                        border: OutlineInputBorder(),
+                        suffixText: 'Taka',suffixStyle: TextStyle(color: AppColors.themeColor),
+                      ),
+                      validator: (String? value){
+                        if(value?.trim().isEmpty ?? true){
+                          return 'Enter your amount number';
+                        }
+                       return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _categoryController,
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.text,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.category_outlined,),
+                        hintText: 'Category',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (String? value){
+                        if(value?.trim().isEmpty ?? true){
+                          return 'Enter a Category';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
                 ),
               ),
               const Spacer(),
@@ -79,7 +101,9 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    if(_formKey.currentState!.validate()){
+                      Navigator.pop(context);
+                    }
                     // Save logic
                   },
                   child: const Text('SAVE'),
@@ -88,8 +112,6 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
             ],
           ),
         ),
-    ],
-      ),
     );
   }
 
@@ -97,37 +119,49 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
     return Row(
       children: [
         Expanded(
-          child: InkWell(
-            onTap: _selectDate,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.calendar_today,color: Colors.white),
-                const SizedBox(width: 10),
-                Text(
-                  "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
-                  style: const TextStyle(fontSize: 16,color: Colors.white),
+          child: Card(
+            elevation: 6,
+            child: InkWell(
+              onTap: _selectDate,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.calendar_today,color: AppColors.themeColor),
+                    const SizedBox(width: 10),
+                    Text(
+                      "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                      style: const TextStyle(fontSize: 16,color: AppColors.themeColor),
+                    ),
+                    const Icon(Icons.arrow_drop_down,color: AppColors.themeColor,),
+                  ],
                 ),
-                const Icon(Icons.arrow_drop_down,color: Colors.white,),
-              ],
+              ),
             ),
           ),
         ),
         const SizedBox(width: 16),
         Expanded(
-          child: InkWell(
-            onTap: _selectTime,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.access_time,color: Colors.white,),
-                const SizedBox(width: 10),
-                Text(
-                  selectedTime.format(context),
-                  style: const TextStyle(fontSize: 16,color: Colors.white),
+          child: Card(
+            elevation: 6,
+            child: InkWell(
+              onTap: _selectTime,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.access_time,color: AppColors.themeColor,),
+                    const SizedBox(width: 10),
+                    Text(
+                      selectedTime.format(context),
+                      style: const TextStyle(fontSize: 16,color: AppColors.themeColor),
+                    ),
+                    const Icon(Icons.arrow_drop_down,color: AppColors.themeColor,),
+                  ],
                 ),
-                const Icon(Icons.arrow_drop_down,color: Colors.white,),
-              ],
+              ),
             ),
           ),
         ),
@@ -164,7 +198,7 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
   void dispose() {
     super.dispose();
     _amountController.dispose();
-    _categorysController.dispose();
+    _categoryController.dispose();
   }
 }
 /*

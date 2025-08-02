@@ -106,7 +106,7 @@ class _BookCardState extends State<BookCard> {
       builder: (context) => AlertDialog(
         title:  Text(
           'Are you sure you want to delete this book?',
-          style: AppTextStyles.bodyMedium(),
+          style: AppTextStyles.bodyMedium(color: Colors.black87),
         ),
         actions: [
           Card(

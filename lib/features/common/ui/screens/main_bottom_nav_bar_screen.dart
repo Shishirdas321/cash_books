@@ -1,3 +1,4 @@
+/*
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/common/controllers/main_bottom_nav_bar_controller.dart';
 import 'package:cash_books/features/help/help_screen.dart';
@@ -56,3 +57,54 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
     );
   }
 }
+*/
+import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/features/common/controllers/main_bottom_nav_bar_controller.dart';
+import 'package:cash_books/features/help/help_screen.dart';
+import 'package:cash_books/features/home/ui/screens/home_screen.dart';
+import 'package:cash_books/settings/settings_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class MainBottomNavBarScreen extends StatelessWidget { // stateless karon getX reactive
+  const MainBottomNavBarScreen({super.key});
+
+  static const String name = '/main-nav-bar-screen';
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<MainBottomNavBarController>(); // --- added: Controller
+
+    const List<Widget> screens = [
+      HomeScreen(),
+      HelpScreen(),
+      SettingsScreen(),
+    ];
+
+    return Scaffold(
+      //   body reactive with obx
+      body: Obx(() => screens[controller.selectedIndex.value]), // updated
+
+      //  bottom nav reactive with obx
+      bottomNavigationBar: Obx(() => NavigationBar(
+        backgroundColor: AppColors.themeColor,
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+        elevation: 50.0,
+        indicatorColor: Colors.white60,
+        selectedIndex: controller.selectedIndex.value, // updated
+        onDestinationSelected: controller.changeIndex, // same
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.book),
+            label: 'Cashbooks',
+          ),
+          NavigationDestination(
+              icon: Icon(Icons.help_center_outlined), label: 'Help'),
+          NavigationDestination(
+              icon: Icon(Icons.settings_applications), label: 'Setting'),
+        ],
+      )),
+    );
+  }
+}
+

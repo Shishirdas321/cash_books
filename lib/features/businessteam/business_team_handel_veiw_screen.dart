@@ -19,6 +19,7 @@ class _BusinessTeamHandelViewScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       //resizeToAvoidBottomInset: false,
      // extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -36,10 +37,7 @@ class _BusinessTeamHandelViewScreenState
           style: AppTextStyles.appbar(),
         ),
       ),
-      body: Stack(
-        children: [
-          const Positioned.fill(child: ScreenBackgroundTwo()),
-          Padding(
+      body: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,12 +68,12 @@ class _BusinessTeamHandelViewScreenState
                   children: [
                     Icon(
                       Icons.info_outline,
-                      color: AppColors.themeColor,
+                      color: Colors.grey,
                     ),
                     SizedBox(height: 8),
                     Text(
                       "View roles & permission in detail",
-                      style: TextStyle(color: AppColors.themeColor),
+                      style: TextStyle(color: Colors.grey),
                     )
                   ],
                 ),
@@ -105,8 +103,6 @@ class _BusinessTeamHandelViewScreenState
             ],
           ),
         ),
-    ],
-      ),
     );
   }
 

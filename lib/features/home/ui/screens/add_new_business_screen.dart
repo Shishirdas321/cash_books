@@ -22,6 +22,7 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
   Widget build(BuildContext context) {
     //final TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       appBar: AppBar(
         title:  Text(
           'Add New Business',
@@ -36,10 +37,7 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
         backgroundColor: AppColors.themeColor,
         elevation: 6,
       ),
-      body: Stack(
-        children: [
-          const Positioned.fill(child: ScreenBackgroundTwo()),
-          Form(
+      body: Form(
           key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -69,8 +67,6 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
             ),
           ),
         ),
-      ],
-      ),
     );
   }
   @override

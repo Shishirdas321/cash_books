@@ -85,7 +85,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             validator: (String? value){
               String email = value ?? '';
-      
+
               if(!EmailValidator.validate(email)){
                 return 'Enter a valid email';
               }
@@ -213,7 +213,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _onTapSignInButton() {
-    if(_formKey.currentState!.validate()){git
+    if(_formKey.currentState!.validate()){
       Navigator.pushReplacementNamed(context, MainBottomNavBarScreen.name);
       _saveRememberedData();
     }

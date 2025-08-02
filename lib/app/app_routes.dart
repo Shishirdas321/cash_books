@@ -17,6 +17,7 @@ import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
 import 'package:cash_books/features/businessteam/business_team_screen.dart';
 import 'package:cash_books/features/home/ui/screens/move_book_screen.dart';
+import 'package:cash_books/settings/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
@@ -60,6 +61,8 @@ class AppRoutes {
       route = const MemberAddToSelectBook();
     }else if(settings.name == HelpScreen.name){
       route = const HelpScreen();
+    }else if(settings.name == ProfileScreen.name){
+      route = const ProfileScreen();
     }
     return MaterialPageRoute(
       builder: (context) {

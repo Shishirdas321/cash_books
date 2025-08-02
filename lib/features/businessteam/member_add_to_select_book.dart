@@ -20,6 +20,7 @@ class _MemberAddToSelectBookState extends State<MemberAddToSelectBook> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       //resizeToAvoidBottomInset: false,
       // extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -38,10 +39,7 @@ class _MemberAddToSelectBookState extends State<MemberAddToSelectBook> {
           style: AppTextStyles.appbar(),
         ),
       ),
-      body: Stack(
-        children: [
-          const Positioned.fill(child: ScreenBackgroundOne()),
-          Padding(
+      body: Padding(
           padding: const EdgeInsets.only(bottom: 16),
           child: Column(
             children: [
@@ -82,8 +80,6 @@ class _MemberAddToSelectBookState extends State<MemberAddToSelectBook> {
             ],
           ),
         ),
-    ],
-      ),
     );
   }
 }

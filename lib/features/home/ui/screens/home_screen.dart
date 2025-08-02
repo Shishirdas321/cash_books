@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: AppColors.themeColor,
@@ -88,9 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: Stack(
-        children:[
-          const Positioned.fill(child: ScreenBackgroundTwo()),
+      body:
           ListView(
           controller: _scrollController, // [3] Attach controller here
           children: [
@@ -124,8 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 50),
           ],
         ),
-      ],
-      ),
+
       floatingActionButton: AnimatedSwitcher( // [4] Animated FAB
         duration: const Duration(milliseconds: 50),
         child: _isScrollingDown

@@ -18,6 +18,7 @@ class _BusinessTeamScreenState extends State<BusinessTeamScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
@@ -43,21 +44,19 @@ class _BusinessTeamScreenState extends State<BusinessTeamScreen> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          const Positioned.fill(child: ScreenBackgroundOne()),
+      body:
           Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             const SizedBox(height: 24),
              Text(
               "Add members & assign roles",
-                style: AppTextStyles.bodyMedium(color: Colors.white),
+                style: AppTextStyles.bodyMedium(color: Colors.black54),
               ),
             // const SizedBox(height: 4),
              Text(
               "Give access to limited features & books",
-              style: AppTextStyles.bodyMediumWhite(color: Colors.white70),
+              style: AppTextStyles.bodyMediumWhite(color: Colors.black54),
             ),
             const SizedBox(height: 40),
             const TeamDiagram(),
@@ -69,12 +68,12 @@ class _BusinessTeamScreenState extends State<BusinessTeamScreen> {
                 children: [
                   const Icon(
                     Icons.info_outline,
-                    color: AppColors.themeColor,
+                    color: Colors.grey,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     "View roles & permission in detail",
-                    style: AppTextStyles.subtitleSmall(color: AppColors.themeColor),
+                    style: AppTextStyles.subtitleSmall(color: Colors.black54),
                   )
                 ],
               ),
@@ -90,8 +89,6 @@ class _BusinessTeamScreenState extends State<BusinessTeamScreen> {
             ),
           ],
         ),
-      ],
-      ),
     );
   }
 }

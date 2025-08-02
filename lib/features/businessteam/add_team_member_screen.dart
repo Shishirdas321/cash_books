@@ -24,6 +24,7 @@ class _AddTeamMemberScreenState extends State<AddTeamMemberScreen> {
   Widget build(BuildContext context) {
     //final TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       //resizeToAvoidBottomInset: false,
       //extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -39,9 +40,7 @@ class _AddTeamMemberScreenState extends State<AddTeamMemberScreen> {
         elevation: 6,
         title:  Text('Add Team Member',style: AppTextStyles.appbar(),),
       ),
-      body: Stack(
-        children: [
-          const Positioned.fill(child: ScreenBackgroundTwo()),
+      body:
           Form(
           key: _formKey,
           child: Padding(
@@ -54,9 +53,9 @@ class _AddTeamMemberScreenState extends State<AddTeamMemberScreen> {
                   controller: _emailTEController,
                   textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(
-                        fillColor: AppColors.themeColor,
-                        hintText: 'Email Address',hintStyle: TextStyle(color: Colors.white70),
-                      prefixIcon: Icon(Icons.email_outlined,color: Colors.white70,)
+                        fillColor: Colors.white,
+                        hintText: 'Email Address',hintStyle: TextStyle(color: Colors.grey),
+                      prefixIcon: Icon(Icons.email_outlined,color: Colors.grey,)
                     ),
                     validator: (String? value) {
                     if (value?.trim().isEmpty ?? true) {
@@ -75,8 +74,6 @@ class _AddTeamMemberScreenState extends State<AddTeamMemberScreen> {
             ),
           ),
         ),
-      ],
-      ),
     );
   }
   @override

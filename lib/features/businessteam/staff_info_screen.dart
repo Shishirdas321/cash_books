@@ -12,6 +12,7 @@ class StaffInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       //resizeToAvoidBottomInset: false,
       // extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -29,18 +30,15 @@ class StaffInfoScreen extends StatelessWidget {
           style: AppTextStyles.appbar(),
         ),
       ),
-      body: Stack(
-        children:[
-          const Positioned.fill(child: ScreenBackgroundOne()),
-          ListView(
+      body: ListView(
           padding: const EdgeInsets.all(16),
           children: [
              ListTile(
               leading:  const CircleAvatar(
                 radius: 24,
-                child: Icon(Icons.person_outline),
+                child: Icon(Icons.person_outline,color: AppColors.themeColor,),
               ),
-              title: Text('dknnn22@gmail.com',style: AppTextStyles.bodyMediumWhite(),),
+              title: Text('dknnn22@gmail.com',style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
               trailing: const Chip(elevation: 6,
                 label: Text('Staff', style: TextStyle(color: Colors.white)),
                 backgroundColor: AppColors.themeColor,
@@ -78,32 +76,32 @@ class StaffInfoScreen extends StatelessWidget {
               onTap: (){
                 _buildStaffPermissionBottomSheet(context);
               },
-              leading: const Icon(Icons.badge, color: Colors.white),
+              leading: const Icon(Icons.badge, color: Colors.black87),
               title:  Text('Staff Permissions',
-              style: AppTextStyles.bodyMediumWhite(),),
+              style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
               subtitle:  Text('List of actions Staff can take',
-              style: AppTextStyles.bodyMediumWhite(),),
+              style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
                 trailing: const Icon(
                   Icons.arrow_forward_ios,
                   size: 18,
-                  color: Colors.white,
+                  color: Colors.black87,
                 ),
               ),
 
             const Divider(height: 32),
 
-             Text('Books (0)', style: AppTextStyles.bodyMediumWhite(fontWeight: FontWeight.bold)),
+             Text('Books (0)', style: AppTextStyles.bodyMediumWhite(fontWeight: FontWeight.bold,color: Colors.black54)),
             const SizedBox(height: 8),
 
             ListTile(
               leading: const CircleAvatar(
-                child: Icon(Icons.add, color: AppColors.themeColor),
+                child: Icon(Icons.add, color: Colors.black87),
               ),
                 title:  Text('Add to books',
-                    style: AppTextStyles.bodyMediumPopins()),
+                    style: AppTextStyles.bodyMediumPopins(color: Colors.black54)),
                 subtitle:  Text(
                   'Add & Assign Role',
-                  style: AppTextStyles.subtitleSmall(color: Colors.white60),
+                  style: AppTextStyles.subtitleSmall(color: Colors.black45),
                 ),
                 onTap: () {
                 Navigator.pushNamed(context, MemberAddToBookView.name);
@@ -112,26 +110,22 @@ class StaffInfoScreen extends StatelessWidget {
 
             const SizedBox(height: 8),
             ListTile(
-              leading:  const Icon(Icons.switch_account_outlined, color: Colors.white),
-              title:  Text('Change role to Partner', style: AppTextStyles.bodyMediumPopins()),
+              leading:  const Icon(Icons.switch_account_outlined, color: Colors.black87),
+              title:  Text('Change role to Partner', style: AppTextStyles.bodyMediumPopins(color: Colors.black54)),
               onTap: () {
                 _buildBottomSheetChangeRoleToPartner(context);
               },
             ),
-
             const SizedBox(height: 8),
             ListTile(
               leading: const Icon(Icons.person_remove_outlined, color: Colors.red),
-              title:  Text('Remove from business', style: AppTextStyles.bodyMediumPopins()),
+              title:  Text('Remove from business', style: AppTextStyles.bodyMediumPopins(color: Colors.black54)),
               onTap: () {
                 _showRemoveFromBusiness(context);
-
               },
             ),
           ],
         ),
-    ],
-      ),
     );
   }
 
@@ -142,15 +136,15 @@ class StaffInfoScreen extends StatelessWidget {
       builder: (context) => AlertDialog(
         title:  Text(
           'Remove Shishir from Business Book?',
-          style: AppTextStyles.bodyMedium(),
+          style: AppTextStyles.bodyMedium(color: Colors.black),
         ),
         actions: [
           const Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Are you sure?',style: TextStyle(fontFamily: 'popins',fontSize: 16,color: Colors.blueGrey),),
-              Text('Shishir will loss access to this book',style: TextStyle(fontFamily: 'popins',fontSize: 16,color: Colors.blueGrey),),
+              Text('Are you sure?',style: TextStyle(fontFamily: 'popins',fontSize: 16,color: Colors.grey),),
+              Text('Shishir will loss access to this book',style: TextStyle(fontFamily: 'popins',fontSize: 16,color: Colors.grey),),
                 SizedBox(height: 18),
                 Card(
                   color: AppColors.themeColor,
@@ -234,7 +228,7 @@ class StaffInfoScreen extends StatelessWidget {
                       )),
                    Text(
                     "Staff Permission",
-                    style: AppTextStyles.bodyMedium(),
+                    style: AppTextStyles.bodyMedium(color: Colors.black),
                   ),
                 ],
               ),
@@ -247,7 +241,7 @@ class StaffInfoScreen extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Permissions",
-                      style: AppTextStyles.bodyMediumWhite(color: AppColors.themeColor)),
+                      style: AppTextStyles.bodyMediumWhite(color: Colors.black)),
                 ),
               ),
               _infoTile(Icons.check_circle, "Limited access to selected book",
@@ -304,7 +298,7 @@ class StaffInfoScreen extends StatelessWidget {
                           }, icon: const Icon(Icons.close,color: AppColors.themeColor,)),
                            Text(
                             "Change role to Partner",
-                            style: AppTextStyles.bodyMediumPopins(color: AppColors.themeColor,fontSize: 18),
+                            style: AppTextStyles.bodyMediumPopins(color: Colors.black,fontSize: 18),
                           ),
                         ],
                       ),
@@ -317,14 +311,14 @@ class StaffInfoScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             const CircleAvatar(
-                              backgroundColor: AppColors.themeColor,
-                              child: Icon(Icons.person_outline,color: Colors.white,)
+                              radius: 24,
+                              child: Icon(Icons.person_outline,color: Colors.black87,)
                             ),
                             const SizedBox(width: 12),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Opu", style: AppTextStyles.titleSmall()),
+                                Text("Opu", style: AppTextStyles.titleSmall(color: Colors.black87)),
                                 Text("dknnn22@gmail.com",style: AppTextStyles.subtitleSmall(color: Colors.black54),),
                               ],
                             ),
@@ -340,7 +334,7 @@ class StaffInfoScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 16, top: 12, bottom: 4),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text("Permissions", style: AppTextStyles.bodyMedium(color: AppColors.themeColor)),
+                          child: Text("Permissions", style: AppTextStyles.bodyMedium(color: Colors.black)),
                         ),
                       ),
                       _infoTile(Icons.check_circle, "Full access to all books of this business", Colors.green),
@@ -352,7 +346,7 @@ class StaffInfoScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 16, top: 12, bottom: 4),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text("Restrictions", style: AppTextStyles.bodyMedium(color: AppColors.themeColor)),
+                          child: Text("Restrictions", style: AppTextStyles.bodyMedium(color: Colors.black)),
                         ),
                       ),
                       _infoTile(Icons.cancel, "Can’t delete business", Colors.red),

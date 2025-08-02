@@ -30,6 +30,7 @@ class _MoveBookScreenState extends State<MoveBookScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       appBar: AppBar(
         backgroundColor: AppColors.themeColor,
         leading: IconButton(
@@ -39,10 +40,7 @@ class _MoveBookScreenState extends State<MoveBookScreen> {
             icon: const Icon(Icons.arrow_back,color: Colors.white,)),
         title:   Text('Select Business',style: AppTextStyles.appbar(),),
       ),
-      body: Stack(
-        children: [
-          const Positioned.fill(child: ScreenBackgroundTwo()),
-          Padding(
+      body:Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
@@ -50,7 +48,7 @@ class _MoveBookScreenState extends State<MoveBookScreen> {
                 padding: const EdgeInsets.all(16),
                 child: Text(
                   "Select a business to move 'Business Book' book",
-                  style: AppTextStyles.bodyMediumPopins(color: AppColors.themeColor),
+                  style: AppTextStyles.bodyMediumPopins(color: Colors.black87),
                 ),
               ),
               Expanded(
@@ -79,8 +77,6 @@ class _MoveBookScreenState extends State<MoveBookScreen> {
             ],
           ),
         ),
-    ],
-      ),
     );
   }
 
@@ -97,10 +93,10 @@ class _MoveBookScreenState extends State<MoveBookScreen> {
     ),
     child: ListTile(
     title: Text(
-    business,style: AppTextStyles.bodyMediumWhite(color: AppColors.themeColor),
+    business,style: AppTextStyles.bodyMediumWhite(color: Colors.black87),
     overflow: TextOverflow.ellipsis,
     ),
-    subtitle:  Text('Your Role: Owner',style: AppTextStyles.subtitleSmall(color: AppColors.themeColor),),
+    subtitle:  Text('Your Role: Owner',style: AppTextStyles.subtitleSmall(color: Colors.black45),),
     trailing: isSelected
     ? const Icon(Icons.check_circle, color: AppColors.themeColor)
         : null,

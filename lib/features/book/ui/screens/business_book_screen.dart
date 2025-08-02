@@ -18,6 +18,7 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       //extendBodyBehindAppBar: false,
       appBar: AppBar(
         leading: IconButton(
@@ -35,9 +36,7 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
           IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert,color: Colors.white70,)),
         ],
       ),
-      body: Stack(
-        children: [
-          const Positioned.fill(child: ScreenBackgroundTwo()),
+      body:
           Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -130,8 +129,6 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
             ],
           ),
         ),
-    ],
-      ),
     );
   }
 

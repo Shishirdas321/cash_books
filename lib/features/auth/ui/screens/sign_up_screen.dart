@@ -1,6 +1,5 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/screen_background/screen_background_one.dart';
-import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
@@ -23,6 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _lastNameTEController = TextEditingController();
   // final TextEditingController _phoneTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
+  final TextEditingController _confirmPasswordTEController =TextEditingController();
   final PhoneController _phoneController = PhoneController(
     const PhoneNumber(isoCode: IsoCode.BD, nsn: ''),
   );
@@ -135,11 +135,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
           const SizedBox(height: 8),
           TextFormField(
             controller: _passwordTEController,
-            textInputAction: TextInputAction.done,
+            textInputAction: TextInputAction.next,
             decoration: const InputDecoration(hintText: 'Password',prefixIcon: Icon(Icons.password_outlined)),
             validator: (String? value){
               if((value?.isEmpty ?? true) || value!.length < 6){
                 return 'Enter a password more then 6 letters';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 8),
+          TextFormField(
+            controller: _confirmPasswordTEController,
+            textInputAction: TextInputAction.done,
+            decoration:
+            const InputDecoration(hintText: 'Confirm Password',prefixIcon: Icon(Icons.email_outlined)),
+            validator: (String? value) {
+              if (value?.trim().isEmpty ?? true) {
+                return 'Enter your confirm password';
+              }else if(value!.length<6){
+                return 'Password must be more then 6 letters';
+              }else if(value != _passwordTEController.text){
+                return 'Password do not match';
               }
               return null;
             },

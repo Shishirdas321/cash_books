@@ -16,6 +16,7 @@ class _HelpScreenState extends State<HelpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       appBar: AppBar(
         elevation: 6,
         backgroundColor: AppColors.themeColor,
@@ -24,10 +25,7 @@ class _HelpScreenState extends State<HelpScreen> {
           style: AppTextStyles.appbar(),
         ),
       ),
-      body: const Stack(
-        children:[
-          Positioned.fill(child: ScreenBackgroundTwo()),
-          Padding(
+      body: const Padding(
             padding: EdgeInsets.all(8.0),
             child: Column(
               children: [
@@ -47,8 +45,6 @@ class _HelpScreenState extends State<HelpScreen> {
               ],
             ),
           )
-    ],
-      ),
     );
   }
 }

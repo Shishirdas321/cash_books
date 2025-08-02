@@ -1,7 +1,7 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
-import 'package:cash_books/core/screen_background/screen_background_one.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
+import 'package:cash_books/settings/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -15,6 +15,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.93),
       appBar: AppBar(
         backgroundColor: AppColors.themeColor,
         title:  Text(
@@ -22,10 +23,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           style: AppTextStyles.appbar(),
         ),
       ),
-      body: Stack(
-        children: [
-          const Positioned.fill(child: ScreenBackgroundOne()),
-          Padding(
+      body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
@@ -43,17 +41,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       )),
                   title: const Text(
                     'Business Team',
-                    style: TextStyle(fontFamily: 'popins', color: Colors.white),
+                    style: TextStyle(fontFamily: 'popins', color: Colors.black87),
                   ),
                   subtitle: const Text(
                     'Add,remove or change role',
-                    style: TextStyle(fontSize: 12, color: Colors.white70),
+                    style: TextStyle(fontSize: 12, color: Colors.black87),
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios),
                 ),
                 const Divider(),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, ProfileScreen.name);
+                  },
                   leading: const CircleAvatar(
                       radius: 25,
                       child: Icon(
@@ -62,11 +62,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       )),
                   title: const Text(
                     'Your profile',
-                    style: TextStyle(fontFamily: 'popins', color: Colors.white),
+                    style: TextStyle(fontFamily: 'popins', color: Colors.black87),
                   ),
                   subtitle: const Text(
                     'Name and Email',
-                    style: TextStyle(fontSize: 12, color: Colors.white70),
+                    style: TextStyle(fontSize: 12, color: Colors.black45),
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios),
                 ),
@@ -83,7 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       )),
                   title: const Text(
                     'LogOut',
-                    style: TextStyle(fontFamily: 'popins', color: Colors.white),
+                    style: TextStyle(fontFamily: 'popins', color: Colors.black87),
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios),
                 ),
@@ -91,8 +91,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ],
             ),
           )
-        ],
-      ),
     );
   }
 
@@ -102,7 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (context) => AlertDialog(
         title:  Text(
           'Are you sure you want to Logout?',
-          style: AppTextStyles.bodyMedium(),
+          style: AppTextStyles.bodyMedium(color: Colors.black87),
         ),
         actions: [
           Card(
