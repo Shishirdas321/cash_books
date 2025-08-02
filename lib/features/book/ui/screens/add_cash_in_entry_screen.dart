@@ -3,6 +3,7 @@ import 'package:cash_books/core/screen_background/screen_background_one.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddCashInEntryScreen extends StatefulWidget {
   const AddCashInEntryScreen({super.key});
@@ -80,10 +81,10 @@ class _AddCashInEntryScreenState extends State<AddCashInEntryScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 15),
+                SizedBox(height: 15.h),
               // Date and Time Row
               _buildDateAndTime(context),
-              const SizedBox(height: 30),
+                SizedBox(height: 30.h),
               // Amount Field
               Form(
                 key: _formKey,
@@ -172,7 +173,7 @@ class _AddCashInEntryScreenState extends State<AddCashInEntryScreen> {
             ),
           ),
         ),
-        const SizedBox(width: 20),
+        const SizedBox(width: 20 ),
         Expanded(
           child: Card(
             elevation: 6,

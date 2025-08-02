@@ -1,18 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:cash_books/remote/dio/utils/appconstant.dart';
-
-import 'package:cash_books/remote/dio/utils/logging_interceptor.dart';
+import 'package:cash_books/datasource/remote/dio/utils/logging_interceptor.dart';
+import 'package:cash_books/datasource/remote/dio/utils/token_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:songly/core/utils/ext.dart';
-import 'package:songly/datasource/remote/dio/utils/logging_interceptor.dart';
-import 'package:songly/datasource/remote/dio/utils/token_interceptor.dart';
 
-import '../../../../utils/appconstant.dart';
+import '../../../core/utils/app_constants.dart';
 import '../../local/session.dart';
 
 class DioClient {
@@ -241,7 +237,7 @@ class DioClient {
       AppConstants.contentType: 'application/json; charset=UTF-8',
       AppConstants.authorization: 'Bearer $token',
       AppConstants.accept: 'application/json',
-      AppConstants.languageCode: countryCode!.toLowerCase(),
+
     };
     additionalHeaders?.forEach((k, v) {
       defaultHeaders[k] = v;
@@ -262,7 +258,7 @@ class DioClient {
       AppConstants.contentType: 'application/json; charset=UTF-8',
       AppConstants.authorization: 'Bearer $token',
       AppConstants.accept: 'application/json',
-      AppConstants.languageCode: countryCode!.toLowerCase(),
+
     };
     additionalHeaders?.forEach((k, v) {
       headers[k] = v;
@@ -313,12 +309,4 @@ class DioClient {
       ),
     );
   }
-
-  postData(String s, Map<String, String> map) {
-
-  }
-}
-
-class Session {
-
 }

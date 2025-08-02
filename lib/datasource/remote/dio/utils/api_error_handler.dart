@@ -1,11 +1,10 @@
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
-import 'package:songly/core/dialogs/custom_dialog.dart';
-import 'package:songly/routes/route_service.dart';
 
-import '../../../../core/widgets/custom_snackbar.dart';
+import 'package:dio/dio.dart';
+
 import '../../../../../main.dart';
+import '../../../../core/widgets/custom_snackbar.dart';
 import '../../../local/session.dart';
 import '../../models/error_response.dart';
 
@@ -76,23 +75,23 @@ class ApiErrorHandler {
                     "token ${Session.getToken()} isSignOutCalled ${isSignOutCalled}",
                   );
                   errorDescription =
-                      "Invalid credential or unauthorized user found";
-                  if (Session.getToken().isNotEmpty && !isSignOutCalled) {
-                    if (Get.context!.mounted) {
-                      if (RouteService.appRouter.currentPath != "login") {
-                        CustomDialog.show(
-                          "Session out, please login!",
-                          isAutoPop: false,
-                          onPressed: () {
-                            Session.signOut();
-                          },
-                        );
-
-                        log("Session.signOut() called");
-                        // isSignOutCalled = true;
-                      }
-                    }
-                  }
+                        "Invalid credential or unauthorized user found";
+                  // if (Session.getToken().isNotEmpty && !isSignOutCalled) {
+                  //   if (Get.context!.mounted) {
+                  //     if (RouteService.appRouter.currentPath != "login") {
+                  //       CustomDialog.show(
+                  //         "Session out, please login!",
+                  //         isAutoPop: false,
+                  //         onPressed: () {
+                  //           Session.signOut();
+                  //         },
+                  //       );
+                  //
+                  //       log("Session.signOut() called");
+                  //       // isSignOutCalled = true;
+                  //     }
+                  //   }
+                  // }
 
                   // BlocProvider.of<LoginCubit>(Get.context!).clearSession();
                   // BlocProvider.of<LoginCubit>(Get.context!,listen: false).clearWholeSharedData();
@@ -172,10 +171,10 @@ class ApiErrorHandler {
     } else {
       errorDescription = "Unknown exception";
     }
-    showSnackBar(
+    showCustomSnackBar(
       "$errorDescription",
       isError: true,
-      mustShowInReleaseMode: mustShowErrorInReleaseMode,
+
     );
     return errorDescription;
   }

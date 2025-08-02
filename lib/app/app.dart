@@ -3,6 +3,7 @@ import 'package:cash_books/app/app_routes.dart';
 import 'package:cash_books/app/controller_binder.dart';
 import 'package:cash_books/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class CashBook extends StatefulWidget {
@@ -15,6 +16,7 @@ class CashBook extends StatefulWidget {
 class _CashBookState extends State<CashBook> {
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context);
     return GetMaterialApp(
       initialRoute: '/',
       onGenerateRoute: AppRoutes.onGenerateRoute,

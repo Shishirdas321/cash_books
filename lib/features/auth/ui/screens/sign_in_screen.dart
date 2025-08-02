@@ -9,6 +9,7 @@ import 'package:cash_books/features/common/ui/screens/main_bottom_nav_bar_screen
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -164,7 +165,7 @@ class _SignInScreenState extends State<SignInScreen> {
           TextSpan(
               text: 'Sign up',
               style: AppTextStyles.bodyMedium(
-                  fontSize: 17,
+                  fontSize: 17.sp,
                   decoration: TextDecoration.underline,
                   decorationColor: Colors.black,
                   decorationThickness: 2,

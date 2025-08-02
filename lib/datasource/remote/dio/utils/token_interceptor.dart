@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:songly/datasource/local/session.dart';
+
+import '../../../local/session.dart';
+
 
 class TokenInterceptor extends Interceptor {
   final Dio dio;
