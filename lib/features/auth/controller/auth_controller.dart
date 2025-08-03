@@ -5,6 +5,8 @@ import 'package:cash_books/datasource/local/session.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart' as g;
+
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
@@ -13,6 +15,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../../core/widgets/custom_snackbar.dart';
 
+import '../../common/ui/screens/main_bottom_nav_bar_screen.dart';
 import '../model/LoginResponse.dart';
 import '../repository/auth_repo.dart';
 
@@ -95,11 +98,11 @@ class AuthController extends GetxController implements GetxService {
 
 
   /// for login Code
-  Future<void> login({required String mobile_no,required String password,
-    required String deviceToken,}) async {
+  Future<void> login({required String email,required String password,
+     }) async {
     _isLoading = true;
     update();
-    Response response = await authRepo.login(mobile_no: mobile_no,password: password,   );
+    Response response = await authRepo.login(email: email,password: password,   );
     if (response.statusCode == 200) {
 
 
@@ -113,7 +116,7 @@ class AuthController extends GetxController implements GetxService {
            // await authRepo.clearUserNumberAndPassword();
          }
 
-
+         g.Get.off(MainBottomNavBarScreen());
        }else{
 
        }

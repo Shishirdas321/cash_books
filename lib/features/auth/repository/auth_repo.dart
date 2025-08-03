@@ -43,12 +43,12 @@ class AuthRepo {
 
   /// for login code
   Future<Response> login({
-    required String mobile_no,
+    required String email,
 
     required String password,}) async {
     // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
     return await dioClient.post(AppConstants.LOGIN_URI,data: {
-      "mobile_no":mobile_no,
+      "email":email,
       "password":password,
 
     });

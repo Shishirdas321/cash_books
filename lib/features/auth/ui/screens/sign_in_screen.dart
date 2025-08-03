@@ -11,9 +11,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/widgets/custom_image.dart';
+import '../../controller/auth_controller.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -219,7 +221,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _onTapSignInButton() {
     if(_formKey.currentState!.validate()){
-      Navigator.pushReplacementNamed(context, MainBottomNavBarScreen.name);
+      Get.find<AuthController>().login(email: _emailTEController.text, password: _passwordTEController.text  );
       _saveRememberedData();
     }
   }
