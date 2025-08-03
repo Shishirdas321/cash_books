@@ -13,6 +13,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../../core/widgets/custom_snackbar.dart';
 
+import '../model/LoginResponse.dart';
 import '../repository/auth_repo.dart';
 
 class AuthController extends GetxController implements GetxService {
@@ -22,7 +23,7 @@ class AuthController extends GetxController implements GetxService {
     required this.authRepo,
   });
 
-  LoginResponse? loginResponse = null;
+
 
   List<String>? area=[];
   String errorMsg="";
@@ -100,22 +101,32 @@ class AuthController extends GetxController implements GetxService {
     update();
     Response response = await authRepo.login(mobile_no: mobile_no,password: password,   );
     if (response.statusCode == 200) {
-      //loginResponse=LoginResponse.fromJson(response.body);
-      if(_isActiveRememberMe){
-      //  await se(mobile_no, password);
-      }else{
-       // await authRepo.clearUserNumberAndPassword();
-      }
-      //Session.saveToken(loginResponse?.data?.token??"");
+
+
+       LoginResponse loginResponse=LoginResponse.fromJson(response.data);
+       if((loginResponse?.success??false)){
+         Session.saveToken(loginResponse?.data?.token??"");
+         Session.saveSession(jsonEncode(loginResponse.data?.user?.toJson()));
+         if(_isActiveRememberMe){
+           //  await se(mobile_no, password);
+         }else{
+           // await authRepo.clearUserNumberAndPassword();
+         }
+
+
+       }else{
+
+       }
 
 
 
 
 
-    //  Session.save(loginResponse!.userInfo!.customerName!,loginResponse!.userInfo!.cellNo!);
-     // showCustomSnackBar(response.body["message"],isError: false, isPosition: true);
-    //  errorMsg=response.body["message"];
-    //  Get.off(DashboardScreen());
+
+
+
+
+
 
     }else{
       _isLoading = false;

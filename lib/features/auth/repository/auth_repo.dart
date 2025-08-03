@@ -54,8 +54,18 @@ class AuthRepo {
     });
   }
 
+  Future<Response> getTokenByRefreashToken({
+    required String token,
 
-  // for  user token
+     }) async {
+    // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
+    return await dioClient.post(AppConstants.LOGIN_URI,data: {
+
+      "token":token,
+
+    });
+  }
+
 
 
 

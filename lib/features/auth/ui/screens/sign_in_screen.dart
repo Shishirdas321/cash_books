@@ -1,3 +1,4 @@
+import 'package:cash_books/core/enums/enums.dart';
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/screen_background/screen_background_one.dart';
 // import 'package:cash_books/core/screenbackground/screen_background_one.dart';
@@ -11,6 +12,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../core/widgets/custom_image.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -119,6 +122,7 @@ class _SignInScreenState extends State<SignInScreen> {
             },
           ),
           const SizedBox(height: 16),
+
           ElevatedButton(
             onPressed:  _onTapSignInButton,
             child:  Text('Sign in',style: AppTextStyles.bodyMediumPopins(),),
