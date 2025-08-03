@@ -1,8 +1,8 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
-import 'package:cash_books/core/screen_background/screen_background_one.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddCashOutEntryScreen extends StatefulWidget {
   const AddCashOutEntryScreen({super.key});
@@ -44,14 +44,14 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
       ),
       body: 
           Padding(
-          padding: const EdgeInsets.only(left: 16,right: 16,bottom: 20,top: 30),
+          padding:  EdgeInsets.only(left: 16.w,right: 16.w,bottom: 20.h,top: 30.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 15),
+               SizedBox(height: 15.h),
               // Date and Time Row
               _buildDateAndTime(context),
-              const SizedBox(height: 30),
+               SizedBox(height: 30.h),
               // Amount Field
               Form(
                 key: _formKey,
@@ -75,7 +75,7 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
                        return null;
                       },
                     ),
-                    const SizedBox(height: 10),
+                     SizedBox(height: 10.h),
                     TextFormField(
                       controller: _categoryController,
                       textInputAction: TextInputAction.done,
@@ -124,15 +124,15 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
             child: InkWell(
               onTap: _selectDate,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:  EdgeInsets.all(8.0.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(Icons.calendar_today,color: AppColors.themeColor),
-                    const SizedBox(width: 10),
+                     SizedBox(width: 10.w),
                     Text(
                       "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
-                      style: const TextStyle(fontSize: 16,color: AppColors.themeColor),
+                      style:  TextStyle(fontSize: 16.sp,color: AppColors.themeColor),
                     ),
                     const Icon(Icons.arrow_drop_down,color: AppColors.themeColor,),
                   ],
@@ -141,22 +141,22 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
             ),
           ),
         ),
-        const SizedBox(width: 16),
+         SizedBox(width: 16.w),
         Expanded(
           child: Card(
             elevation: 6,
             child: InkWell(
               onTap: _selectTime,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:  EdgeInsets.all(8.0.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(Icons.access_time,color: AppColors.themeColor,),
-                    const SizedBox(width: 10),
+                     SizedBox(width: 10.w),
                     Text(
                       selectedTime.format(context),
-                      style: const TextStyle(fontSize: 16,color: AppColors.themeColor),
+                      style:  TextStyle(fontSize: 16.sp,color: AppColors.themeColor),
                     ),
                     const Icon(Icons.arrow_drop_down,color: AppColors.themeColor,),
                   ],

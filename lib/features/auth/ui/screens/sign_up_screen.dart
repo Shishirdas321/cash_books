@@ -4,6 +4,7 @@ import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -43,7 +44,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Positioned.fill(
             child: SingleChildScrollView(
               child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding:  EdgeInsets.all(16.w),
               child: _buildForm(textTheme),
                       ),
             ),
@@ -59,19 +60,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
       key: _formKey,
       child: Column(
         children: [
-          const SizedBox(height: 60),
+           SizedBox(height: 60.h),
           const AppLogo(),
-          const SizedBox(height: 24),
+           SizedBox(height: 24.h),
           Text(
             'Register Your Account',
-            style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 28),
+            style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 28.sp),
           ),
-          const SizedBox(height: 8),
+           SizedBox(height: 8.h),
            Text(
             'Get Started with your details',
-            style:AppTextStyles.subtitleSmall(color: Colors.white60,fontSize: 18,),
+            style:AppTextStyles.subtitleSmall(color: Colors.white60,fontSize: 18.sp,),
           ),
-          const SizedBox(height: 16),
+           SizedBox(height: 16.h),
           TextFormField(
             controller: _emailTEController,
             textInputAction: TextInputAction.next,
@@ -86,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 8),
+           SizedBox(height: 8.h),
           TextFormField(
             controller: _firstNameTEController,
             textInputAction: TextInputAction.next,
@@ -98,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 8),
+           SizedBox(height: 8.h),
           TextFormField(
             controller: _lastNameTEController,
             textInputAction: TextInputAction.next,
@@ -110,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 8),
+           SizedBox(height: 8.h),
           PhoneFormField(
             textInputAction: TextInputAction.next,
             controller: _phoneController,
@@ -132,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               border: OutlineInputBorder(),
             ),
           ),
-          const SizedBox(height: 8),
+           SizedBox(height: 8.h),
           TextFormField(
             controller: _passwordTEController,
             textInputAction: TextInputAction.next,
@@ -144,7 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 8),
+           SizedBox(height: 8.h),
           TextFormField(
             controller: _confirmPasswordTEController,
             textInputAction: TextInputAction.done,
@@ -161,12 +162,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 16),
+           SizedBox(height: 16.h),
           ElevatedButton(
             onPressed: _onTapSignUpButton,
             child:  Text('Sign up',style: AppTextStyles.bodyMediumPopins(),),
           ),
-          const SizedBox(height: 24),
+           SizedBox(height: 24.h),
           RichText(
             text: TextSpan(
               text: "Already have an account? ",
@@ -175,10 +176,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 TextSpan(
                     text: 'Sign in',
                     style: AppTextStyles.bodyMedium(
-                        fontSize: 17,
+                        fontSize: 17.sp,
                         decoration: TextDecoration.underline,
                         decorationColor: Colors.black,
-                        decorationThickness: 2,
+                        decorationThickness: 2.w,
                         decorationStyle: TextDecorationStyle.solid),
                     recognizer: TapGestureRecognizer()
                       ..onTap = _onTapSignInButton),

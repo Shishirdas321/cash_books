@@ -4,6 +4,7 @@ import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/book/ui/screens/add_cash_in_entry_screen.dart';
 import 'package:cash_books/features/book/ui/screens/add_cash_out_entry_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BusinessBookScreen extends StatefulWidget {
   const BusinessBookScreen({super.key});
@@ -38,7 +39,7 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
       ),
       body:
           Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding:  EdgeInsets.all(16.0.w),
           child: Column(
             children: [
               // Net Balance Card
@@ -50,36 +51,36 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
                       Card(
                         elevation: 6,
                         child: Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding:  EdgeInsets.all(16.0.w),
                           child: Column(
                             children: [
                                Text(
                                 'Net Balance',
-                                style: AppTextStyles.bodyMedium(fontSize: 18,fontWeight: FontWeight.bold,),
+                                style: AppTextStyles.bodyMedium(fontSize: 18.sp,fontWeight: FontWeight.bold,),
                               ),
-                              const SizedBox(height: 10),
+                               SizedBox(height: 10.h),
                                Text(
                                 '2000',
-                                style: AppTextStyles.bodyMedium(fontWeight: FontWeight.bold,fontSize: 24),
+                                style: AppTextStyles.bodyMedium(fontWeight: FontWeight.bold,fontSize: 24.sp),
                               ),
-                              const SizedBox(height: 16),
+                               SizedBox(height: 16.h),
                                Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Total In (+)',style: AppTextStyles.bodyMediumPopins(color: AppColors.themeColor,fontSize: 14),),
+                                  Text('Total In (+)',style: AppTextStyles.bodyMediumPopins(color: AppColors.themeColor,fontSize: 14.sp),),
                                   Text('3000',
                                       style: AppTextStyles.bodyMediumPopins(color: Colors.green)),
                                 ],
                               ),
-                              const SizedBox(height: 10),
+                               SizedBox(height: 10.h),
                                Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Total Out (-)',style: AppTextStyles.bodyMediumPopins(color: AppColors.themeColor,fontSize: 14),),
+                                  Text('Total Out (-)',style: AppTextStyles.bodyMediumPopins(color: AppColors.themeColor,fontSize: 14.sp),),
                                   Text('1000', style: AppTextStyles.bodyMediumPopins(color: Colors.red)),
                                 ],
                               ),
-                              const SizedBox(height: 16),
+                               SizedBox(height: 16.h),
                               ElevatedButton(
                                 onPressed: () {},
                                 child: const Text('VIEW REPORTS'),
@@ -88,20 +89,20 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 25),
+                       SizedBox(height: 25.h),
                        Padding(
                         padding:
-                            const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+                             EdgeInsets.symmetric(vertical: 15.h, horizontal: 5.w),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             //SizedBox(width: 40),
                             const Icon(Icons.lock, color: Colors.green),
-                            const SizedBox(width: 10),
+                             SizedBox(width: 10.w),
                             Expanded(
                               child: Text(
                                 'Only members of this book can see these entries',
-                                style: AppTextStyles.titleSmall(fontSize: 14,color: Colors.black54),
+                                style: AppTextStyles.titleSmall(fontSize: 14.sp,color: Colors.black54),
                               ),
                             ),
                           ],
@@ -123,7 +124,7 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+               SizedBox(height: 10.h),
 
               _showCashInCashOut(),
             ],
@@ -136,47 +137,47 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
     return  ListTile(
                           title: Text('Category: income',style: AppTextStyles.bodyMediumPopins(color: AppColors.themeColor),),
                           subtitle: Text('Date & Time:01-07-25',style: AppTextStyles.subtitleSmall(color: Colors.black87),),
-                          trailing: Text('CashOut:200',style: AppTextStyles.subtitleSmall(color: Colors.black87,fontSize: 15),),
+                          trailing: Text('CashOut:200',style: AppTextStyles.subtitleSmall(color: Colors.black87,fontSize: 15.sp),),
                         );
   }
 
   Container _showCashInCashOut() {
     return Container(
-            padding: const EdgeInsets.all(10),
+            padding:  EdgeInsets.all(10.w),
             decoration: BoxDecoration(
               color: AppColors.themeColor.withOpacity(0.5),
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
+              borderRadius:  BorderRadius.only(
+                  topLeft: Radius.circular(16.r),
+                  topRight: Radius.circular(16.r),
               ),
             ),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                  Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding:  EdgeInsets.all(10.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
                         'Record Income',
-                        style: AppTextStyles.bodyMediumWhite(fontSize: 16,fontWeight: FontWeight.w500),
+                        style: AppTextStyles.bodyMediumWhite(fontSize: 16.sp,fontWeight: FontWeight.w500),
                       ),
                       Text(
                         'Record Expense',
-                        style: AppTextStyles.bodyMediumWhite(fontSize: 16,fontWeight: FontWeight.w500),
+                        style: AppTextStyles.bodyMediumWhite(fontSize: 16.sp,fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 10),
+                 SizedBox(height: 10.h),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding:  EdgeInsets.all(8.0.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        width: 140,
+                        width: 140.w,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.pushNamed(context, AddCashInEntryScreen.name);
@@ -187,7 +188,7 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
                         ),
                       ),
                       SizedBox(
-                        width: 140,
+                        width: 140.w,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.pushNamed(context, AddCashOutEntryScreen.name);

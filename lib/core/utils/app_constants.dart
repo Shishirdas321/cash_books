@@ -9,7 +9,7 @@ class AppConstants {
   static const String CARD_IMAGE_URL = 'https://remedy.tushar-das.xyz/';
 
   ///Api All End Point
-  static const String BASE_URL = 'https://remedy.tushar-das.xyz/api/';
+  static const String BASE_URL = 'https://cash.tushar-das.xyz/api/';
   static const String BASE_URL_IMAGE = 'https://remedy.tushar-das.xyz/';
   static const String LOGIN_URI = 'login';
   static const String REGISTRATION_URI = 'register';

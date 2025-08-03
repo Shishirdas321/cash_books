@@ -1,32 +1,33 @@
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme{
   static ThemeData themeData = ThemeData(
     colorSchemeSeed: AppColors.themeColor,
     scaffoldBackgroundColor: Colors.white,
-    textTheme: const TextTheme(
-      titleLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.w600,color: Colors.white),
-    ),
-    inputDecorationTheme: const InputDecorationTheme(fillColor: Colors.white,filled: true,
-      contentPadding: EdgeInsets.symmetric(horizontal: 16),
-      border: OutlineInputBorder(
+    // textTheme: const TextTheme(
+    //   titleLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.w600,color: Colors.white),
+    // ),
+    inputDecorationTheme:  InputDecorationTheme(fillColor: Colors.white,filled: true,
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+      border: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.white),
       ),
-      enabledBorder: OutlineInputBorder(
+      enabledBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.white),
       ),
-      focusedBorder: OutlineInputBorder(
+      focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.white)
       ),
-      errorBorder: OutlineInputBorder(
+      errorBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: Colors.red),
       ),
-      hintStyle: TextStyle(
+      hintStyle: const TextStyle(
           fontWeight: FontWeight.w400,
           color: Colors.grey
       ),
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         color: Colors.blueGrey,
         fontWeight: FontWeight.w400,
       ),
@@ -37,7 +38,7 @@ class AppTheme{
           elevation: 6,
           fixedSize: const Size.fromWidth(double.maxFinite),
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8)
+              borderRadius: BorderRadius.circular(8.r)
           ),
           foregroundColor: Colors.white,
           backgroundColor: AppColors.themeColor

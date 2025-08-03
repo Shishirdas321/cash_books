@@ -4,6 +4,7 @@ import 'package:cash_books/features/auth/ui/screens/verify_otp_screen.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -30,7 +31,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           Positioned.fill(
             child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding:  EdgeInsets.all(16.w),
               child: _buildForm(textTheme),
             ),
                     ),
@@ -45,32 +46,32 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       key: _formKey,
       child: Column(
         children: [
-          const SizedBox(height: 60),
+           SizedBox(height: 60.h),
           const AppLogo(),
-          const SizedBox(height: 24),
+           SizedBox(height: 24.h),
           Text(
             'Your Email Address',
-            style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 28),
+            style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 28.sp),
           ),
-          const SizedBox(height: 8),
+           SizedBox(height: 8.h),
            Text(
             'A 6 digits of OTP will be sand to your email address',
             textAlign: TextAlign.center,
-            style: AppTextStyles.subtitleSmall(color: Colors.white60,fontSize: 18,),
+            style: AppTextStyles.subtitleSmall(color: Colors.white60,fontSize: 18.sp,),
           ),
-          const SizedBox(height: 16),
+           SizedBox(height: 16.h),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.done,
             decoration: const InputDecoration(
                 labelText: 'Email', prefixIcon: Icon(Icons.email_outlined)),
           ),
-          const SizedBox(height: 16),
+           SizedBox(height: 16.h),
           ElevatedButton(
             onPressed:_onTapForgotPassButton,
             child:  Text('Forgot Password',style: AppTextStyles.bodyMediumPopins(),),
           ),
-          const SizedBox(height: 20),
+           SizedBox(height: 20.h),
           _buildSignInSection(),
         ],
       ),
@@ -87,10 +88,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   text: 'Sign in',
                   style:  AppTextStyles.bodyMedium(
                     color: Colors.white,
-                      fontSize: 17,
+                      fontSize: 17.sp,
                       decoration: TextDecoration.underline,
                       decorationColor: Colors.black,
-                      decorationThickness: 2,
+                      decorationThickness: 2.w,
                       decorationStyle: TextDecorationStyle.solid),
                   recognizer: TapGestureRecognizer()
                     ..onTap = _onTapSignInButton),

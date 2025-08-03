@@ -2,6 +2,7 @@ import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/screen_background/screen_background_one.dart';
 // import 'package:cash_books/core/screenbackground/screen_background_one.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/features/auth/data/models/UserModel.dart';
 import 'package:cash_books/features/auth/ui/screens/forgot_password_screen.dart';
 import 'package:cash_books/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
@@ -47,7 +48,7 @@ class _SignInScreenState extends State<SignInScreen> {
           Positioned.fill(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding:  EdgeInsets.all(16.w),
                 child: _buildForm(textTheme),
               ),
             ),
@@ -62,19 +63,19 @@ class _SignInScreenState extends State<SignInScreen> {
       key: _formKey,
       child: Column(
         children: [
-          const SizedBox(height: 60),
+           SizedBox(height: 60.h),
           const AppLogo(),
-          const SizedBox(height: 24),
+           SizedBox(height: 24.h),
           Text(
             'Welcome Back',
-            style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 28),
+            style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 28.sp),
           ),
-          const SizedBox(height: 8),
+           SizedBox(height: 8.h),
            Text(
             'Enter Your email and password',
-            style: AppTextStyles.subtitleSmall(color: Colors.white60,fontSize: 18,),
+            style: AppTextStyles.subtitleSmall(color: Colors.white60,fontSize: 18.sp,),
           ),
-          const SizedBox(height: 16),
+           SizedBox(height: 16.h),
           TextFormField(
             controller: _emailTEController,
             keyboardType: TextInputType.emailAddress,
@@ -93,7 +94,7 @@ class _SignInScreenState extends State<SignInScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 8),
+           SizedBox(height: 8.h),
           TextFormField(
             controller: _passwordTEController,
             obscureText: _obscureText,
@@ -118,12 +119,12 @@ class _SignInScreenState extends State<SignInScreen> {
               return null;
             },
           ),
-          const SizedBox(height: 16),
+           SizedBox(height: 16.h),
           ElevatedButton(
             onPressed:  _onTapSignInButton,
             child:  Text('Sign in',style: AppTextStyles.bodyMediumPopins(),),
           ),
-          const SizedBox(height: 16),
+           SizedBox(height: 16.h),
           Row(
             children: [
               Checkbox(
@@ -136,20 +137,20 @@ class _SignInScreenState extends State<SignInScreen> {
                Text('Remember me',style: AppTextStyles.bodyMediumWhite(),),
             ],
           ),
-          const SizedBox(height: 20),
+           SizedBox(height: 20.h),
           Center(
             child: TextButton(
               onPressed: _onTapForgotPasswordButton,
               child:  Text(
                 'Forgot password',
-                style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 15,decoration: TextDecoration.underline,
+                style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 15.sp,decoration: TextDecoration.underline,
                     decorationColor: AppColors.themeColor,
                     decorationThickness: 2,
                     decorationStyle: TextDecorationStyle.solid),
               ),
             ),
           ),
-          const SizedBox(height: 10),
+           SizedBox(height: 10.h),
           _buildSignUpSection(),
         ],
       ),
@@ -215,6 +216,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _onTapSignInButton() {
     if(_formKey.currentState!.validate()){
+      UserModel userModel = UserModel(
+        email: _emailTEController.text.trim(),
+
+      );
       Navigator.pushReplacementNamed(context, MainBottomNavBarScreen.name);
       _saveRememberedData();
     }
