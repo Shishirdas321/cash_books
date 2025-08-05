@@ -14,8 +14,8 @@ import '../../main.dart';
 class Session {
   static late final SharedPreferences _pref;
 
-  static Future<SharedPreferences> init() async =>
-      _pref = await SharedPreferences.getInstance();
+  static Future<SharedPreferences> init(SharedPreferences pref) async =>
+      _pref = pref;
 
   static String getString(String key, [String? defValue]) {
     return _pref.getString(key) ?? defValue ?? "";

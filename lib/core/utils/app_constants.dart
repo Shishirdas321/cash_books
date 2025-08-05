@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 class AppConstants {
-  static const String APP_NAME = 'RMS';
+  static const String APP_NAME = 'CAsh Book';
 
   static const int APP_VERSION = 1;
   static const String CARD_IMAGE_URL = 'https://remedy.tushar-das.xyz/';

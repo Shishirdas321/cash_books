@@ -90,7 +90,7 @@ ThemeData lightTheme(BuildContext context) => ThemeData(
   brightness: Brightness.light,
   primaryColor: AppColors.yellow,
   fontFamily: 'Poppins',
-  hoverColor: AppColors.black,
+  hoverColor: AppColors.white,
   shadowColor: AppColors.grayLight,
     cardColor: AppColors.containerBgLight,
   disabledColor: AppColors.grayLight,
