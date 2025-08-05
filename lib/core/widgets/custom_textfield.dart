@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../fonts/app_text_style.dart';
 import '../theme/app_colors.dart';
 
 
@@ -127,9 +128,9 @@ class _CustomTextFormFiledState extends State<CustomTextField> {
           controller: widget.controller,
           focusNode: widget.focusNode,
 
-          style: TextTheme.of(
-            context,
-          ).bodySmall?.copyWith(fontWeight: FontWeight.w400, fontSize: 14),
+          style: Theme.of(
+            context
+          ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400, fontSize: 14),
           textInputAction: widget.inputAction,
           keyboardType:
               (widget.isAmount || widget.inputType == TextInputType.phone)
@@ -203,9 +204,9 @@ class _CustomTextFormFiledState extends State<CustomTextField> {
             fillColor: widget.fillColor,
             hintStyle:
                 widget.hintStyle == null
-                    ? TextTheme.of(
-                      context,
-                    ).labelLarge?.copyWith(color: Colors.grey)
+                    ? Theme.of(
+                      context
+                    ).textTheme.labelLarge?.copyWith(color: Colors.grey)
                     : widget.hintStyle,
             filled: true,
             contentPadding: EdgeInsets.symmetric(
@@ -214,9 +215,7 @@ class _CustomTextFormFiledState extends State<CustomTextField> {
             ),
             labelStyle:
                 widget.labelText != null
-                    ? TextTheme.of(
-                      context,
-                    ).bodyMedium?.copyWith(color: Colors.grey,)
+                    ? Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey,)
                     : null,
             helperMaxLines: 1,
             hintMaxLines: 1,

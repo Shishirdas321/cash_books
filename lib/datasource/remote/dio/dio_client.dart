@@ -249,7 +249,7 @@ class DioClient {
 
   void initDioClient(Dio? dioC, {Map<String, dynamic>? additionalHeaders}) {
     token = Session.getToken();
-    countryCode = "en";
+
 
     if (kDebugMode) {
       log("JWT token: $token");

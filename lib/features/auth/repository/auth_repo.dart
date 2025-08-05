@@ -15,27 +15,32 @@ class AuthRepo {
 
   /// for registration code
   Future<Response> registration ({
-    required String name,
-    required String mobile_no,
+  // "first_name": "John",
+  // "last_name": "Doe",
+  // "email": "sisu.doe@example.com",
+  // "phone": "1234507831",
+  // "password": "password123",
+  // "password_confirmation": "password123"
+
+    required String phone_no,
     required String email,
     required String password,
     required String c_password,
-    required String address,
-    required String shop_name,
-    required String area_id,
-    required String device_id,
+    required String first_name,
+    required String last_name,
+
   }) async {
     Response _response = await dioClient.post(AppConstants.REGISTRATION_URI,data:
         {
-          "name": name,
-          "mobile_no": mobile_no,
+
+          "phone": phone_no,
           "email": email,
           "password": password,
-          "c_password": c_password,
-          "address": address,
-          "shop_name": shop_name,
-          "area_id": area_id,
-          "device_id": device_id,
+          "password_confirmation": c_password,
+          "first_name": first_name,
+          "last_name": last_name,
+          // "area_id": area_id,
+          // "device_id": device_id,
         });
     return _response;
   }
