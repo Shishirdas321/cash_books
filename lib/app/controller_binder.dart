@@ -30,7 +30,7 @@ class ControllerBinder extends Bindings{
 
     Get.put(DioClient(AppConstants.BASE_URL,Get.find(),sharedPreferences:Get.find(), loggingInterceptor: Get.find(),));
     Get.put(MainBottomNavBarController());
-     Get.lazyPut<AuthRepo>(() => AuthRepo(dioClient: Get.find(), sharedPreferences: Get.find()));
-     Get.lazyPut<AuthController>(() => AuthController(  authRepo: Get.find()));
+     Get.put(AuthRepo(dioClient: Get.find(), sharedPreferences: Get.find()));
+     Get.put( AuthController(  authRepo: Get.find()));
   }
 }

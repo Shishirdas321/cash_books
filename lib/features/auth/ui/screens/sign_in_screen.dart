@@ -32,7 +32,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _passwordTEController = TextEditingController();
   bool _obscureText = true;
   bool rememberMe = false;
-
+  final AuthController authController = Get.find();
   @override
   void initState() {
     super.initState();
@@ -221,7 +221,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _onTapSignInButton() {
     if(_formKey.currentState!.validate()){
-      Get.find<AuthController>().login(email: _emailTEController.text, password: _passwordTEController.text  );
+      authController.login(email: _emailTEController.text, password: _passwordTEController.text  );
       _saveRememberedData();
     }
   }
