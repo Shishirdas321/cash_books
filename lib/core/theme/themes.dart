@@ -109,7 +109,7 @@ ThemeData lightTheme(BuildContext context) => ThemeData(
   textTheme: buildTextThemeLight(context),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: AppColors.yellow,
+      backgroundColor: AppColors.themeColor,
       textStyle: buildTextThemeLight(
         context,
       ).labelLarge?.copyWith(fontWeight: FontWeight.w700),

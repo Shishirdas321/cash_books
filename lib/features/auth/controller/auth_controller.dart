@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' as g;
+import 'package:get/get_core/src/get_main.dart';
 
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
@@ -15,6 +16,7 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../../core/widgets/custom_snackbar.dart';
 
+import '../../../datasource/remote/dio/dio_client.dart';
 import '../../common/ui/screens/main_bottom_nav_bar_screen.dart';
 import '../model/LoginResponse.dart';
 import '../repository/auth_repo.dart';
@@ -54,47 +56,50 @@ class AuthController extends GetxController implements GetxService {
 
 
 
-  //
-  // /// Registration
-  // Future<void> getRegistration({
-  //   required String name,
-  //   required String mobile_no,
-  //   required String email,
-  //   required String password,
-  //   required String c_password,
-  //   required String address,
-  //   required String shop_name,
-  //   required String area_id,
-  //
-  // }) async {
-  //   isLoadingbtn = true;
-  //   update();
-  //
-  //   Response response = await authRepo.registration(
-  //     name: name,
-  //     mobile_no: mobile_no,
-  //     email: email,
-  //     password: password,
-  //     c_password: c_password,
-  //     address: address,
-  //     shop_name: shop_name,
-  //     area_id: area_id,
-  //     device_id: deviceId,
-  //   );
-  //   if (response.statusCode == 200) {
-  //     Get.back();
-  //     showCustomSnackBar('Registration Successful', isError: false, isPosition: true);
-  //   //  Get.off(SignIn(exitFromApp: false)) ;
-  //     // showCustomSnackBar(jsonDecode(response.body)["message"], isError: false);
-  //   } else {
-  //     isLoadingbtn = false;
-  //     update();
-  //     showCustomSnackBar(response.body["message"].toString(),);
-  //    // ApiChecker.checkApi(response);
-  //   }
-  //   isLoadingbtn = false;
-  //   update();
-  // }
+
+  /// Registration
+  Future<void> getRegistration({
+    required String phone_no,
+    required String email,
+    required String password,
+    required String c_password,
+    required String first_name,
+    required String last_name,
+
+
+  }) async {
+    isLoadingbtn = true;
+    update();
+
+    Response response = await authRepo.registration(
+      phone_no: phone_no,
+      email: email,
+      password: password,
+      c_password: c_password,
+      last_name: last_name,
+      first_name: first_name,
+    );
+    if (response.statusCode == 200||response.statusCode==201) {
+
+      LoginResponse loginResponse=LoginResponse.fromJson(response.data);
+      String msg=response.data["message"];
+
+      Session.saveToken(loginResponse.data?.token??"");
+      Session.saveSession(jsonEncode(loginResponse.data?.user));
+      showCustomSnackBar('$msg', isError: false, isPosition: true);
+      g.Get.off(MainBottomNavBarScreen());
+      Get.find<DioClient>().resetClientWithNewToken();
+    //  Get.off(SignIn(exitFromApp: false)) ;
+      // showCustomSnackBar(jsonDecode(response.body)["message"], isError: false);
+    } else {
+      isLoadingbtn = false;
+      update();
+     // showCustomSnackBar(response.body["message"].toString(),);
+     // ApiChecker.checkApi(response);
+    }
+    isLoadingbtn = false;
+    update();
+  }
 
 
   /// for login Code

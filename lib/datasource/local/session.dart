@@ -1,12 +1,16 @@
 import 'dart:async' show Future;
 import 'dart:convert';
+import 'package:cash_books/features/auth/ui/screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+
 
 import 'package:shared_preferences/shared_preferences.dart';
 
 
 
 import '../../core/utils/app_constants.dart';
+import '../../features/auth/model/LoginResponse.dart';
 import '../../main.dart';
 
 
@@ -146,10 +150,10 @@ class Session {
   //   return getSession().role ==AppConstants.USER_ROLE;
   // }
 
-  // static User getSession() {
-  //   var res = _pref.getString(AppConstants.SESSION) ?? "{}";
-  //   return userFromJson("$res" == "null" ? "{}" : res);
-  // }
+  static User getSession() {
+    var res = _pref.getString(AppConstants.SESSION) ?? "{}";
+    return userFromJson("$res" == "null" ? "{}" : res);
+  }
 
   static Future<bool> clear() async {
     return _pref.clear();
@@ -171,6 +175,9 @@ class Session {
                     // unregister
 
     await clearSession();
+    if(navigateToLogin){
+      Get.offAll(SignInScreen());
+    }
 
 
 

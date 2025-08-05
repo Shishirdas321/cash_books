@@ -139,7 +139,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     rememberMe = value ?? false;
                     setState(() {});
                   }),
-               Text('Remember me',style: AppTextStyles.bodyMediumWhite(),),
+               Text('Remember me',style: Theme.of(context).textTheme.bodyMedium,),
             ],
           ),
           const SizedBox(height: 20),
@@ -212,7 +212,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
 
   void _onTapSignUpButton() {
-    Navigator.pushNamed(context, SignUpScreen.name);
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  SignUpScreen()),);
   }
 
   void _onTapForgotPasswordButton() {

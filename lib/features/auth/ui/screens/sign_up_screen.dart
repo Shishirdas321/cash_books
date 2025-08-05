@@ -1,10 +1,12 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/screen_background/screen_background_one.dart';
+import 'package:cash_books/features/auth/controller/auth_controller.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -163,6 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             },
           ),
            SizedBox(height: 16.h),
+
           ElevatedButton(
             onPressed: _onTapSignUpButton,
             child:  Text('Sign up',style: AppTextStyles.bodyMediumPopins(),),
@@ -193,6 +196,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _onTapSignUpButton() {
     if(_formKey.currentState!.validate()){
+      String countryCode=_phoneController.value?.countryCode??"";
+      String phoneNumber=countryCode+(_phoneController.value?.nsn??"");
+       Get.find<AuthController>().getRegistration(phone_no:phoneNumber, email: _emailTEController.text, password: _passwordTEController.text, c_password: _confirmPasswordTEController.text, first_name: _firstNameTEController.text, last_name: _lastNameTEController.text);
+
       //Navigator.pushNamed(context, SignInScreen.name);
 
     }

@@ -1,5 +1,6 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/datasource/local/session.dart';
 import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/settings/profile_screen.dart';
 import 'package:flutter/material.dart';
@@ -121,7 +122,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             color: Colors.red.shade100,
             child: TextButton(
               onPressed: () {
-                Navigator.pop(context);
+               Session.signOut();
               },
               child: const Text(
                 'LogOut',
