@@ -112,7 +112,8 @@ ThemeData lightTheme(BuildContext context) => ThemeData(
       backgroundColor: AppColors.yellow,
       textStyle: buildTextThemeLight(
         context,
-      ).labelLarge?.copyWith(fontWeight: FontWeight.w700),
+
+      ).labelLarge?.copyWith(fontWeight: FontWeight.w700,color: AppColors.white),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     ),
 

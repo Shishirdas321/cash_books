@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/custom_image.dart';
 import '../../controller/auth_controller.dart';
 
@@ -125,10 +126,26 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           const SizedBox(height: 16),
 
-          ElevatedButton(
+
+
+          GetBuilder<AuthController>(
+            builder: (controller) {
+              return CustomButton(
+                loading:controller.isLoading ,
+                onTap:   _onTapSignInButton,
+
+                textSize: 20.sp,
+
+                buttonText: 'Sign in',
+
+              );
+            }
+          ),
+
+          /*ElevatedButton(
             onPressed:  _onTapSignInButton,
             child:  Text('Sign in',style: AppTextStyles.bodyMediumPopins(),),
-          ),
+          ),*/
           const SizedBox(height: 16),
           Row(
             children: [
