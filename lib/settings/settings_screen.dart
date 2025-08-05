@@ -3,6 +3,7 @@ import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/settings/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -24,18 +25,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       body: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:  EdgeInsets.all(8.0.w),
             child: Column(
               children: [
-                const SizedBox(height: 20),
+                 SizedBox(height: 20.h),
                 const Divider(),
                 ListTile(
                   onTap: () {
                     Navigator.pushNamed(context, AddTeamMemberScreen.name);
                   },
-                  leading: const CircleAvatar(
-                      radius: 25,
-                      child: Icon(
+                  leading:  CircleAvatar(
+                      radius: 25.r,
+                      child: const Icon(
                         Icons.group_outlined,
                         color: AppColors.themeColor,
                       )),
@@ -43,9 +44,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     'Business Team',
                     style: TextStyle(fontFamily: 'popins', color: Colors.black87),
                   ),
-                  subtitle: const Text(
+                  subtitle:  Text(
                     'Add,remove or change role',
-                    style: TextStyle(fontSize: 12, color: Colors.black87),
+                    style: TextStyle(fontSize: 12.sp, color: Colors.black87),
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios),
                 ),
@@ -54,9 +55,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onTap: () {
                     Navigator.pushNamed(context, ProfileScreen.name);
                   },
-                  leading: const CircleAvatar(
-                      radius: 25,
-                      child: Icon(
+                  leading:  CircleAvatar(
+                      radius: 25.r,
+                      child: const Icon(
                         Icons.person_outline,
                         color: AppColors.themeColor,
                       )),
@@ -64,9 +65,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     'Your profile',
                     style: TextStyle(fontFamily: 'popins', color: Colors.black87),
                   ),
-                  subtitle: const Text(
+                  subtitle:  Text(
                     'Name and Email',
-                    style: TextStyle(fontSize: 12, color: Colors.black45),
+                    style: TextStyle(fontSize: 12.sp, color: Colors.black45),
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios),
                 ),
@@ -75,9 +76,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onTap: () {
                     _showLogoutAlertDialog(context);
                   },
-                  leading: const CircleAvatar(
-                      radius: 25,
-                      child: Icon(
+                  leading:  CircleAvatar(
+                      radius: 25.r,
+                      child: const Icon(
                         Icons.logout,
                         color: Colors.red,
                       )),

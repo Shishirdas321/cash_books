@@ -1,8 +1,8 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
-import 'package:cash_books/core/screen_background/screen_background_one.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/businessteam/business_team_handel_veiw_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChooseRoleScreen extends StatefulWidget {
   const ChooseRoleScreen({super.key});
@@ -40,7 +40,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
       ),
       body:
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding:  EdgeInsets.all(16.0.w),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,13 +49,13 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                     " Choose their role in this business and add",
                     style: AppTextStyles.bodyMediumPopins(color: Colors.black.withOpacity(0.70)),
                   ),
-                  const SizedBox(height: 16),
+                   SizedBox(height: 16.h),
                    Row(
                     children: [
                       const CircleAvatar(
                         child: Icon(Icons.mark_email_read_outlined,color: Colors.grey,),
                       ),
-                      const SizedBox(width: 10),
+                       SizedBox(width: 10.w),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -65,17 +65,17 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                           ),
                           Text(
                             "dknnn22@gmail.com",
-                            style: AppTextStyles.appbar(color: Colors.black45,fontSize: 16),
+                            style: AppTextStyles.appbar(color: Colors.black45,fontSize: 16.sp),
                           ),
                         ],
                       ),
                     ],
                   ),
-                  const SizedBox(height: 24),
+                   SizedBox(height: 24.h),
                   Card(
                     elevation: 6,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 16),
+                      padding:  EdgeInsets.only(top: 16.h),
                       child: Column(
                         children: [
                            Text(
@@ -83,10 +83,10 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                             style:
                             AppTextStyles.bodyMedium(color: AppColors.themeColor,fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(height: 12),
+                           SizedBox(height: 12.h),
                           Card(
                             child: Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
+                              padding:  EdgeInsets.only(bottom: 10.h),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -100,7 +100,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                                       },
                                     ),
                                   ),
-                                  const SizedBox(width: 16),
+                                   SizedBox(width: 16.w),
                                   Expanded(
                                     child: ChoiceChip(
                                       label:  Text("Staff",style: AppTextStyles.titleSmall(),),
@@ -116,21 +116,21 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 24),
+                           SizedBox(height: 24.h),
                            Text(
                             "Permissions",
                             style:
                                 AppTextStyles.bodyMediumPopins(color: AppColors.themeColor,fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(height: 8),
+                           SizedBox(height: 8.h),
                           ..._buildPermissions(isStaff),
-                          const SizedBox(height: 16),
+                           SizedBox(height: 16.h),
                            Text(
                             "Restrictions",
                             style:
                             AppTextStyles.bodyMediumPopins(color: AppColors.themeColor,fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(height: 8),
+                           SizedBox(height: 8.h),
                           ..._buildRestrictions(isStaff),
                         ],
                       ),
@@ -138,7 +138,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                   ),
 
                    Padding(
-                    padding: const EdgeInsets.only(top: 6,left: 8),
+                    padding:  EdgeInsets.only(top: 6.h,left: 8.w),
                     child: Row(
                       children: [
                         const Icon(Icons.info_outline, color: Colors.grey),
@@ -149,14 +149,14 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                   SizedBox(
+                    height: 20.h,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+                    padding:  EdgeInsets.only(bottom: 20.h),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50),
+                        minimumSize:  Size.fromHeight(50.h),
                       ),
                       onPressed: () {
                         // Handle add action here

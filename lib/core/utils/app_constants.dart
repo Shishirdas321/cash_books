@@ -14,7 +14,7 @@ class AppConstants {
   static const String LOGIN_URI = 'login';
   static const String REGISTRATION_URI = 'register';
   static const String USER_INFORMATION_UPDATE_URI = 'update-user-information';
-  static const String AREA_URI = 'area-list';
+  static const String REFRESH_TOKEN = 'refresh';
   static const String CHANGE_PASSWORD_URI = 'change-password';
   static const String USER_INFO_URI = 'user-information';
   static const String DASHBOARD_PRODUCTS_URI = 'dashboard-products';

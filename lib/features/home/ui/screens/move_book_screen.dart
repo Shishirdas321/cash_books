@@ -1,8 +1,8 @@
 
 import 'package:cash_books/core/fonts/app_text_style.dart';
-import 'package:cash_books/core/screen_background/screen_background_two.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MoveBookScreen extends StatefulWidget {
   const MoveBookScreen({super.key});
@@ -41,11 +41,11 @@ class _MoveBookScreenState extends State<MoveBookScreen> {
         title:   Text('Select Business',style: AppTextStyles.appbar(),),
       ),
       body:Padding(
-          padding: const EdgeInsets.all(10),
+          padding:  EdgeInsets.all(10.w),
           child: Column(
             children: [
                Padding(
-                padding: const EdgeInsets.all(16),
+                padding:  EdgeInsets.all(16.w),
                 child: Text(
                   "Select a business to move 'Business Book' book",
                   style: AppTextStyles.bodyMediumPopins(color: Colors.black87),
@@ -62,8 +62,8 @@ class _MoveBookScreenState extends State<MoveBookScreen> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 18, left: 8, right: 8, top: 18),
+                  padding:  EdgeInsets.only(
+                      bottom: 18.h, left: 8.w, right: 8.w, top: 18.h),
                   child: SizedBox(
                   width: double.maxFinite,
                   child: ElevatedButton(
@@ -83,13 +83,13 @@ class _MoveBookScreenState extends State<MoveBookScreen> {
   /// ✅ Extracted Method: Builds a single business selection tile
   Widget buildBusinessTile(String business, bool isSelected) {
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin:  EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(color: Colors.white,
         border: Border.all(
         color: isSelected ? AppColors.themeColor : Colors.grey.shade300,
-        width: 2,
+        width: 2.w,
     ),
-    borderRadius: BorderRadius.circular(8),
+    borderRadius: BorderRadius.circular(8.r),
     ),
     child: ListTile(
     title: Text(

@@ -4,6 +4,7 @@ import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
 import 'package:cash_books/features/home/ui/screens/move_book_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BookCard extends StatefulWidget {
   const BookCard({super.key});
@@ -26,10 +27,10 @@ class _BookCardState extends State<BookCard> {
         Navigator.pushNamed(context, BusinessBookScreen.name);
       },
       child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin:  EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         elevation: 6,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
         ),
         child: ListTile(
           trailing: Row(
@@ -38,14 +39,14 @@ class _BookCardState extends State<BookCard> {
             children: <Widget>[
                Text(
                 '20000',
-                style: AppTextStyles.titleSmall(fontSize: 12),
+                style: AppTextStyles.titleSmall(fontSize: 12.sp),
               ),
               //const SizedBox(width: 10),
               _showEditBook(context),
             ],
           ),
-          leading: const CircleAvatar(
-              radius: 20, child: Icon(Icons.book, color: AppColors.themeColor)),
+          leading:  CircleAvatar(
+              radius: 20.r, child: const Icon(Icons.book, color: AppColors.themeColor)),
           title:  Text('Business Book',style: AppTextStyles.titleSmall(),),
           subtitle:  Text('created on jul 01 2025',style: AppTextStyles.subtitleSmall(),),
         ),
@@ -144,8 +145,8 @@ class _BookCardState extends State<BookCard> {
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        shape:  RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
         ),
         builder: (context) {
           return Padding(
@@ -153,7 +154,7 @@ class _BookCardState extends State<BookCard> {
             child: Form(
               key: _formKey,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:  EdgeInsets.all(8.0.w),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -175,7 +176,7 @@ class _BookCardState extends State<BookCard> {
                         )
                       ],
                     ),
-                    const SizedBox(height: 20),
+                     SizedBox(height: 20.h),
                    TextFormField(
                      controller: _renameCashBookTEController,
                      textInputAction: TextInputAction.done,
@@ -187,7 +188,7 @@ class _BookCardState extends State<BookCard> {
                        return null;
                      },
                    ),
-                    const SizedBox(height: 15),
+                     SizedBox(height: 15.h),
                     ElevatedButton(
                       onPressed: () {
                         if(_formKey.currentState!.validate()){

@@ -254,7 +254,7 @@ class _CustomTextFormFiledState extends State<CustomTextField> {
                           ),
 
                           if (widget.required && widget.labelText != null)
-                            TextSpan(
+                            const TextSpan(
                               text: ' *',
                               style: TextStyle(color: Colors.red),
                             ),

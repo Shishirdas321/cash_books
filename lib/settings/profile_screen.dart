@@ -1,6 +1,7 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -27,7 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding:  EdgeInsets.all(16.0.w),
           child: Column(
             children: [
               TextFormField(
@@ -35,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     hintText: 'Your name',
                     prefixIcon: Icon(Icons.person_outline,color: Colors.grey,)),
               ),
-              const SizedBox(height: 16),
+               SizedBox(height: 16.h),
               TextFormField(
                 enabled: false,
                 decoration: const InputDecoration(
