@@ -1,8 +1,8 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
-import 'package:cash_books/core/screen_background/screen_background_one.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/businessteam/member_add_to_book_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StaffInfoScreen extends StatelessWidget {
   const StaffInfoScreen({super.key});
@@ -31,12 +31,12 @@ class StaffInfoScreen extends StatelessWidget {
         ),
       ),
       body: ListView(
-          padding: const EdgeInsets.all(16),
+          padding:  EdgeInsets.all(16.w),
           children: [
              ListTile(
-              leading:  const CircleAvatar(
-                radius: 24,
-                child: Icon(Icons.person_outline,color: AppColors.themeColor,),
+              leading: CircleAvatar(
+                radius: 24.r,
+                child: const Icon(Icons.person_outline,color: AppColors.themeColor,),
               ),
               title: Text('dknnn22@gmail.com',style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
               trailing: const Chip(elevation: 6,
@@ -44,7 +44,7 @@ class StaffInfoScreen extends StatelessWidget {
                 backgroundColor: AppColors.themeColor,
               ),
             ),
-            const Divider(height: 32),
+             Divider(height: 32.h),
 
             /*Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,8 +70,8 @@ class StaffInfoScreen extends StatelessWidget {
                 )
               ],
             ),*/
-            const SizedBox(height: 24),
-            const Divider(height: 32),
+             SizedBox(height: 24.h),
+             Divider(height: 32.h),
              ListTile(
               onTap: (){
                 _buildStaffPermissionBottomSheet(context);
@@ -81,17 +81,17 @@ class StaffInfoScreen extends StatelessWidget {
               style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
               subtitle:  Text('List of actions Staff can take',
               style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
-                trailing: const Icon(
+                trailing:  Icon(
                   Icons.arrow_forward_ios,
-                  size: 18,
+                  size: 18.w,
                   color: Colors.black87,
                 ),
               ),
 
-            const Divider(height: 32),
+             Divider(height: 32.h),
 
              Text('Books (0)', style: AppTextStyles.bodyMediumWhite(fontWeight: FontWeight.bold,color: Colors.black54)),
-            const SizedBox(height: 8),
+             SizedBox(height: 8.h),
 
             ListTile(
               leading: const CircleAvatar(
@@ -108,7 +108,7 @@ class StaffInfoScreen extends StatelessWidget {
               },
             ),
 
-            const SizedBox(height: 8),
+             SizedBox(height: 8.h),
             ListTile(
               leading:  const Icon(Icons.switch_account_outlined, color: Colors.black87),
               title:  Text('Change role to Partner', style: AppTextStyles.bodyMediumPopins(color: Colors.black54)),
@@ -116,7 +116,7 @@ class StaffInfoScreen extends StatelessWidget {
                 _buildBottomSheetChangeRoleToPartner(context);
               },
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8.h),
             ListTile(
               leading: const Icon(Icons.person_remove_outlined, color: Colors.red),
               title:  Text('Remove from business', style: AppTextStyles.bodyMediumPopins(color: Colors.black54)),
@@ -139,23 +139,23 @@ class StaffInfoScreen extends StatelessWidget {
           style: AppTextStyles.bodyMedium(color: Colors.black),
         ),
         actions: [
-          const Column(
+           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Are you sure?',style: TextStyle(fontFamily: 'popins',fontSize: 16,color: Colors.grey),),
-              Text('Shishir will loss access to this book',style: TextStyle(fontFamily: 'popins',fontSize: 16,color: Colors.grey),),
-                SizedBox(height: 18),
+              Text('Are you sure?',style: TextStyle(fontFamily: 'popins',fontSize: 16.sp,color: Colors.grey),),
+              Text('Shishir will loss access to this book',style: TextStyle(fontFamily: 'popins',fontSize: 16.sp,color: Colors.grey),),
+                SizedBox(height: 18.h),
                 Card(
                   color: AppColors.themeColor,
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0.w),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.info_outline,color: Colors.white,),
+                        const Icon(Icons.info_outline,color: Colors.white,),
                         Expanded(child: Text('shishir will stil be a part of your business',style: TextStyle(
-                          fontSize: 10,color: Colors.white,fontFamily: 'appBarText'
+                          fontSize: 10.sp,color: Colors.white,fontFamily: 'appBarText'
                         ),))
                       ],
                     ),
@@ -163,7 +163,7 @@ class StaffInfoScreen extends StatelessWidget {
                 )
             ],
           ),
-          const SizedBox(height: 16),
+           SizedBox(height: 16.h),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -205,8 +205,8 @@ class StaffInfoScreen extends StatelessWidget {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      shape:  RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
       ),
       builder: (context) {
         return Padding(
@@ -215,7 +215,7 @@ class StaffInfoScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(height: 16),
+               SizedBox(height: 16.h),
               Row(
                 children: [
                   IconButton(
@@ -232,12 +232,12 @@ class StaffInfoScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+               SizedBox(height: 10.h),
               const Divider(),
-              const SizedBox(height: 10),
+               SizedBox(height: 10.h),
               // Permissions Section
                Padding(
-                padding: const EdgeInsets.only(left: 16, top: 12, bottom: 4),
+                padding:  EdgeInsets.only(left: 16.w, top: 12.h, bottom: 4.h),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Permissions",
@@ -249,9 +249,9 @@ class StaffInfoScreen extends StatelessWidget {
               _infoTile(Icons.check_circle, "Owner/Partner can assign Admin,Viewer or Data Operator role to staff in any book",
                   Colors.green),
               // Restrictions Section
-              const Padding(
-                padding: EdgeInsets.only(left: 16, top: 12, bottom: 4),
-                child: Align(
+               Padding(
+                padding: EdgeInsets.only(left: 16.w, top: 12.h, bottom: 4.h),
+                child: const Align(
                   alignment: Alignment.centerLeft,
                   child: Text("Restrictions",
                       style: TextStyle(fontWeight: FontWeight.bold)),
@@ -269,7 +269,7 @@ class StaffInfoScreen extends StatelessWidget {
                   Icons.cancel,
                   "No option to delete books ",
                   Colors.red),
-              const SizedBox(height: 25),
+               SizedBox(height: 25.h),
             ],
           ),
         );
@@ -281,8 +281,8 @@ class StaffInfoScreen extends StatelessWidget {
     return showModalBottomSheet(
               context: context,
               isScrollControlled: true,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+              shape:  RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
               ),
               builder: (context) {
                 return Padding(
@@ -290,7 +290,7 @@ class StaffInfoScreen extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16.h),
                       Row(
                         children: [
                           IconButton(onPressed: (){
@@ -298,23 +298,23 @@ class StaffInfoScreen extends StatelessWidget {
                           }, icon: const Icon(Icons.close,color: AppColors.themeColor,)),
                            Text(
                             "Change role to Partner",
-                            style: AppTextStyles.bodyMediumPopins(color: Colors.black,fontSize: 18),
+                            style: AppTextStyles.bodyMediumPopins(color: Colors.black,fontSize: 18.sp),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                       SizedBox(height: 10.h),
                       const Divider(),
 
                       // User Info Row
                        Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding:  EdgeInsets.symmetric(horizontal: 16.w),
                         child: Row(
                           children: [
-                            const CircleAvatar(
-                              radius: 24,
-                              child: Icon(Icons.person_outline,color: Colors.black87,)
+                             CircleAvatar(
+                              radius: 24.r,
+                              child: const Icon(Icons.person_outline,color: Colors.black87,)
                             ),
-                            const SizedBox(width: 12),
+                             SizedBox(width: 12.w),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -326,12 +326,12 @@ class StaffInfoScreen extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16.h),
                       const Divider(),
 
                       // Permissions Section
                        Padding(
-                        padding: const EdgeInsets.only(left: 16, top: 12, bottom: 4),
+                        padding:  EdgeInsets.only(left: 16.w, top: 12.h, bottom: 4.h),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text("Permissions", style: AppTextStyles.bodyMedium(color: Colors.black)),
@@ -343,7 +343,7 @@ class StaffInfoScreen extends StatelessWidget {
 
                       // Restrictions Section
                        Padding(
-                        padding: const EdgeInsets.only(left: 16, top: 12, bottom: 4),
+                        padding:  EdgeInsets.only(left: 16.w, top: 12.h, bottom: 4.h),
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text("Restrictions", style: AppTextStyles.bodyMedium(color: Colors.black)),
@@ -352,12 +352,12 @@ class StaffInfoScreen extends StatelessWidget {
                       _infoTile(Icons.cancel, "Can’t delete business", Colors.red),
                       _infoTile(Icons.cancel, "Can’t remove owner from business", Colors.red),
 
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16.h),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        padding:  EdgeInsets.symmetric(horizontal: 16.w),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            minimumSize: const Size.fromHeight(48),
+                            minimumSize:  Size.fromHeight(48.h),
                           ),
                           onPressed: () {
                             Navigator.pop(context);
@@ -365,7 +365,7 @@ class StaffInfoScreen extends StatelessWidget {
                           child: const Text("CHANGE ROLE TO PARTNER"),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16.h),
                     ],
                   ),
                 );
@@ -374,11 +374,11 @@ class StaffInfoScreen extends StatelessWidget {
   }
   Widget _infoTile(IconData icon, String text, Color iconColor) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding:  EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
       child: Row(
         children: [
           Icon(icon, color: iconColor),
-          const SizedBox(width: 12),
+           SizedBox(width: 12.w),
           Expanded(child: Text(text,style: AppTextStyles.titleSmall(color: Colors.black54,fontWeight: FontWeight.normal),)),
         ],
       ),

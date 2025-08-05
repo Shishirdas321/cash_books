@@ -1,7 +1,7 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
-import 'package:cash_books/core/screen_background/screen_background_two.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddNewBusinessScreen extends StatefulWidget {
   const AddNewBusinessScreen({super.key});
@@ -40,10 +40,10 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
       body: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16.w),
             child: Column(
               children: [
-               const SizedBox(height: 30),
+                SizedBox(height: 30.h),
                 TextFormField(
                   controller: _businessNameTEController,
                   textInputAction: TextInputAction.done,
@@ -57,8 +57,8 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
                 ),
                 const Expanded(child: SizedBox()),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 18, left: 8, right: 8, top: 18),
+                  padding:  EdgeInsets.only(
+                      bottom: 18.h, left: 8.w, right: 8.w, top: 18.h),
                   child: SizedBox(
                       width: double.maxFinite,
                       child: ElevatedButton(onPressed: () {}, child: const Text('NEXT'))),

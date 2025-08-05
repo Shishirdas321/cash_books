@@ -1,5 +1,4 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
-import 'package:cash_books/core/screen_background/screen_background_two.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
 import 'package:cash_books/features/businessteam/business_team_screen.dart';
@@ -7,6 +6,7 @@ import 'package:cash_books/features/home/ui/widgets/book_card.dart';
 import 'package:cash_books/features/home/ui/widgets/business_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -56,24 +56,24 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Row(
           children: [
             const Icon(Icons.business_outlined,color: Colors.white,),
-            const SizedBox(width: 8),
+             SizedBox(width: 8.w),
             Expanded(
               child: GestureDetector(
                 onTap: () {
                   _showBusinessSelector(context);
                 },
-                child: const Column(
+                child:  Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Top Man',
-                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,
+                      style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold,
                      color: Colors.white ),maxLines: 1,overflow: TextOverflow.ellipsis,
 
                     ),
                     Text(
                       'Tap to switch business',
-                      style: TextStyle(fontSize: 12,color: Colors.white54)
+                      style: TextStyle(fontSize: 12.sp,color: Colors.white54)
                     ),
                   ],
                 ),
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: _scrollController, // [3] Attach controller here
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
+              padding:  EdgeInsets.only(left: 15.w, right: 15.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 return const BookCard();
               },
             ),
-            const SizedBox(height: 50),
+             SizedBox(height: 50.h),
           ],
         ),
 
@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: AppColors.themeColor,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
         ),
       ),
@@ -157,8 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape:  RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       builder: (BuildContext context) {
         return Padding(
@@ -166,8 +166,8 @@ class _HomeScreenState extends State<HomeScreen> {
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: SingleChildScrollView(
             child: Container(
-              padding: const EdgeInsets.all(16),
-              height: 300,
+              padding:  EdgeInsets.all(16.w),
+              height: 300.h,
               width: double.maxFinite,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -184,18 +184,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: AppColors.themeColor,
                         ),
                       ),
-                      const Text(
+                       Text(
                         'Add New Book',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                  const Divider(
+                   Divider(
                     color: Colors.grey,
-                    thickness: 2.0,
+                    thickness: 2.0.h,
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
@@ -206,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.grey,
                         )),
                   ),
-                  const SizedBox(height: 60),
+                   SizedBox(height: 60.h),
                   ElevatedButton(
                     onPressed: () {},
                     child: const Text('Add NEW BOOK'),
@@ -224,8 +224,8 @@ class _HomeScreenState extends State<HomeScreen> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      shape:  RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       builder: (context) {
         int selectedIndex = 0; // default selection
@@ -235,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return StatefulBuilder(
           builder: (context, setState) {
             return Padding(
-              padding: const EdgeInsets.all(16),
+              padding:  EdgeInsets.all(16.w),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -251,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                   SizedBox(height: 10.h),
                   Flexible(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -269,16 +269,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 12),
+                   SizedBox(height: 12.h),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20,),
+                    padding:  EdgeInsets.only(bottom: 20.h,),
                     child: ElevatedButton.icon(
                       onPressed: () {Navigator.pushNamed(context, AddNewBusinessScreen.name);},
                       icon: const Icon(Icons.add),
                       label:  Text("Add New Business",style: AppTextStyles.bodyMediumPopins(),),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.themeColor,
-                        minimumSize: const Size.fromHeight(48),
+                        minimumSize:  Size.fromHeight(48.h),
                       ),
                     ),
                   ),

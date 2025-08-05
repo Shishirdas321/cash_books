@@ -59,7 +59,7 @@ class AuthRepo {
 
      }) async {
     // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
-    return await dioClient.post(AppConstants.LOGIN_URI,data: {
+    return await dioClient.post(AppConstants.REFRESH_TOKEN,data: {
 
       "token":token,
 

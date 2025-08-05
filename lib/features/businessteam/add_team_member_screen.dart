@@ -1,9 +1,9 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
-import 'package:cash_books/core/screen_background/screen_background_two.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/businessteam/choose_role_screen.dart';
 import 'package:cash_books/features/home/ui/widgets/team_diagram.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddTeamMemberScreen extends StatefulWidget {
   const AddTeamMemberScreen({super.key});
@@ -44,7 +44,7 @@ class _AddTeamMemberScreenState extends State<AddTeamMemberScreen> {
           Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16.w),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
