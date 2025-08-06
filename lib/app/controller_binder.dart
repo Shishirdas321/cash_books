@@ -1,6 +1,7 @@
 import 'package:cash_books/features/auth/controller/auth_controller.dart';
 import 'package:cash_books/features/auth/repository/auth_repo.dart';
 import 'package:cash_books/features/common/controllers/main_bottom_nav_bar_controller.dart';
+import 'package:cash_books/features/home/controllers/create_new_business_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,5 +33,6 @@ class ControllerBinder extends Bindings{
     Get.put(MainBottomNavBarController());
      Get.put(AuthRepo(dioClient: Get.find(), sharedPreferences: Get.find()));
      Get.put( AuthController(  authRepo: Get.find()));
+     Get.put(CreateNewBusinessController(createBusinessRepo: Get.find()));
   }
 }

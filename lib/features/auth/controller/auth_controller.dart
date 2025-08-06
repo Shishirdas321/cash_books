@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cash_books/datasource/local/session.dart';
+import 'package:cash_books/settings/LogoutallResponse.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -94,6 +95,7 @@ class AuthController extends GetxController implements GetxService {
     } else {
       isLoadingbtn = false;
       update();
+
      // showCustomSnackBar(response.body["message"].toString(),);
      // ApiChecker.checkApi(response);
     }
@@ -108,6 +110,8 @@ class AuthController extends GetxController implements GetxService {
     _isLoading = true;
     update();
     Response response = await authRepo.login(email: email,password: password,   );
+    String msg=response.data["message"];
+    showCustomSnackBar('$msg', isError: false, isPosition: true);
     if (response.statusCode == 200) {
 
 
@@ -118,6 +122,7 @@ class AuthController extends GetxController implements GetxService {
          if(_isActiveRememberMe){
            //  await se(mobile_no, password);
          }else{
+
            // await authRepo.clearUserNumberAndPassword();
          }
 
@@ -166,7 +171,29 @@ class AuthController extends GetxController implements GetxService {
 
 
 
+  Future<void> logoutall(
+  ) async {
+    _isLoading = true;
+    update();
+    Response response = await authRepo.logoutall( );
+    String msg=response.data["message"];
+    showCustomSnackBar('$msg', isError: false, isPosition: true);
+    if (response.statusCode == 200) {
 
+Session.signOut();
+      LogoutallResponse logoutallResponse=LogoutallResponse.fromJson(response.data);
+    //   if((LogoutallResponse?.success??false)){
+    //
+    //
+    //
+    // }else{
+    //   _isLoading = false;
+    //   update();
+      //showCustomSnackBar(response.body["message"]);
+    }
+    _isLoading = false;
+    update();
+  }
 
 
 

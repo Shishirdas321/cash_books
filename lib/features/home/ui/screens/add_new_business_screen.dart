@@ -1,7 +1,9 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/features/home/controllers/create_new_business_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class AddNewBusinessScreen extends StatefulWidget {
   const AddNewBusinessScreen({super.key});
@@ -17,6 +19,7 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
 
   final TextEditingController _businessNameTEController =
       TextEditingController();
+  final CreateNewBusinessController createNewBusinessController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +64,11 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
                       bottom: 18.h, left: 8.w, right: 8.w, top: 18.h),
                   child: SizedBox(
                       width: double.maxFinite,
-                      child: ElevatedButton(onPressed: () {}, child: const Text('NEXT'))),
+                      child: ElevatedButton(onPressed: () {
+                        if(_formKey.currentState!.validate()){
+                          createNewBusinessController.createNewBusiness(name: _businessNameTEController.text);
+                        }
+                      }, child: const Text('NEXT'))),
                 )
               ],
             ),

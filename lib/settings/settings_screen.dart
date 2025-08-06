@@ -5,6 +5,9 @@ import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/settings/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import '../features/auth/controller/auth_controller.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -14,6 +17,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  final AuthController authController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,6 +132,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 'LogOut',
                 style:
                     TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          Card(
+            color: Colors.red.shade100,
+            child: TextButton(
+              onPressed: () {
+                authController.logoutall();
+              },
+              child: const Text(
+                'LogOut-All',
+                style:
+                TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
               ),
             ),
           ),

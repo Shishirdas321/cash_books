@@ -88,25 +88,48 @@ class CustomButton extends StatelessWidget {
                 width: width ?? MediaQuery.of(context).size.width / 3,
                 decoration: decoration,
                 child: Center(
-                  child: Row(
-                    spacing: btnIcon!=null?10:0,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  // child: Row(
+                  //   spacing: btnIcon!=null?10:0,
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     btnIcon!=null?CustomImage(image: btnIcon!,
+                  //       imageType: ImageType.asset,
+                  //       color: AppColors.textBlack,
+                  //       height: 20.h,
+                  //       width: 20.h,
+                  //       fit: BoxFit.cover,):SizedBox(),
+                  //     Text(
+                  //       buttonText,
+                  //       textAlign: TextAlign.center,
+                  //       style: textStyle,
+                  //       maxLines: 1,
+                  //
+                  //     ),
+                  //   ],
+                  // ),
+                  child: Wrap(
+                  spacing: btnIcon != null ? 10 : 0,
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      btnIcon!=null?CustomImage(image: btnIcon!,
-                        imageType: ImageType.asset,
-                        color: AppColors.textBlack,
-                        height: 20.h,
-                        width: 20.h,
-                        fit: BoxFit.cover,):SizedBox(),
+                      if (btnIcon != null)
+                        CustomImage(
+                          image: btnIcon!,
+                          imageType: ImageType.asset,
+                          color: AppColors.textBlack,
+                          height: 20.h,
+                          width: 20.h,
+                          fit: BoxFit.cover,
+                        ),
                       Text(
                         buttonText,
                         textAlign: TextAlign.center,
                         style: textStyle,
                         maxLines: 1,
-
                       ),
                     ],
-                  ),
+                  )
+                  ,
                 ),
               ),
     );

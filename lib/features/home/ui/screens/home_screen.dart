@@ -7,6 +7,7 @@ import 'package:cash_books/features/home/ui/widgets/business_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -273,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding:  EdgeInsets.only(bottom: 20.h,),
                     child: ElevatedButton.icon(
-                      onPressed: () {Navigator.pushNamed(context, AddNewBusinessScreen.name);},
+                      onPressed: () {},
                       icon: const Icon(Icons.add),
                       label:  Text("Add New Business",style: AppTextStyles.bodyMediumPopins(),),
                       style: ElevatedButton.styleFrom(

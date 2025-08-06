@@ -105,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           TextFormField(
             controller: _lastNameTEController,
             textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(hintText: 'Lastname',prefixIcon: Icon(Icons.drive_file_rename_outline_outlined)),
+            decoration: const InputDecoration(hintText: 'Lastname',prefixIcon: Icon(Icons.drive_file_rename_outline_outlined),),
             validator: (String? value){
               if(value?.trim().isEmpty ?? true){
                 return 'Enter your last name';
@@ -118,6 +118,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             textInputAction: TextInputAction.next,
             controller: _phoneController,
             defaultCountry: IsoCode.BD, // 🇧🇩 Bangladesh default
+           // showFlagInInput: true,//n
+            //countrySelectorNavigator:  CountrySelectorNavigator.bottomSheet(),//n
             validator: (PhoneNumber? number) {
     if (number == null || !number.isValid()) {
     return 'Enter a valid phone number';
@@ -129,9 +131,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               _phoneNumber = phone;
               //print('Phone: ${phone?.international}');
             },
-            decoration: const InputDecoration(
-              hintText: 'Phone',
-              prefixIcon: Icon(Icons.phone),
+            decoration:   InputDecoration(
+
+              hintText: 'Select your country & enter phone no', prefixIcon: Card.outlined(child: Padding(
+               padding: EdgeInsets.all(8.w),
+               child: const Wrap(children: [Icon(Icons.phone),Icon(Icons.arrow_drop_down_sharp)],),
+             ),),
+             // prefixIcon: Container(child:Wrap(children: [Icon(Icons.phone),Spacer(),Icon(Icons.arrow_drop_down_sharp)],) ,color: Colors.grey,),
               border: OutlineInputBorder(),
             ),
           ),

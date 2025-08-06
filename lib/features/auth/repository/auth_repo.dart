@@ -72,6 +72,17 @@ class AuthRepo {
   }
 
 
+  //logout all device
+
+  Future<Response> logoutall(
+      ) async {
+    // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
+    return await dioClient.post(AppConstants.LOGOUT_ALL_DEVICE,data: {
+
+
+    });
+  }
+
 
 
 

@@ -10,12 +10,12 @@ class AppConstants {
 
   ///Api All End Point
   static const String BASE_URL = 'https://cash.tushar-das.xyz/api/';
-  static const String BASE_URL_IMAGE = 'https://remedy.tushar-das.xyz/';
+ // static const String BASE_URL_IMAGE = 'https://remedy.tushar-das.xyz/';
   static const String LOGIN_URI = 'login';
   static const String REGISTRATION_URI = 'register';
-  static const String USER_INFORMATION_UPDATE_URI = 'update-user-information';
+  static const String LOGOUT_ALL_DEVICE = 'logout-all';
   static const String REFRESH_TOKEN = 'refresh';
-  static const String CHANGE_PASSWORD_URI = 'change-password';
+  static const String CREATE_NEW_BUSINESS = 'businesses';
   static const String USER_INFO_URI = 'user-information';
   static const String DASHBOARD_PRODUCTS_URI = 'dashboard-products';
   static const String SLIDERLIST_URI = 'slider-list';
