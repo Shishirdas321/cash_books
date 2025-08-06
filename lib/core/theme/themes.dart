@@ -88,7 +88,7 @@ TextTheme buildTextThemeDark(BuildContext context) {
 
 ThemeData lightTheme(BuildContext context) => ThemeData(
   brightness: Brightness.light,
-  primaryColor: AppColors.yellow,
+  primaryColor: AppColors.themeColor,
   fontFamily: 'Poppins',
   hoverColor: AppColors.white,
   shadowColor: AppColors.grayLight,
@@ -146,7 +146,7 @@ ThemeData lightTheme(BuildContext context) => ThemeData(
 
 ThemeData darkTheme(BuildContext context) => ThemeData(
   brightness: Brightness.dark,
-  primaryColor: AppColors.yellow,
+  primaryColor: AppColors.themeColor,
   fontFamily: 'Poppins',
   hoverColor: AppColors.white,
   shadowColor: AppColors.grayLight,
