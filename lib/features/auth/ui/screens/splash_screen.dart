@@ -2,6 +2,7 @@ import 'package:cash_books/features/auth/ui/screens/sign_in_screen.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,11 +22,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _moveToNextScreen() async {
     await Future.delayed(const Duration(seconds: 2));
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => SignInScreen()),
-    );
-  //  Navigator.pushReplacement(context, SignInScreen.name);
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => SignInScreen()),
+    // );
+    Get.offAllNamed(SignInScreen.name);
   }
 
   @override

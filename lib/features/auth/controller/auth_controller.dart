@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cash_books/datasource/local/session.dart';
+import 'package:cash_books/datasource/remote/models/api_response.dart';
 import 'package:cash_books/settings/LogoutallResponse.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,13 @@ class AuthController extends GetxController implements GetxService {
 
 
 
-
+init(){
+    _isActiveRememberMe=Session.getIsRememberMe();
+    if(_isActiveRememberMe){
+      emailController.text=Session.getUserEmail();
+      passwordController.text=Session.getUserPassword();
+           }
+}
 
 
   /// Registration
@@ -72,7 +79,7 @@ class AuthController extends GetxController implements GetxService {
     isLoadingbtn = true;
     update();
 
-    Response response = await authRepo.registration(
+    ApiResponse apiResponse  = await authRepo.registration(
       phone_no: phone_no,
       email: email,
       password: password,
@@ -80,21 +87,21 @@ class AuthController extends GetxController implements GetxService {
       last_name: last_name,
       first_name: first_name,
     );
-    if (response.statusCode == 200||response.statusCode==201) {
+    if ((apiResponse.response?.statusCode??-1) == 200||(apiResponse.response?.statusCode??-1)==201) {
 
-      LoginResponse loginResponse=LoginResponse.fromJson(response.data);
-      String msg=response.data["message"];
+      LoginResponse loginResponse=LoginResponse.fromJson(apiResponse.response?.data );
+      String msg=loginResponse.message??"";
 
       Session.saveToken(loginResponse.data?.token??"");
       Session.saveSession(jsonEncode(loginResponse.data?.user));
       showCustomSnackBar('$msg', isError: false, isPosition: true);
-      g.Get.off(MainBottomNavBarScreen());
       Get.find<DioClient>().resetClientWithNewToken();
-    //  Get.off(SignIn(exitFromApp: false)) ;
-      // showCustomSnackBar(jsonDecode(response.body)["message"], isError: false);
+      g.Get.offAllNamed(MainBottomNavBarScreen.name);
+
+
     } else {
-      isLoadingbtn = false;
-      update();
+      showCustomSnackBar(apiResponse.error.toString(),);
+
 
      // showCustomSnackBar(response.body["message"].toString(),);
      // ApiChecker.checkApi(response);
@@ -109,26 +116,28 @@ class AuthController extends GetxController implements GetxService {
      }) async {
     _isLoading = true;
     update();
-    Response response = await authRepo.login(email: email,password: password,   );
-    String msg=response.data["message"];
-    showCustomSnackBar('$msg', isError: false, isPosition: true);
-    if (response.statusCode == 200) {
+    ApiResponse apiResponse = await authRepo.login(email: email,password: password,   );
 
 
-       LoginResponse loginResponse=LoginResponse.fromJson(response.data);
+    if ((apiResponse.response?.statusCode??-1) == 200) {
+
+
+       LoginResponse loginResponse=LoginResponse.fromJson(apiResponse.response?.data);
        if((loginResponse?.success??false)){
          Session.saveToken(loginResponse?.data?.token??"");
          Session.saveSession(jsonEncode(loginResponse.data?.user?.toJson()));
+         await Session.saveIsRememberMe(_isActiveRememberMe);
+         showCustomSnackBar(loginResponse.message??"", isError: false, isPosition: true);
          if(_isActiveRememberMe){
-           //  await se(mobile_no, password);
-         }else{
-
-           // await authRepo.clearUserNumberAndPassword();
+              await Session.saveUserEmail(email);
+              await Session.saveUserPass(password);
          }
 
-         g.Get.off(MainBottomNavBarScreen());
+         Get.find<DioClient>().resetClientWithNewToken();
+         Get.offAllNamed(MainBottomNavBarScreen.name);
        }else{
-
+         _isLoading = false;
+         update();
        }
 
 
@@ -149,51 +158,36 @@ class AuthController extends GetxController implements GetxService {
     _isLoading = false;
     update();
   }
-  //
-  // void loginVerification() async {
-  //
-  //   String mobile_no = emailController.text.trim();
-  //   String password = passwordController.text.trim();
-  //
-  //   if (mobile_no.isEmpty) {
-  //     showCustomSnackBar('Enter User ID', isPosition: true);
-  //   } else if (password.isEmpty) {
-  //     showCustomSnackBar('Enter Password', isPosition: true);
-  //   } else if (password.length < 4) {
-  //     showCustomSnackBar('The Password must be at least 5 Characters', isPosition: true);
-  //   } else {
-  //     String deviceId=await getDeviceId();
-  //     //String deviceId="a8d8697be9488988";
-  //     login(password: password, mobile_no: mobile_no, deviceToken: deviceId, );
-  //   }
-  // }
 
 
 
 
-  Future<void> logoutall(
+
+  Future<void> logOutAll(
   ) async {
     _isLoading = true;
     update();
-    Response response = await authRepo.logoutall( );
-    String msg=response.data["message"];
+    ApiResponse apiResponse = await authRepo.logOutAll( );
+    String msg=apiResponse.response?.data["message"]??"";
     showCustomSnackBar('$msg', isError: false, isPosition: true);
-    if (response.statusCode == 200) {
+    if ((apiResponse.response?.statusCode??-1) == 200) {
 
-Session.signOut();
-      LogoutallResponse logoutallResponse=LogoutallResponse.fromJson(response.data);
-    //   if((LogoutallResponse?.success??false)){
-    //
-    //
-    //
-    // }else{
-    //   _isLoading = false;
-    //   update();
-      //showCustomSnackBar(response.body["message"]);
+
+      LogoutallResponse logoutallResponse=LogoutallResponse.fromJson(apiResponse.response?.data);
+       if((logoutallResponse?.success??false)){
+         Session.signOut();
+
+
+     }else{
+       _isLoading = false;
+       update();
+      showCustomSnackBar( logoutallResponse?.message??"");
     }
     _isLoading = false;
     update();
   }
+  }
+
 
 
 

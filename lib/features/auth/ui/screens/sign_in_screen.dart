@@ -3,6 +3,7 @@ import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/screen_background/screen_background_one.dart';
 // import 'package:cash_books/core/screenbackground/screen_background_one.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/datasource/local/session.dart';
 import 'package:cash_books/features/auth/ui/screens/forgot_password_screen.dart';
 import 'package:cash_books/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
@@ -32,12 +33,15 @@ class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   bool _obscureText = true;
-  bool rememberMe = false;
+
   final AuthController authController = Get.find();
   @override
   void initState() {
     super.initState();
-    _loadRememberedData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<AuthController>().init();
+    });
+
   }
 
   @override
@@ -66,71 +70,71 @@ class _SignInScreenState extends State<SignInScreen> {
   Form _buildForm(TextTheme textTheme) {
     return Form(
       key: _formKey,
-      child: Column(
-        children: [
-          const SizedBox(height: 60),
-          const AppLogo(),
-          const SizedBox(height: 24),
-          Text(
-            'Welcome Back',
-            style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 28),
-          ),
-          const SizedBox(height: 8),
-           Text(
-            'Enter Your email and password',
-            style: AppTextStyles.subtitleSmall(color: Colors.white60,fontSize: 18,),
-          ),
-          const SizedBox(height: 16),
-          TextFormField(
-            controller: _emailTEController,
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              hintText: 'Email',
-               prefixIcon: Icon(Icons.email_outlined)
-               // labelText: 'Email'
-            ),
-            validator: (String? value){
-              String email = value ?? '';
+      child: GetBuilder<AuthController>(
+        builder: (controller) {
+          return Column(
+            children: [
+              const SizedBox(height: 60),
+              const AppLogo(),
+              const SizedBox(height: 24),
+              Text(
+                'Welcome Back',
+                style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 28),
+              ),
+              const SizedBox(height: 8),
+               Text(
+                'Enter Your email and password',
+                style: AppTextStyles.subtitleSmall(color: Colors.white60,fontSize: 18,),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _emailTEController,
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                decoration: const InputDecoration(
+                  hintText: 'Email',
+                   prefixIcon: Icon(Icons.email_outlined)
+                   // labelText: 'Email'
+                ),
+                validator: (String? value){
+                  String email = value ?? '';
 
-              if(!EmailValidator.validate(email)){
-                return 'Enter a valid email';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 8),
-          TextFormField(
-            controller: _passwordTEController,
-            obscureText: _obscureText,
-            decoration: InputDecoration(
-             // labelText: 'Password',
-              hintText: 'Password',
-              prefixIcon: const Icon(Icons.password),
-              suffixIcon: IconButton(
-                icon: Icon(
-                    _obscureText ? Icons.visibility_off : Icons.visibility,
-                    color: AppColors.themeColor),
-                onPressed: () {
-                  _obscureText = !_obscureText;
-                  setState(() {});
+                  if(!EmailValidator.validate(email)){
+                    return 'Enter a valid email';
+                  }
+                  return null;
                 },
               ),
-            ),
-            validator: (String? value){
-              if((value?.isEmpty ?? true) || value!.length < 6){
-                return 'Enter a password more then 6 letters';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 16),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _passwordTEController,
+                obscureText: _obscureText,
+                decoration: InputDecoration(
+                 // labelText: 'Password',
+                  hintText: 'Password',
+                  prefixIcon: const Icon(Icons.password),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: AppColors.themeColor),
+                    onPressed: () {
+                      _obscureText = !_obscureText;
+                      setState(() {});
+                    },
+                  ),
+                ),
+                validator: (String? value){
+                  if((value?.isEmpty ?? true) || value!.length < 6){
+                    return 'Enter a password more then 6 letters';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
 
 
 
-          GetBuilder<AuthController>(
-            builder: (controller) {
-              return CustomButton(
+              CustomButton(
                 loading:controller.isLoading ,
                 onTap:   _onTapSignInButton,
 
@@ -138,43 +142,39 @@ class _SignInScreenState extends State<SignInScreen> {
 
                 buttonText: 'Sign in',
 
-              );
-            }
-          ),
-
-          /*ElevatedButton(
-            onPressed:  _onTapSignInButton,
-            child:  Text('Sign in',style: AppTextStyles.bodyMediumPopins(),),
-          ),*/
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Checkbox(
-                activeColor: AppColors.themeColor,
-                  value: rememberMe,
-                  onChanged: (bool? value) {
-                    rememberMe = value ?? false;
-                    setState(() {});
-                  }),
-               Text('Remember me',style: Theme.of(context).textTheme.bodyMedium,),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Center(
-            child: TextButton(
-              onPressed: _onTapForgotPasswordButton,
-              child:  Text(
-                'Forgot password',
-                style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 15,decoration: TextDecoration.underline,
-                    decorationColor: AppColors.themeColor,
-                    decorationThickness: 2.h,
-                    decorationStyle: TextDecorationStyle.solid),
               ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          _buildSignUpSection(),
-        ],
+
+
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Checkbox(
+                    activeColor: AppColors.themeColor,
+                      value: controller.isActiveRememberMe,
+                      onChanged: (bool? value) {
+                        controller.isActiveRememberMe=value??false;
+                      }),
+                   Text('Remember me',style: Theme.of(context).textTheme.bodyMedium,),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: TextButton(
+                  onPressed: _onTapForgotPasswordButton,
+                  child:  Text(
+                    'Forgot password',
+                    style: AppTextStyles.bodyMedium(color: Colors.white,fontSize: 15,decoration: TextDecoration.underline,
+                        decorationColor: AppColors.themeColor,
+                        decorationThickness: 2.h,
+                        decorationStyle: TextDecorationStyle.solid),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              _buildSignUpSection(),
+            ],
+          );
+        }
       ),
     );
   }
@@ -199,33 +199,9 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Future<void> _saveRememberedData() async{
-    final SharedPreferences localData = await SharedPreferences.getInstance();
-    if(rememberMe){
-      await localData.setString('email', _emailTEController.text.trim());
-      await localData.setString('password', _passwordTEController.text);
-      await localData.setBool('rememberMe', true);
-    }else{
-      await localData.remove('email');
-      await localData.remove('password');
-      await localData.setBool('rememberMe', false);
-    }
-  }
 
-  Future<void> _loadRememberedData()async {
-    final SharedPreferences localData = await SharedPreferences.getInstance();
 
-    final remember = localData.getBool('rememberMe') ?? false;
 
-    if(remember){
-      final savedEmail = localData.getString('email');
-      final savedPassword = localData.getString('password');
-      _emailTEController.text = savedEmail ?? '';
-      _passwordTEController.text = savedPassword ?? '';
-      rememberMe = true;
-      setState(() {});
-    }
-  }
 
 
   void _onTapSignUpButton() {
@@ -239,7 +215,7 @@ class _SignInScreenState extends State<SignInScreen> {
   void _onTapSignInButton() {
     if(_formKey.currentState!.validate()){
       authController.login(email: _emailTEController.text, password: _passwordTEController.text  );
-      _saveRememberedData();
+
     }
   }
 

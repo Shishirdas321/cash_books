@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 import '../../../core/utils/app_constants.dart';
+import '../../../datasource/remote/dio/utils/api_error_handler.dart';
+import '../../../datasource/remote/models/api_response.dart';
 
 class AuthRepo {
   final DioClient  dioClient;
@@ -14,7 +16,7 @@ class AuthRepo {
   AuthRepo({required this.dioClient, required this.sharedPreferences});
 
   /// for registration code
-  Future<Response> registration ({
+  Future<ApiResponse> registration ({
   // "first_name": "John",
   // "last_name": "Doe",
   // "email": "sisu.doe@example.com",
@@ -30,7 +32,9 @@ class AuthRepo {
     required String last_name,
 
   }) async {
-    Response _response = await dioClient.post(AppConstants.REGISTRATION_URI,data:
+
+    try{
+    Response  response = await dioClient.post(AppConstants.REGISTRATION_URI,data:
         {
 
           "phone": phone_no,
@@ -42,46 +46,75 @@ class AuthRepo {
           // "area_id": area_id,
           // "device_id": device_id,
         });
-    return _response;
+    return ApiResponse.withSuccess(response);
+
+
+  }catch(e){
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "registration", mustShowErrorInReleaseMode: true),
+      );
+    }
   }
 
 
   /// for login code
-  Future<Response> login({
+  Future<ApiResponse> login({
     required String email,
 
     required String password,}) async {
     // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
-    return await dioClient.post(AppConstants.LOGIN_URI,data: {
+    try{
+    Response response= await dioClient.post(AppConstants.LOGIN_URI,data: {
       "email":email,
       "password":password,
 
     });
+    return ApiResponse.withSuccess(response);
+    }catch(e){
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "login", mustShowErrorInReleaseMode: true),
+      );
+    }
+
   }
 
-  Future<Response> getTokenByRefreashToken({
+  Future<ApiResponse> getTokenByRefreashToken({
     required String token,
 
      }) async {
-    // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
-    return await dioClient.post(AppConstants.REFRESH_TOKEN,data: {
+     try{
+    Response response= await dioClient.post(AppConstants.REFRESH_TOKEN,data: {
 
       "token":token,
 
     });
+    return ApiResponse.withSuccess(response);
+
+  }catch(e){
+       return ApiResponse.withError(
+         ApiErrorHandler.handle(e, "getTokenByRefreashToken", mustShowErrorInReleaseMode: true),
+       );
+  }
   }
 
 
   //logout all device
 
-  Future<Response> logoutall(
+  Future<ApiResponse> logOutAll(
       ) async {
-    // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
-    return await dioClient.post(AppConstants.LOGOUT_ALL_DEVICE,data: {
+    try {
+    Response response=await dioClient.post(AppConstants.LOGOUT_ALL_DEVICE,data: {
 
 
     });
-  }
+
+    return ApiResponse.withSuccess(response);
+  }catch(e){
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "logOutAll", mustShowErrorInReleaseMode: true),
+      );
+    }
+    }
 
 
 

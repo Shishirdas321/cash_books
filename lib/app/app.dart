@@ -22,10 +22,10 @@ class _CashBookState extends State<CashBook> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return GetMaterialApp(
-     /* initialRoute: '/',
-      onGenerateRoute: AppRoutes.onGenerateRoute,*/
-      home: SplashScreen() ,
-        theme: lightTheme(context),
+       initialRoute: '/',
+      onGenerateRoute: AppRoutes.onGenerateRoute,
+
+      theme: lightTheme(context),
       title: AppConstants.APP_NAME,
       debugShowCheckedModeBanner: false,
       navigatorKey: Get.key,
