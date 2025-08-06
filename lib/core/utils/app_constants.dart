@@ -16,36 +16,14 @@ class AppConstants {
   static const String LOGOUT_ALL_DEVICE = 'logout-all';
   static const String REFRESH_TOKEN = 'refresh';
   static const String CREATE_NEW_BUSINESS = 'businesses';
-  static const String USER_INFO_URI = 'user-information';
-  static const String DASHBOARD_PRODUCTS_URI = 'dashboard-products';
-  static const String SLIDERLIST_URI = 'slider-list';
-  static const String ORDER_HISTORY_URI = 'order-list';
-  static const String ORDER_TRACKING_URI = 'order-details';
-  static const String ORDER_CANCEL_URI = 'order-cancel';
-  static const String HOME_PRODUCT_URI = 'home-products';
-  static const String UPDATE_TOKEN = 'update-firebase-token';
+  static const String GET_SPECIFIC_BUSINESS = 'businesses/1';
+  static const String GET_BUSINESS = 'businesses/';
+  static const String UPDATE_BUSINESS = 'businesses/1';
+  static const String DELETE_BUSINESS = 'businesses/';
 
 
-  static const String DASHBOARD_PRODUCT_DETAILS_URI = 'product-details';
-  static const String RELATED_PRODUCT_URI = 'related-products';
-  static const String ALL_PRODUCT_URI = 'all_product';
-  static const String ALL_SUB_CAT_PRODUCT_URI = 'sub_cat_products';
-  static const String NOTIFICATION_URI = 'notification-list';
 
-  static const String ADD_NEW_ADDRESS_URI = 'add_new_address';
-  static const String UPDATE_ADDRESS_URI = 'update_address';
 
-  static const String SEARCH_PRODUCT_URI = 'product-search';
-  static const String PRODUCT_REQUEST = 'product-request';
-  static const String COUPON_URI = 'coupon-list';
-  static const String ADD_TO_FAVOURITE_URI = 'product_add_to_favourite';
-  static const String BRAND_LIST_URI = 'brand-list';
-  static const String UNIT_LIST_URI = 'unit-list';
-  static const String BRAND_SEARCH_URI = 'search_brand_products';
-  static const String TRANDING_PRODUCT = 'tranding-products';
-  static const String PRICE_UPDATE_CHECK = 'price_check';
-  static const String COUPON_CHECK = 'coupon-check';
-  static const String PLACE_ORDER = 'order-place';
 
 
 
