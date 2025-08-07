@@ -3,6 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 class CustomLoader extends StatelessWidget {
   final Color? color;
   final double size;
@@ -11,12 +15,22 @@ class CustomLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Platform.isIOS
-        ? CupertinoActivityIndicator(
-          color: color ?? Theme.of(context).primaryColor,
-        )
-        : CircularProgressIndicator(
-          color: color ?? Theme.of(context).primaryColor,
-        );
+    final isCupertino = !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
+
+    return SizedBox(
+      height: size,
+      width: size,
+      child: isCupertino
+          ? CupertinoActivityIndicator(
+        color: color ?? Theme.of(context).primaryColor,
+      )
+          : CircularProgressIndicator(
+        strokeWidth: 2.5,
+        valueColor: AlwaysStoppedAnimation<Color>(
+          color ?? Theme.of(context).primaryColor,
+        ),
+      ),
+    );
   }
 }
+

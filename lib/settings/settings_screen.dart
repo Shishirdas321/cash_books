@@ -139,7 +139,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             color: Colors.red.shade100,
             child: TextButton(
               onPressed: () {
-                authController.logoutall();
+                authController.logOutAll();
               },
               child: const Text(
                 'LogOut-All',
