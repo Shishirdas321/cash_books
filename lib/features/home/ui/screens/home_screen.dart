@@ -1,5 +1,6 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/features/home/controllers/all_business_controller.dart';
 import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
 import 'package:cash_books/features/businessteam/business_team_screen.dart';
 import 'package:cash_books/features/home/ui/widgets/book_card.dart';
@@ -19,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController(); // [1] ScrollController added
   bool _isScrollingDown = false;// [2] Track scroll direction
+  //final AllBusinessController allBusinessController = Get.find();
 
   List<Map<String, String>> businesses = [
     {"title": "Top Man", "subtitle": "Your Role: Member"},
@@ -61,6 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: GestureDetector(
                 onTap: () {
+                  Get.find<AllBusinessController>().allBusiness();
+
                   _showBusinessSelector(context);
                 },
                 child:  Column(
@@ -221,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _showBusinessSelector(BuildContext context) {
+   void _showBusinessSelector(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -233,8 +237,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-        return StatefulBuilder(
-          builder: (context, setState) {
+        return GetBuilder<AllBusinessController>(
+          builder: (controller, ) {
             return Padding(
               padding:  EdgeInsets.all(16.w),
               child: Column(
@@ -256,11 +260,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   Flexible(
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: businesses.length,
+                      itemCount: controller.businessList.length,
                       itemBuilder: (context, index) {
+                        final business = controller.businessList[index];
                         return BusinessListTile(
-                          title: businesses[index]['title']!,
-                          subtitle: businesses[index]['subtitle']!,
+                          title: business.name ?? '',
+                          subtitle: business.createdAt ??'',
                           isSelected: selectedIndex == index,
                           onTap: () {
                             setState(() => selectedIndex = index);
@@ -274,7 +279,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding:  EdgeInsets.only(bottom: 20.h,),
                     child: ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.off(AddNewBusinessScreen());
+                       // Navigator.push(context, AddNewBusinessScreen() as Route<Object?>);
+                      },
                       icon: const Icon(Icons.add),
                       label:  Text("Add New Business",style: AppTextStyles.bodyMediumPopins(),),
                       style: ElevatedButton.styleFrom(
@@ -291,6 +299,65 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+  // void _showBusinessSelector(BuildContext context) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true,
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+  //     ),
+  //     builder: (context) {
+  //       return GetBuilder<AllBusinessController>(
+  //         builder: (controller) {
+  //           return Padding(
+  //             padding: EdgeInsets.all(16.w),
+  //             child: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 Row(
+  //                   children: [
+  //                     IconButton(
+  //                       onPressed: () => Navigator.pop(context),
+  //                       icon: const Icon(Icons.close, color: AppColors.themeColor),
+  //                     ),
+  //                     Text(
+  //                       'Select Business',
+  //                       style: AppTextStyles.bodyMediumWhite(color: AppColors.themeColor),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 SizedBox(height: 10.h),
+  //
+  //                 controller.isLoading
+  //                     ? const Center(child: CircularProgressIndicator())
+  //                     : controller.businessList.isEmpty
+  //                     ? const Text("No businesses found")
+  //                     : SizedBox(
+  //                   height: 300.h, // fixed height for scrollable list
+  //                   child: ListView.builder(
+  //                     itemCount: controller.businessList.length,
+  //                     itemBuilder: (context, index) {
+  //                       final business = controller.businessList[index];
+  //                       return ListTile(
+  //                         title: Text(business.name ?? 'No Name'),
+  //                         subtitle: Text(business.createdAt ?? 'No Phone'),
+  //                         onTap: () {
+  //                           // You can handle tap here
+  //                         },
+  //                       );
+  //                     },
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
+
 
 
   @override

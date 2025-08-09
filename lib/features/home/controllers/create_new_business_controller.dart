@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cash_books/datasource/local/session.dart';
+import 'package:cash_books/datasource/remote/models/api_response.dart';
 import 'package:cash_books/features/home/model/CreateNewBusinessResponse.dart';
 import 'package:cash_books/features/home/repository/create_business_repo.dart';
 import 'package:cash_books/features/home/ui/screens/home_screen.dart';
@@ -25,8 +26,11 @@ import '../../common/ui/screens/main_bottom_nav_bar_screen.dart';
 
 
 
+
+
+
 class CreateNewBusinessController extends GetxController implements GetxService {
-  final CreateBusinessRepo createBusinessRepo;
+  final BusinessRepo createBusinessRepo;
 
   CreateNewBusinessController({
     required this.createBusinessRepo,
@@ -55,16 +59,21 @@ class CreateNewBusinessController extends GetxController implements GetxService 
     isLoading = true;
     update();
 
-    Response response = await createBusinessRepo.createNewBusiness(name: name);
-    if(response.statusCode == 200 || response.statusCode==201){
-      CreateNewBusinessResponse createNewBusinessResponse = CreateNewBusinessResponse.fromJson(response.data);
-      String msg = response.data["message"];
+    ApiResponse apiResponse = await createBusinessRepo.createNewBusiness(name: name);
+    if ((apiResponse.response?.statusCode??-1) == 200||(apiResponse.response?.statusCode??-1)==201) {
+
+      BusinessResponse createNewBusinessResponse = BusinessResponse.fromJson(apiResponse.response?.data);
+      String msg = createNewBusinessResponse.message?? "";
       showCustomSnackBar('$msg',isError: false,isPosition: true);
+      Get.find<DioClient>().resetClientWithNewToken();
       g.Get.off(HomeScreen());
     }else{
-      isLoading = false;
+     // showCustomSnackBar(.error.toString(),);
+      _isLoading = false;
       update();
     }
+    isLoading = false;
+    update();
   }
 
 

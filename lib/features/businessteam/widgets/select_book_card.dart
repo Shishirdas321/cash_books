@@ -20,8 +20,8 @@ class SelectBookCard extends StatefulWidget {
 }
 
 class _SelectBookCardState extends State<SelectBookCard> {
-  String selectedRole = "Data Operator"; // আসল Role
-  String tempRole = "Data Operator"; // BottomSheet এর টেম্পোরারি Role
+  String selectedRole = "Data Operator"; // real Role
+  String tempRole = "Data Operator"; // BottomSheet temp Role
 
   @override
   Widget build(BuildContext context) {

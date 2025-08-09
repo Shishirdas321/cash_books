@@ -147,8 +147,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             textInputAction: TextInputAction.next,
             decoration: const InputDecoration(hintText: 'Password',prefixIcon: Icon(Icons.password_outlined)),
             validator: (String? value){
-              if((value?.isEmpty ?? true) || value!.length < 6){
-                return 'Enter a password more then 6 letters';
+              if((value?.isEmpty ?? true) || value!.length < 8){
+                return 'Enter a password more then 8 letters';
               }
               return null;
             },

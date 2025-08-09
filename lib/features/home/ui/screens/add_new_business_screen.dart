@@ -19,7 +19,7 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
 
   final TextEditingController _businessNameTEController =
       TextEditingController();
-  final CreateNewBusinessController createNewBusinessController = Get.find();
+ // final CreateNewBusinessController createNewBusinessController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
                       width: double.maxFinite,
                       child: ElevatedButton(onPressed: () {
                         if(_formKey.currentState!.validate()){
-                          createNewBusinessController.createNewBusiness(name: _businessNameTEController.text);
+                          Get.find<CreateNewBusinessController>().createNewBusiness(name: _businessNameTEController.text);
                         }
                       }, child: const Text('NEXT'))),
                 )

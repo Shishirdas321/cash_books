@@ -3,15 +3,15 @@ import 'dart:convert';
 /// message : "Business created successfully"
 /// data : {"name":"A4B","status":1,"created_by":1,"updated_by":1,"updated_at":"2025-08-06T09:31:05.000000Z","created_at":"2025-08-06T09:31:05.000000Z","id":2,"creator":{"id":1,"first_name":"Tushar","last_name":"Das","email":"tushar2499@gmail.com","phone":"+8801815920898","email_verified_at":null,"created_at":"2025-07-29T10:08:21.000000Z","updated_at":"2025-07-29T10:08:21.000000Z"},"updater":{"id":1,"first_name":"Tushar","last_name":"Das","email":"tushar2499@gmail.com","phone":"+8801815920898","email_verified_at":null,"created_at":"2025-07-29T10:08:21.000000Z","updated_at":"2025-07-29T10:08:21.000000Z"},"business_access":[{"id":2,"business_id":2,"user_id":1,"role":"admin","status":1,"created_by":1,"updated_by":1,"created_at":"2025-08-06T09:31:05.000000Z","updated_at":"2025-08-06T09:31:05.000000Z","user":{"id":1,"first_name":"Tushar","last_name":"Das","email":"tushar2499@gmail.com","phone":"+8801815920898","email_verified_at":null,"created_at":"2025-07-29T10:08:21.000000Z","updated_at":"2025-07-29T10:08:21.000000Z"}}]}
 
-CreateNewBusinessResponse createNewBusinessFromJson(String str) => CreateNewBusinessResponse.fromJson(json.decode(str));
-String createNewBusinessToJson(CreateNewBusinessResponse data) => json.encode(data.toJson());
-class CreateNewBusinessResponse {
-  CreateNewBusinessResponse({
+BusinessResponse createNewBusinessFromJson(String str) => BusinessResponse.fromJson(json.decode(str));
+String createNewBusinessToJson(BusinessResponse data) => json.encode(data.toJson());
+class BusinessResponse {
+  BusinessResponse({
       this.success, 
       this.message, 
       this.data,});
 
-  CreateNewBusinessResponse.fromJson(dynamic json) {
+  BusinessResponse.fromJson(dynamic json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
