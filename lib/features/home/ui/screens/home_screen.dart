@@ -1,6 +1,6 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
-import 'package:cash_books/features/home/controllers/all_business_controller.dart';
+import 'package:cash_books/features/home/controllers/home_controller.dart';
 import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
 import 'package:cash_books/features/businessteam/business_team_screen.dart';
 import 'package:cash_books/features/home/ui/widgets/book_card.dart';
@@ -31,6 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    Get.find<HomeController>().allBusiness(page:1);
+
+
     _scrollController.addListener(() {
       if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
         if (!_isScrollingDown) {
@@ -63,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  Get.find<AllBusinessController>().allBusiness();
+                  Get.find<HomeController>().allBusiness();
 
                   _showBusinessSelector(context);
                 },
@@ -237,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-        return GetBuilder<AllBusinessController>(
+        return GetBuilder<HomeController>(
           builder: (controller, ) {
             return Padding(
               padding:  EdgeInsets.all(16.w),

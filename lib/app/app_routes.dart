@@ -8,7 +8,7 @@ import 'package:cash_books/features/businessteam/choose_role_screen.dart';
 import 'package:cash_books/features/businessteam/member_add_to_book_view.dart';
 import 'package:cash_books/features/businessteam/member_add_to_select_book.dart';
 import 'package:cash_books/features/businessteam/staff_info_screen.dart';
-import 'package:cash_books/features/common/ui/screens/main_bottom_nav_bar_screen.dart';
+
 import 'package:cash_books/features/book/ui/screens/add_cash_in_entry_screen.dart';
 import 'package:cash_books/features/book/ui/screens/add_cash_out_entry_screen.dart';
 import 'package:cash_books/features/help/help_screen.dart';
@@ -17,8 +17,11 @@ import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
 import 'package:cash_books/features/businessteam/business_team_screen.dart';
 import 'package:cash_books/features/home/ui/screens/move_book_screen.dart';
-import 'package:cash_books/settings/profile_screen.dart';
+
 import 'package:flutter/material.dart';
+
+import '../features/navbar/ui/screens/main_bottom_nav_bar_screen.dart';
+import '../features/settings/profile_screen.dart';
 
 class AppRoutes {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {

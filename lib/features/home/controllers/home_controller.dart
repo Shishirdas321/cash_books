@@ -5,7 +5,7 @@
 // // // import 'package:cash_books/datasource/remote/models/api_response.dart';
 // // // import 'package:cash_books/features/home/model/AllBusinessResponse.dart';
 // // // import 'package:cash_books/features/home/model/CreateNewBusinessResponse.dart';
-// // // import 'package:cash_books/features/home/repository/create_business_repo.dart';
+// // // import 'package:cash_books/features/home/repository/home_repo.dart';
 // // // import 'package:cash_books/features/home/repository/get_business_repo.dart';
 // // // import 'package:cash_books/features/home/ui/screens/home_screen.dart';
 // // // import 'package:cash_books/settings/LogoutallResponse.dart';
@@ -153,15 +153,12 @@
 // //
 import 'package:get/get.dart';
 import '../../../core/widgets/custom_snackbar.dart';
-import '../../home/model/AllBusinessResponse.dart';
-import '../../home/repository/get_business_repo.dart';
-//
-import 'dart:convert';
-import 'dart:io';
+
+
 
 import 'package:cash_books/datasource/local/session.dart';
 import 'package:cash_books/datasource/remote/models/api_response.dart';
-import 'package:cash_books/settings/LogoutallResponse.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -171,19 +168,21 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
+import '../model/AllBusinessResponse.dart';
+import '../model/CreateNewBusinessResponse.dart';
+import '../repository/home_repo.dart';
+import '../ui/screens/home_screen.dart';
 
 
 
-import '../../../core/widgets/custom_snackbar.dart';
-
-import '../../../datasource/remote/dio/dio_client.dart';
-import '../../common/ui/screens/main_bottom_nav_bar_screen.dart';
 
 
-class AllBusinessController extends GetxController implements GetxService {
-  final GetBusinessRepo getBusinessRepo;
 
-  AllBusinessController({ required this.getBusinessRepo });
+
+class HomeController extends GetxController implements GetxService {
+  final HomeRepo homeRepo;
+
+  HomeController({ required this.homeRepo });
 
   List<Business> _businessList = [];
   List<Business> get businessList => _businessList;
@@ -217,7 +216,7 @@ class AllBusinessController extends GetxController implements GetxService {
 
     isLoadingbtn = true;
 
-    ApiResponse apiResponse = await getBusinessRepo.allBusiness(page: page);
+    ApiResponse apiResponse = await homeRepo.allBusiness(page: page);
 
     if (apiResponse.response != null && (apiResponse.response!.statusCode == 200)) {
       try {
@@ -244,6 +243,30 @@ class AllBusinessController extends GetxController implements GetxService {
     if (currentPage < lastPage && !isLoadingbtn) {
       await allBusiness(page: currentPage + 1);
     }
+  }
+
+
+  Future<void> createNewBusiness({
+    required String name
+  })async{
+    isLoading = true;
+    update();
+
+    ApiResponse apiResponse = await homeRepo.createNewBusiness(name: name);
+    if ((apiResponse.response?.statusCode??-1) == 200||(apiResponse.response?.statusCode??-1)==201) {
+
+      BusinessResponse createNewBusinessResponse = BusinessResponse.fromJson(apiResponse.response?.data);
+      String msg = createNewBusinessResponse.message?? "";
+      showCustomSnackBar('$msg',isError: false,isPosition: true);
+
+      g.Get.off(HomeScreen());
+    }else{
+      // showCustomSnackBar(.error.toString(),);
+      _isLoading = false;
+      update();
+    }
+    isLoading = false;
+    update();
   }
 }
 

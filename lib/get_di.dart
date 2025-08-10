@@ -10,7 +10,10 @@ import 'datasource/remote/dio/dio_client.dart';
 import 'datasource/remote/dio/utils/logging_interceptor.dart';
 import 'features/auth/controller/auth_controller.dart';
 import 'features/auth/repository/auth_repo.dart';
-import 'features/common/controllers/main_bottom_nav_bar_controller.dart';
+
+import 'features/home/controllers/home_controller.dart';
+import 'features/home/repository/home_repo.dart';
+import 'features/navbar/controllers/main_bottom_nav_bar_controller.dart';
 
 
 
@@ -27,9 +30,17 @@ Future<void> init() async {
   Get.put(LoggingInterceptor());
 
   Get.put(DioClient(AppConstants.BASE_URL,dio,sharedPreferences:sharedPreferences, loggingInterceptor: Get.find(),));
-  Get.put(MainBottomNavBarController());
+
+ ///repository
   Get.put(AuthRepo(dioClient: Get.find(), sharedPreferences: sharedPreferences));
+  Get.put(HomeRepo(dioClient: Get.find(), sharedPreferences: sharedPreferences));
+
+
+ ///Controller
+  Get.put(MainBottomNavBarController());
+
   Get.put( AuthController(  authRepo: Get.find()));
+  Get.put( HomeController(  homeRepo: Get.find()));
 
 
 

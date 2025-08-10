@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:cash_books/datasource/local/session.dart';
 import 'package:cash_books/datasource/remote/models/api_response.dart';
-import 'package:cash_books/settings/LogoutallResponse.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +19,9 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import '../../../core/widgets/custom_snackbar.dart';
 
 import '../../../datasource/remote/dio/dio_client.dart';
-import '../../common/ui/screens/main_bottom_nav_bar_screen.dart';
+
+import '../../navbar/ui/screens/main_bottom_nav_bar_screen.dart';
+import '../../settings/LogoutallResponse.dart';
 import '../model/LoginResponse.dart';
 import '../repository/auth_repo.dart';
 

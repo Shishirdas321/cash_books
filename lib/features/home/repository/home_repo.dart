@@ -10,10 +10,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/utils/app_constants.dart';
 import '../../../datasource/remote/dio/utils/api_error_handler.dart';
 
-class BusinessRepo {
+class HomeRepo {
   final DioClient  dioClient;
   final SharedPreferences sharedPreferences;
-  BusinessRepo({required this.dioClient, required this.sharedPreferences});
+  HomeRepo({required this.dioClient, required this.sharedPreferences});
 
  //for create new business
   Future<ApiResponse> createNewBusiness({
@@ -34,8 +34,21 @@ class BusinessRepo {
       );
     }
 
-  }
 
+  }
+  Future<ApiResponse> allBusiness({int page = 1}) async {
+    try {
+      Response response = await dioClient.get(
+        AppConstants.CREATE_NEW_BUSINESS,
+        queryParameters: {'page': page},
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "allBusiness", mustShowErrorInReleaseMode: true),
+      );
+    }
+  }
 
 
 

@@ -2,12 +2,15 @@ import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/datasource/local/session.dart';
 import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
-import 'package:cash_books/settings/profile_screen.dart';
+import 'package:cash_books/features/settings/profile_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../features/auth/controller/auth_controller.dart';
+import '../auth/controller/auth_controller.dart';
+
+
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

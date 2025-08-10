@@ -59,12 +59,15 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
 }
 */
 import 'package:cash_books/core/theme/app_colors.dart';
-import 'package:cash_books/features/common/controllers/main_bottom_nav_bar_controller.dart';
+
 import 'package:cash_books/features/help/help_screen.dart';
 import 'package:cash_books/features/home/ui/screens/home_screen.dart';
-import 'package:cash_books/settings/settings_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../settings/settings_screen.dart';
+import '../../controllers/main_bottom_nav_bar_controller.dart';
 
 class MainBottomNavBarScreen extends StatelessWidget { // stateless karon getX reactive
   const MainBottomNavBarScreen({super.key});

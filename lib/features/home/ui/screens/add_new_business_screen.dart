@@ -1,6 +1,7 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
-import 'package:cash_books/features/home/controllers/create_new_business_controller.dart';
+import 'package:cash_books/features/home/controllers/home_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -66,7 +67,7 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
                       width: double.maxFinite,
                       child: ElevatedButton(onPressed: () {
                         if(_formKey.currentState!.validate()){
-                          Get.find<CreateNewBusinessController>().createNewBusiness(name: _businessNameTEController.text);
+                          Get.find<HomeController>().createNewBusiness(name: _businessNameTEController.text);
                         }
                       }, child: const Text('NEXT'))),
                 )
