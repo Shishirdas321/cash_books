@@ -103,56 +103,73 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Future<dynamic> _showLogoutAlertDialog(context) {
-    return showDialog(
+  Future<void> _showLogoutAlertDialog(BuildContext context) {
+    return showDialog<void>(
       context: context,
-      builder: (context) => AlertDialog(
-        title:  Text(
+      builder: (_) => AlertDialog(
+        title: Text(
           'Are you sure you want to Logout?',
           style: AppTextStyles.bodyMedium(color: Colors.black87),
         ),
+        actionsPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         actions: [
-          Card(
-            color: Colors.green.shade100,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'Cancel',
-                style:
-                    TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _dialogButton(
+                label: 'Cancel',
+                color: Colors.green,
+                background: Colors.green.shade100,
+                onPressed: () => Navigator.pop(context),
               ),
-            ),
+              _dialogButton(
+                label: 'Logout',
+                color: Colors.red,
+                background: Colors.red.shade100,
+                onPressed: () {
+                  Session.signOut();
+                },
+              ),
+            ],
           ),
-          Card(
-            color: Colors.red.shade100,
-            child: TextButton(
-              onPressed: () {
-               Session.signOut();
-              },
-              child: const Text(
-                'LogOut',
-                style:
-                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-          Card(
-            color: Colors.red.shade100,
-            child: TextButton(
-              onPressed: () {
-                authController.logOutAll();
-              },
-              child: const Text(
-                'LogOut-All',
-                style:
-                TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-              ),
-            ),
+          const SizedBox(height: 8),
+          _dialogButton(
+            label: 'Logout All',
+            color: Colors.red,
+            background: Colors.red.shade100,
+            onPressed: () {
+              authController.logOutAll();
+            },
+            expand: true,
           ),
         ],
+        elevation: 6,
       ),
     );
   }
+
+  Widget _dialogButton({
+    required String label,
+    required Color color,
+    required Color background,
+    required VoidCallback onPressed,
+    bool expand = false,
+  }) {
+    final btn = TextButton(
+      style: TextButton.styleFrom(
+        backgroundColor: background,
+        foregroundColor: color,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        label,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+
+    return expand ? SizedBox(width: double.infinity, child: btn) : btn;
+  }
+
 }

@@ -36,6 +36,7 @@ class HomeRepo {
 
 
   }
+  //for get allBusiness
   Future<ApiResponse> allBusiness({int page = 1}) async {
     try {
       Response response = await dioClient.get(
@@ -49,6 +50,50 @@ class HomeRepo {
       );
     }
   }
+
+//deleteBusiness
+  Future<ApiResponse> deleteBusiness(int id) async {
+    // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
+    try{
+      Response response= await dioClient.delete('${AppConstants.DELETE_BUSINESS}/$id', );
+      return ApiResponse.withSuccess(response);
+    }catch(e){
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "deleteBusiness", mustShowErrorInReleaseMode: true),
+      );
+    }
+
+
+  }
+
+  //update business
+
+  Future<ApiResponse> updateBusiness({
+    required int id,
+    required String name,
+    required int status,
+  }) async {
+    try {
+      Response response = await dioClient.put(
+        '${AppConstants.UPDATE_BUSINESS}/$id', // URL path এ ID
+        data: {
+          "name": name,
+          "status": status, // body te status
+        },
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(
+          e,
+          "update_business",
+          mustShowErrorInReleaseMode: true,
+        ),
+      );
+    }
+  }
+
+
 
 
 

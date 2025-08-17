@@ -32,12 +32,12 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
           'Add New Business',
           style: AppTextStyles.appbar(),
         ),
-        leading: IconButton(
-            onPressed: () {Navigator.pop(context);},
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            )),
+        // leading: IconButton(
+        //     onPressed: () {Navigator.pop(context);},
+        //     icon: const Icon(
+        //       Icons.arrow_back,
+        //       color: Colors.white,
+        //     )),
         backgroundColor: AppColors.themeColor,
         elevation: 6,
       ),

@@ -151,6 +151,9 @@
 // //
 // // //3
 // //
+import 'package:cash_books/features/home/model/DeleteBusinessResponse.dart';
+import 'package:cash_books/features/home/model/RenameBusinessResponse.dart';
+import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
 import 'package:get/get.dart';
 import '../../../core/widgets/custom_snackbar.dart';
 
@@ -208,6 +211,23 @@ class HomeController extends GetxController implements GetxService {
     update();
   }
 
+  //business selector
+  int selectedBusinessIndex = 0;
+
+  void selectBusiness(int index) {
+    selectedBusinessIndex = index; // select new index
+    update();
+  }
+
+
+  // @override
+ //  void onInit() {
+ //    super.onInit();
+ //    allBusiness(page: 1);
+ //
+ //
+ //  }
+
   Future<void> allBusiness({int page = 1}) async {
     if (page == 1) {
       _businessList.clear();
@@ -246,6 +266,7 @@ class HomeController extends GetxController implements GetxService {
   }
 
 
+
   Future<void> createNewBusiness({
     required String name
   })async{
@@ -268,5 +289,73 @@ class HomeController extends GetxController implements GetxService {
     isLoading = false;
     update();
   }
+
+  //delete business
+
+  Future<void> deleteBusiness( int id,)async{
+    isLoading = true;
+    update();
+
+    ApiResponse apiResponse = await homeRepo.deleteBusiness(id);
+    if ((apiResponse.response?.statusCode??-1) == 200) {
+
+      DeleteBusinessResponse deleteBusinessResponse = DeleteBusinessResponse.fromJson(apiResponse.response?.data);
+      businessList.removeWhere((business) => business.id == id);
+
+      update();
+      String msg = deleteBusinessResponse.message?? "";
+      showCustomSnackBar('$msg',isError: false,isPosition: true);
+
+      g.Get.off(HomeScreen());
+    }else{
+      // showCustomSnackBar(.error.toString(),);
+      _isLoading = false;
+      update();
+    }
+    isLoading = false;
+    update();
+  }
+
+
+  //Update Business
+  Future<void> updateBusiness({
+    required int id,
+    required String name,
+    required int status,
+  }) async {
+    isLoading = true;
+    update();
+
+    ApiResponse apiResponse = await homeRepo.updateBusiness(
+        id: id,        // URL path এ ID
+        name: name,    // body তে name
+        status: status // body তে status
+    );
+
+    if ((apiResponse.response?.statusCode ?? -1) == 200) {
+      RenameBusinessResponse renameBusinessResponse =
+      RenameBusinessResponse.fromJson(apiResponse.response?.data);
+
+      String msg = renameBusinessResponse.message ?? "";
+      showCustomSnackBar(msg, isError: false, isPosition: true);
+
+      g.Get.off(HomeScreen());
+    } else {
+      isLoading = false;
+      update();
+    }
+
+    isLoading = false;
+    update();
+  }
+
+
+
+
 }
+
+
+
+
+
 

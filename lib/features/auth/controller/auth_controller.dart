@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:cash_books/datasource/local/session.dart';
 import 'package:cash_books/datasource/remote/models/api_response.dart';
+import 'package:cash_books/features/home/controllers/home_controller.dart';
+import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +100,12 @@ init(){
       Session.saveSession(jsonEncode(loginResponse.data?.user));
       showCustomSnackBar('$msg', isError: false, isPosition: true);
       Get.find<DioClient>().resetClientWithNewToken();
-      g.Get.offAllNamed(MainBottomNavBarScreen.name);
+     // g.Get.offAllNamed(MainBottomNavBarScreen.name);
+      if(Get.find<HomeController>().businessList.isEmpty){
+        g.Get.offAll(AddNewBusinessScreen());
+      }else{
+        g.Get.offAllNamed(MainBottomNavBarScreen.name);
+      }
 
 
     } else {
@@ -136,7 +143,14 @@ init(){
          }
 
          Get.find<DioClient>().resetClientWithNewToken();
-         Get.offAllNamed(MainBottomNavBarScreen.name);
+        // Get.offAllNamed(MainBottomNavBarScreen.name);
+         //new added
+         final businessList = Get.find<HomeController>().businessList;
+         if (businessList.isEmpty) {
+           Get.offAll(() => AddNewBusinessScreen());
+         } else {
+           Get.offAllNamed(MainBottomNavBarScreen.name);
+         }
        }else{
          _isLoading = false;
          update();

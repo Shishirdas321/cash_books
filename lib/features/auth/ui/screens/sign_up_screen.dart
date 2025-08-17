@@ -2,6 +2,7 @@ import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/screen_background/screen_background_one.dart';
 import 'package:cash_books/features/auth/controller/auth_controller.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
+import 'package:cash_books/features/home/controllers/home_controller.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
 
   PhoneNumber? _phoneNumber;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Get.find<HomeController>().allBusiness(page: 1);
+  }
 
   @override
   Widget build(BuildContext context) {

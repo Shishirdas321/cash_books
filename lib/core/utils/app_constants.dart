@@ -16,10 +16,10 @@ class AppConstants {
   static const String LOGOUT_ALL_DEVICE = 'logout-all';
   static const String REFRESH_TOKEN = 'refresh';
   static const String CREATE_NEW_BUSINESS = 'businesses';
-  static const String GET_SPECIFIC_BUSINESS = 'businesses/1';
+  static const String GET_SPECIFIC_BUSINESS = 'businesses/';
   static const String GET_BUSINESS = 'businesses/';
-  static const String UPDATE_BUSINESS = 'businesses/1';
-  static const String DELETE_BUSINESS = 'businesses/';
+  static const String UPDATE_BUSINESS = 'businesses/';
+  static const String DELETE_BUSINESS = 'businesses';
 
 
 

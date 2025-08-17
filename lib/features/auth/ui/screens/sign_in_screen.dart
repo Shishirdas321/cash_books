@@ -7,6 +7,7 @@ import 'package:cash_books/datasource/local/session.dart';
 import 'package:cash_books/features/auth/ui/screens/forgot_password_screen.dart';
 import 'package:cash_books/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
+import 'package:cash_books/features/home/controllers/home_controller.dart';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
@@ -42,6 +43,7 @@ class _SignInScreenState extends State<SignInScreen> {
       Get.find<AuthController>().init();
     });
 
+    Get.find<HomeController>().allBusiness(page: 1);
   }
 
   @override

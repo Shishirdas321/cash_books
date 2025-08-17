@@ -17,6 +17,7 @@ import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
 import 'package:cash_books/features/businessteam/business_team_screen.dart';
 import 'package:cash_books/features/home/ui/screens/move_book_screen.dart';
+import 'package:cash_books/features/home/ui/screens/update_business_screen.dart';
 
 import 'package:flutter/material.dart';
 
@@ -66,7 +67,7 @@ class AppRoutes {
       route = const HelpScreen();
     }else if(settings.name == ProfileScreen.name){
       route = const ProfileScreen();
-    }
+    }else if(settings.name == UpdateBusinessScreen.name);
     return MaterialPageRoute(
       builder: (context) {
         return route;

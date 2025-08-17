@@ -3,12 +3,14 @@ import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/home/controllers/home_controller.dart';
 import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
 import 'package:cash_books/features/businessteam/business_team_screen.dart';
+import 'package:cash_books/features/home/ui/screens/update_business_screen.dart';
 import 'package:cash_books/features/home/ui/widgets/book_card.dart';
 import 'package:cash_books/features/home/ui/widgets/business_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get.dart' as g;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,16 +24,16 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isScrollingDown = false;// [2] Track scroll direction
   //final AllBusinessController allBusinessController = Get.find();
 
-  List<Map<String, String>> businesses = [
-    {"title": "Top Man", "subtitle": "Your Role: Member"},
-    {"title": "New Project", "subtitle": "Your Role: Owner"},
-    {"title": "Home Expense", "subtitle": "Your Role: Admin"},
-  ];
+
 
   @override
   void initState() {
     super.initState();
-    Get.find<HomeController>().allBusiness(page:1);
+    //  Get.find<HomeController>().allBusiness(page:1);
+    // if(Get.find<HomeController>().businessList.isEmpty){
+    //   g.Get.offAll(AddNewBusinessScreen());
+    // }
+
 
 
     _scrollController.addListener(() {
@@ -236,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       builder: (context) {
-        int selectedIndex = 0; // default selection
+        //int selectedIndex = 0; // default selection
 
 
 
@@ -269,11 +271,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         return BusinessListTile(
                           title: business.name ?? '',
                           subtitle: business.createdAt ??'',
-                          isSelected: selectedIndex == index,
+                          isSelected: controller.selectedBusinessIndex == index,
                           onTap: () {
-                            setState(() => selectedIndex = index);
+                            controller.selectBusiness(index);
+                           // setState(() => selectedIndex = index);
                             //Navigator.pop(context);
                           },
+                          onDelete: (){
+                            _showDeleteAlertDialog(context,business.id!);
+                          },
+                          onEdit: () {
+                            final business = controller.businessList[index]; // current tapped business
+                            Get.to(
+                                  () => UpdateBusinessScreen(
+                                businessId: business.id!,
+                                initialName: business.name ?? '',
+                                status: business.status ?? 0,
+                              ),
+                            );
+                          },
+
                         );
                       },
                     ),
@@ -360,6 +377,69 @@ class _HomeScreenState extends State<HomeScreen> {
   //     },
   //   );
   // }
+
+  Future<void> _showDeleteAlertDialog(BuildContext context,int businessId) {
+    return showDialog<void>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(
+          'Are you sure you want Delete Business?',
+          style: AppTextStyles.bodyMedium(color: Colors.black87),
+        ),
+        actionsPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _dialogButton(
+                label: 'Cancel',
+                color: Colors.green,
+                background: Colors.green.shade100,
+                onPressed: () => Navigator.pop(context),
+              ),
+               _dialogButton(
+                    label: 'Delete',
+                    color: Colors.red,
+                    background: Colors.red.shade100,
+                    onPressed: () {
+
+                      Get.find<HomeController>().deleteBusiness(businessId );
+
+                    },
+
+
+              ),
+            ],
+          ),
+        ],
+        elevation: 6,
+      ),
+    );
+  }
+
+  Widget _dialogButton({
+    required String label,
+    required Color color,
+    required Color background,
+    required VoidCallback onPressed,
+    bool expand = false,
+  }) {
+    final btn = TextButton(
+      style: TextButton.styleFrom(
+        backgroundColor: background,
+        foregroundColor: color,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        label,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+
+    return expand ? SizedBox(width: double.infinity, child: btn) : btn;
+  }
 
 
 
