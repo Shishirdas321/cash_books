@@ -151,6 +151,7 @@
 // //
 // // //3
 // //
+//import 'package:cash_books/features/home/model/BookResponse.dart';
 import 'package:cash_books/features/home/model/DeleteBusinessResponse.dart';
 import 'package:cash_books/features/home/model/RenameBusinessResponse.dart';
 import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
@@ -171,10 +172,15 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
+//import '../model/AllBusinessResponse.dart';
 import '../model/AllBusinessResponse.dart';
+import '../model/BookResponse.dart';
 import '../model/CreateNewBusinessResponse.dart';
 import '../repository/home_repo.dart';
 import '../ui/screens/home_screen.dart';
+
+import 'package:cash_books/features/home/model/AllBusinessResponse.dart' as business_model;
+import 'package:cash_books/features/home/model/BookResponse.dart' as book_model;
 
 
 
@@ -187,8 +193,8 @@ class HomeController extends GetxController implements GetxService {
 
   HomeController({ required this.homeRepo });
 
-  List<Business> _businessList = [];
-  List<Business> get businessList => _businessList;
+  List<business_model.Business> _businessList = [];
+  List<business_model.Business> get businessList => _businessList;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -266,6 +272,53 @@ class HomeController extends GetxController implements GetxService {
   }
 
 
+  List<book_model.Book> _bookList = [];
+  List<book_model.Book> get bookList => _bookList;
+
+  int bookCurrentPage = 1;
+  int bookLastPage = 1;
+  bool _isLoadingBooks = false;
+  bool get isLoadingBooks => _isLoadingBooks;
+
+  set isLoadingBooks(bool value) {
+    _isLoadingBooks = value;
+    update();
+  }
+
+  Future<void> allBook({ int page = 1, required int businessId}) async {
+    if (page == 1) {
+      _bookList.clear();
+    }
+
+    isLoadingBooks = true;
+
+    ApiResponse apiResponse = await homeRepo.allBook( page: page, id: businessId);
+
+    if (apiResponse.response != null && (apiResponse.response!.statusCode == 200)) {
+      try {
+        AllBookResponse bookResponse = AllBookResponse.fromJson(apiResponse.response!.data);
+        if (bookResponse.data != null) {
+          _bookList.addAll(bookResponse.data!.books ?? []);
+          bookCurrentPage = bookResponse.data!.currentPage ?? page;
+          bookLastPage = bookResponse.data!.lastPage ?? page;
+        }
+      } catch (e) {
+        showCustomSnackBar("Book parse error: $e", isError: true);
+      }
+    } else {
+      showCustomSnackBar(apiResponse.error ?? "Book API error", isError: true);
+    }
+
+    isLoadingBooks = false;
+  }
+
+  Future<void> loadNextBookPage(int businessId) async {
+    if (bookCurrentPage < bookLastPage && !isLoadingBooks) {
+      await allBook(businessId: businessId, page: bookCurrentPage + 1);
+    }
+  }
+
+
 
   Future<void> createNewBusiness({
     required String name
@@ -327,9 +380,9 @@ class HomeController extends GetxController implements GetxService {
     update();
 
     ApiResponse apiResponse = await homeRepo.updateBusiness(
-        id: id,        // URL path এ ID
-        name: name,    // body তে name
-        status: status // body তে status
+        id: id,
+        name: name,
+        status: status
     );
 
     if ((apiResponse.response?.statusCode ?? -1) == 200) {
@@ -348,6 +401,84 @@ class HomeController extends GetxController implements GetxService {
     isLoading = false;
     update();
   }
+
+
+  //create new book
+
+  // Future<void> createNewBook({
+  //   required String name,
+  //   required double balance,
+  //   required int id
+  // })async{
+  //   isLoading = true;
+  //   update();
+  //
+  //   ApiResponse apiResponse = await homeRepo.createNewBook(name: name,balance: balance, id: id);
+  //   if ((apiResponse.response?.statusCode??-1) == 200||(apiResponse.response?.statusCode??-1)==201) {
+  //
+  //     BusinessResponse createNewBusinessResponse = BusinessResponse.fromJson(apiResponse.response?.data);
+  //     String msg = createNewBusinessResponse.message?? "";
+  //     showCustomSnackBar('$msg',isError: false,isPosition: true);
+  //
+  //   }else{
+  //     // showCustomSnackBar(.error.toString(),);
+  //     _isLoading = false;
+  //     update();
+  //   }
+  //   isLoading = false;
+  //   update();
+  // }
+  Future<void> createNewBook({
+    required String name,
+    required double balance,
+    required int id,
+  }) async {
+    isLoading = true;
+    update();
+
+    ApiResponse apiResponse = await homeRepo.createNewBook(
+      name: name,
+      balance: balance,
+      id: id,
+    );
+
+    if ((apiResponse.response?.statusCode ?? -1) == 200 ||
+        (apiResponse.response?.statusCode ?? -1) == 201) {
+      BusinessResponse createNewBookResponse =
+      BusinessResponse.fromJson(apiResponse.response?.data);
+
+      String msg = createNewBookResponse.message ?? "";
+      showCustomSnackBar(msg, isError: false, isPosition: true);
+
+      //  Safe check
+      if (createNewBookResponse.data != null) {
+        try {
+          // if data single object
+          final newBook = createNewBookResponse.data;
+
+
+
+          // add to book list
+          bookList.insert(0, newBook as Book);
+          update();
+        } catch (e) {
+          // fallback: recall new list
+          await allBook(businessId: id, page: 1);
+        }
+      } else {
+        // fallback jodi data null hoi
+        await allBook(businessId: id, page: 1);
+      }
+    } else {
+      _isLoading = false;
+      update();
+    }
+
+    isLoading = false;
+    update();
+  }
+
+
 
 
 

@@ -75,7 +75,7 @@ class HomeRepo {
   }) async {
     try {
       Response response = await dioClient.put(
-        '${AppConstants.UPDATE_BUSINESS}/$id', // URL path এ ID
+        '${AppConstants.UPDATE_BUSINESS}/$id',
         data: {
           "name": name,
           "status": status, // body te status
@@ -91,6 +91,50 @@ class HomeRepo {
         ),
       );
     }
+  }
+
+  //get book
+  Future<ApiResponse> allBook({int page = 1,required int id,
+    }) async {
+    try {
+      Response response = await dioClient.get(
+        '${AppConstants.ALL_Book}/$id/books',
+        queryParameters: {'page': page},
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "allBook", mustShowErrorInReleaseMode: true),
+      );
+    }
+  }
+
+  //create new book
+  Future<ApiResponse> createNewBook({
+    required String name,
+    required double balance,
+    required int id
+
+  }) async {
+    // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
+    try{
+      Response response= await dioClient.post(
+          '${AppConstants.CREATE_NEW_BOOK}/$id/books',
+          data: {
+        "name":name,
+        "balance":balance
+
+
+
+      });
+      return ApiResponse.withSuccess(response);
+    }catch(e){
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "createNewBook", mustShowErrorInReleaseMode: true),
+      );
+    }
+
+
   }
 
 

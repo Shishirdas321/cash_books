@@ -6,8 +6,12 @@ import 'package:cash_books/features/home/ui/screens/move_book_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../model/BookResponse.dart';
+
 class BookCard extends StatefulWidget {
-  const BookCard({super.key});
+  final Book book; // Book model
+  const BookCard({Key? key, required this.book}) : super(key: key);
+  //const BookCard({super.key});
 
   @override
   State<BookCard> createState() => _BookCardState();
@@ -38,7 +42,7 @@ class _BookCardState extends State<BookCard> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
                Text(
-                '20000',
+                widget.book.balance ?? '0.00',
                 style: AppTextStyles.titleSmall(fontSize: 12.sp),
               ),
               //const SizedBox(width: 10),
@@ -47,8 +51,8 @@ class _BookCardState extends State<BookCard> {
           ),
           leading:  CircleAvatar(
               radius: 20.r, child: const Icon(Icons.book, color: AppColors.themeColor)),
-          title:  Text('Business Book',style: AppTextStyles.titleSmall(),),
-          subtitle:  Text('created on jul 01 2025',style: AppTextStyles.subtitleSmall(),),
+          title:  Text(widget.book.name ?? 'Unknown Book',style: AppTextStyles.titleSmall(),),
+          subtitle:  Text('Created on ${widget.book.createdAt != null ? widget.book.createdAt!.substring(0, 10) : '-'}',style: AppTextStyles.subtitleSmall(),),
         ),
       ),
     );

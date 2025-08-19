@@ -20,21 +20,61 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _createBookTEController = TextEditingController();
   final ScrollController _scrollController = ScrollController(); // [1] ScrollController added
   bool _isScrollingDown = false;// [2] Track scroll direction
   //final AllBusinessController allBusinessController = Get.find();
 
 
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //
+  //   // if(Get.find<HomeController>().businessList.isEmpty){
+  //   //   g.Get.offAll(AddNewBusinessScreen());
+  //   // }
+  //
+  //
+  //
+  //   _scrollController.addListener(() {
+  //     if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+  //       if (!_isScrollingDown) {
+  //         setState(() {
+  //           _isScrollingDown = true;
+  //         });
+  //       }
+  //     } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
+  //       if (_isScrollingDown) {
+  //         setState(() {
+  //           _isScrollingDown = false;
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
   @override
   void initState() {
     super.initState();
-    //  Get.find<HomeController>().allBusiness(page:1);
-    // if(Get.find<HomeController>().businessList.isEmpty){
-    //   g.Get.offAll(AddNewBusinessScreen());
-    // }
 
+    final controller = Get.find<HomeController>();
 
+    // all business lode
+    controller.allBusiness().then((_) {
+      // if businessList not empty
+      if (controller.businessList.isNotEmpty) {
+        // selected business ID
+        int selectedBusinessId = controller.businessList[controller.selectedBusinessIndex].id!;
+
+        // selected id dya allBusiness call
+        controller.allBook(businessId: selectedBusinessId, page: 1);
+      } else {
+        // business jodi empty hoi
+        g.Get.offAll(AddNewBusinessScreen());
+      }
+    });
 
     _scrollController.addListener(() {
       if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
@@ -99,39 +139,44 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body:
-          ListView(
-          controller: _scrollController, // [3] Attach controller here
-          children: [
-            Padding(
-              padding:  EdgeInsets.only(left: 15.w, right: 15.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                   Text(
-                    'Your Books',
-                    style: AppTextStyles.titleSmall(fontWeight: FontWeight.bold),
+          GetBuilder<HomeController>(
+            builder: (controller) {
+              return ListView(
+              controller: _scrollController, // [3] Attach controller here
+              children: [
+                Padding(
+                  padding:  EdgeInsets.only(left: 15.w, right: 15.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                       Text(
+                        'Your Books',
+                        style: AppTextStyles.titleSmall(fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.search,
+                          color: AppColors.themeColor,
+                        ),
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.search,
-                      color: AppColors.themeColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return const BookCard();
-              },
-            ),
-             SizedBox(height: 50.h),
-          ],
-        ),
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: controller.bookList.length,
+                  itemBuilder: (context, index) {
+                    final book = controller.bookList[index];
+                    return  BookCard(book: book,);
+                  },
+                ),
+                 SizedBox(height: 50.h),
+              ],
+                      );
+            }
+          ),
 
       floatingActionButton: AnimatedSwitcher( // [4] Animated FAB
         duration: const Duration(milliseconds: 50),
@@ -177,51 +222,77 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SingleChildScrollView(
             child: Container(
               padding:  EdgeInsets.all(16.w),
-              height: 300.h,
+              height: 350.h,
               width: double.maxFinite,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.close,
-                          color: AppColors.themeColor,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: AppColors.themeColor,
+                          ),
                         ),
-                      ),
-                       Text(
-                        'Add New Book',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
+                         Text(
+                          'Add New Book',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                   Divider(
-                    color: Colors.grey,
-                    thickness: 2.0.h,
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        hintText: 'Enter Book name',
-                        prefixIcon: Icon(
-                          Icons.email_outlined,
-                          color: Colors.grey,
-                        )),
-                  ),
-                   SizedBox(height: 60.h),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Add NEW BOOK'),
-                  ),
-                ],
+                      ],
+                    ),
+                     Divider(
+                      color: Colors.grey,
+                      thickness: 2.0.h,
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _createBookTEController,
+                      decoration: const InputDecoration(
+                          hintText: 'Enter Book name',
+                          prefixIcon: Icon(
+                            Icons.email_outlined,
+                           // color: Colors.grey,
+                          )),
+                      validator: (String? value){
+                        if(value?.trim().isEmpty ?? true){
+                          return 'Enter your book name';
+                        }
+                        return null;
+                      },
+                    ),
+                     SizedBox(height: 60.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if(_formKey.currentState!.validate()){
+                                final controller = Get.find<HomeController>();
+                                int selectedBusinessId = controller.businessList[controller.selectedBusinessIndex].id!;
+                                controller.createNewBook(name: _createBookTEController.text.trim(), balance: 0.00, id: selectedBusinessId);
+                                Navigator.pop(context);
+                              }
+
+                            },
+                            child: const Text('Add NEW BOOK'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -230,38 +301,34 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-   void _showBusinessSelector(BuildContext context) {
+  void _showBusinessSelector(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape:  RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       builder: (context) {
-        //int selectedIndex = 0; // default selection
-
-
-
         return GetBuilder<HomeController>(
-          builder: (controller, ) {
+          builder: (controller) {
             return Padding(
-              padding:  EdgeInsets.all(16.w),
+              padding: EdgeInsets.all(16.w),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     children: [
                       IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.close, color: AppColors.themeColor)),
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.close, color: AppColors.themeColor),
+                      ),
                       Text(
                         'Select Business',
-                        style: AppTextStyles.bodyMediumWhite(
-                            color: AppColors.themeColor),
+                        style: AppTextStyles.bodyMediumWhite(color: AppColors.themeColor),
                       ),
                     ],
                   ),
-                   SizedBox(height: 10.h),
+                  SizedBox(height: 10.h),
                   Flexible(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -270,44 +337,49 @@ class _HomeScreenState extends State<HomeScreen> {
                         final business = controller.businessList[index];
                         return BusinessListTile(
                           title: business.name ?? '',
-                          subtitle: business.createdAt ??'',
+                          subtitle: business.createdAt ?? '',
                           isSelected: controller.selectedBusinessIndex == index,
                           onTap: () {
+                            // Select the business
                             controller.selectBusiness(index);
-                           // setState(() => selectedIndex = index);
-                            //Navigator.pop(context);
+
+                            // Fetch books for this selected business
+                            controller.allBook(
+                              businessId: business.id!,
+                              page: 1,
+                            );
+
+                            Navigator.pop(context); // Close modal
                           },
-                          onDelete: (){
-                            _showDeleteAlertDialog(context,business.id!);
+                          onDelete: () {
+                            _showDeleteAlertDialog(context, business.id!);
                           },
                           onEdit: () {
-                            final business = controller.businessList[index]; // current tapped business
-                            Get.to(
-                                  () => UpdateBusinessScreen(
-                                businessId: business.id!,
-                                initialName: business.name ?? '',
-                                status: business.status ?? 0,
-                              ),
-                            );
+                            Get.to(() => UpdateBusinessScreen(
+                              businessId: business.id!,
+                              initialName: business.name ?? '',
+                              status: business.status ?? 0,
+                            ));
                           },
-
                         );
                       },
                     ),
                   ),
-                   SizedBox(height: 12.h),
+                  SizedBox(height: 12.h),
                   Padding(
-                    padding:  EdgeInsets.only(bottom: 20.h,),
+                    padding: EdgeInsets.only(bottom: 20.h),
                     child: ElevatedButton.icon(
                       onPressed: () {
                         Get.off(AddNewBusinessScreen());
-                       // Navigator.push(context, AddNewBusinessScreen() as Route<Object?>);
                       },
                       icon: const Icon(Icons.add),
-                      label:  Text("Add New Business",style: AppTextStyles.bodyMediumPopins(),),
+                      label: Text(
+                        "Add New Business",
+                        style: AppTextStyles.bodyMediumPopins(),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.themeColor,
-                        minimumSize:  Size.fromHeight(48.h),
+                        minimumSize: Size.fromHeight(48.h),
                       ),
                     ),
                   ),
@@ -319,6 +391,9 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+
+
 
   // void _showBusinessSelector(BuildContext context) {
   //   showModalBottomSheet(
