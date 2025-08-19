@@ -355,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             _showDeleteAlertDialog(context, business.id!);
                           },
                           onEdit: () {
-                            Get.to(() => UpdateBusinessScreen(
+                            Get.off(() => UpdateBusinessScreen(
                               businessId: business.id!,
                               initialName: business.name ?? '',
                               status: business.status ?? 0,

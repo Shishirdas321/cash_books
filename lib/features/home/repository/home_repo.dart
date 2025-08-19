@@ -137,6 +137,47 @@ class HomeRepo {
 
   }
 
+  //update book
+  Future<ApiResponse> updateBook({
+    required int businessId,
+    required String name,
+    required int bookId,
+  }) async {
+    try {
+      Response response = await dioClient.put(
+        '${AppConstants.UPDATE_BOOK}/$businessId/books/$bookId',
+        data: {
+          "name": name,
+        },
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(
+          e,
+          "update_book",
+          mustShowErrorInReleaseMode: true,
+        ),
+      );
+    }
+  }
+
+  //delete book
+  Future<ApiResponse> deleteBook({required int businessId,required int bookId}) async {
+    // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
+    try{
+      Response response= await dioClient.delete('${AppConstants.DELETE_BOOK}/$businessId/books/$bookId', );
+      return ApiResponse.withSuccess(response);
+    }catch(e){
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "deleteBook", mustShowErrorInReleaseMode: true),
+      );
+    }
+
+
+  }
+
+
 
 
 

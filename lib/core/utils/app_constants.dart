@@ -22,6 +22,9 @@ class AppConstants {
   static const String DELETE_BUSINESS = 'businesses';
   static const String ALL_Book = 'businesses';
   static const String CREATE_NEW_BOOK = 'businesses';
+  static const String UPDATE_BOOK = 'businesses';
+  static const String DELETE_BOOK = 'businesses';
+  static const String SPECIFIC_BOOK_DETAILS = 'businesses';
 
 
 

@@ -478,6 +478,73 @@ class HomeController extends GetxController implements GetxService {
     update();
   }
 
+  //Update book
+  Future<void> updateBook({
+    required int businessId,
+    required String name,
+    required int bookId,
+  }) async {
+    isLoading = true;
+    update();
+
+    ApiResponse apiResponse = await homeRepo.updateBook(
+        businessId: businessId,
+        name: name,
+        bookId: bookId
+    );
+
+    if ((apiResponse.response?.statusCode ?? -1) == 200) {
+      RenameBusinessResponse renameBusinessResponse =
+      RenameBusinessResponse.fromJson(apiResponse.response?.data);
+
+      String msg = renameBusinessResponse.message ?? "";
+      showCustomSnackBar(msg, isError: false, isPosition: true);
+      await allBook(businessId: businessId, page: 1);
+
+
+
+    } else {
+      isLoading = false;
+      update();
+    }
+
+    isLoading = false;
+    update();
+  }
+
+  //delete book
+  Future<void> deleteBook({
+    required int businessId,
+    required int bookId,
+  }) async {
+    isLoading = true;
+    update();
+
+    ApiResponse apiResponse = await homeRepo.deleteBook(
+        businessId: businessId,
+        bookId: bookId
+    );
+
+    if ((apiResponse.response?.statusCode ?? -1) == 200) {
+      RenameBusinessResponse renameBusinessResponse =
+      RenameBusinessResponse.fromJson(apiResponse.response?.data);
+
+      String msg = renameBusinessResponse.message ?? "";
+      showCustomSnackBar(msg, isError: false, isPosition: true);
+      await allBook(businessId: businessId, page: 1);
+
+
+
+    } else {
+      isLoading = false;
+      update();
+    }
+
+    isLoading = false;
+    update();
+  }
+
+
 
 
 

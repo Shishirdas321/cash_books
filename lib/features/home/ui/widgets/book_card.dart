@@ -5,7 +5,9 @@ import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
 import 'package:cash_books/features/home/ui/screens/move_book_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
+import '../../controllers/home_controller.dart';
 import '../../model/BookResponse.dart';
 
 class BookCard extends StatefulWidget {
@@ -131,6 +133,10 @@ class _BookCardState extends State<BookCard> {
             color: Colors.red.shade100,
             child: TextButton(
               onPressed: () {
+                Get.find<HomeController>().deleteBook(
+                  businessId: widget.book.businessId ?? 0,
+                  bookId: widget.book.id ?? 0,
+                );
                 Navigator.pop(context);
               },
               child: const Text(
@@ -146,6 +152,7 @@ class _BookCardState extends State<BookCard> {
   }
 
   void _showRenameCashbook(BuildContext context) {
+    _renameCashBookTEController.text = widget.book.name ?? '';
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -196,7 +203,12 @@ class _BookCardState extends State<BookCard> {
                     ElevatedButton(
                       onPressed: () {
                         if(_formKey.currentState!.validate()){
-                          Navigator.pop(context);
+                          Get.find<HomeController>().updateBook(
+                            businessId: widget.book.businessId ?? 0,
+                            bookId: widget.book.id ?? 0,
+                            name: _renameCashBookTEController.text.trim(),
+                          );
+                            Navigator.pop(context);
                         }
 
                       },
