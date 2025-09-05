@@ -147,17 +147,21 @@ class BookController extends GetxController implements GetxService {
   List<ContactPerson> _contactPerList = [];
   List<ContactPerson> get contactPerList => _contactPerList;
   Future<void> allContactPerson({int page = 1,required int bookId}) async {
+
     if (page == 1) {
-      _contactPerList.clear();
+
       errorMsg = "";  // clear previous error message
     }
-
     isLoadingbtn = true;
 
     ApiResponse apiResponse = await bookRepo.allContactPerson(page: page, bookId: bookId);
 
     if (apiResponse.response != null && (apiResponse.response!.statusCode == 200)) {
       try {
+        if (page == 1) {
+          _contactPerList.clear();
+           // clear previous error message
+        }
         ContactPersonResponse contactPersonResponse = ContactPersonResponse.fromJson(apiResponse.response!.data);
         if (contactPersonResponse.data != null) {
           _contactPerList.addAll(contactPersonResponse.data!.data ?? []);
@@ -175,6 +179,7 @@ class BookController extends GetxController implements GetxService {
     }
 
     isLoadingbtn = false;
+    update();
   }
 
   Future<void> loadContactNextPage() async {
@@ -711,6 +716,7 @@ class BookController extends GetxController implements GetxService {
                             TextButton(
                               onPressed: () {
                                 if (formKey.currentState?.validate() ?? false) {
+                                  Navigator.pop(context);
                                   onConfirm?.call(
                                     showTextField ? controller1.text : null,
                                     showSecondTextField ? controller2.text : null,

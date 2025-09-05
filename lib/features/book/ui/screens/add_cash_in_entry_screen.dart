@@ -1,6 +1,7 @@
 
 import 'dart:ui';
 
+import 'package:cash_books/core/enums/enums.dart';
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/book/controllers/book_controller.dart';
@@ -183,6 +184,7 @@ class _AddCashInEntryScreenState extends State<AddCashInEntryScreen> {
                               onPressed: () {
                                 showCustomBottomSheet(context: context,
                                     title: 'Contact Name',
+                                    type: CashInSettingType.contact,
                                     items: controller.contactPerList.map((e) =>e.name!).toList(),
                                     subtitles: controller.contactPerList.map((e)=>e.mobileNo!).toList(),
                                     onDelete: (selectedName){
@@ -262,6 +264,7 @@ class _AddCashInEntryScreenState extends State<AddCashInEntryScreen> {
                               onPressed: () {
                                 showCustomBottomSheet(context: context,
                                     title: 'Category',
+                                    type: CashInSettingType.category,
                                     items: controller.categoryList.map((e) =>e.name!).toList(),
                                     onDelete: (selectedName){
                                       BookController.showConfirmationDialog(onCancel: (){Navigator.pop(context);},
@@ -325,6 +328,7 @@ class _AddCashInEntryScreenState extends State<AddCashInEntryScreen> {
                         onPressed: () {
                           showCustomBottomSheet(context: context,
                               title: 'Payment method',
+                              type: CashInSettingType.payment,
                               items: controller.paymentMethodList.map((e)=>e.name!).toList(),
                             onDelete: (selectedName){
                               BookController.showConfirmationDialog(onCancel: (){Navigator.pop(context);}, onConfirm: (_,__){
