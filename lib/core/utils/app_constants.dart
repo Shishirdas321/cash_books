@@ -25,10 +25,21 @@ class AppConstants {
   static const String UPDATE_BOOK = 'businesses';
   static const String DELETE_BOOK = 'businesses';
   static const String SPECIFIC_BOOK_DETAILS = 'businesses';
-
-
-
-
+  static const String BOOK_CATEGORY = 'books';
+  static const String GET_BOOK_CATEGORY = 'books';
+  static const String DELETE_BOOK_CATEGORY = 'books';
+  static const String EDIT_BOOK_CATEGORY = 'books';
+  static const String CONTACT_PERSON = 'books';
+  static const String CREATE_CONTACT_PERSON = 'books';
+  static const String EDIT_CONTACT_PERSON = 'books';
+  static const String DELETE_CONTACT_PERSON = 'books';
+  static const String PAYMENT_METHOD = 'businesses';
+  static const String CREATE_PAYMENT_METHOD = 'businesses';
+  static const String EDIT_PAYMENT_METHOD = 'businesses';
+  static const String DELETE_PAYMENT_METHOD = 'businesses';
+  static const String CREATE_CASH_IN = 'books';
+  static const String TRANSACTION_HISTORY = 'books';
+  static const String SPECIFIC_TRANSACTION_DETAILS = 'books';
 
 
 

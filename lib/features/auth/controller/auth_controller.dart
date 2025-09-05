@@ -158,14 +158,6 @@ init(){
 
 
 
-
-
-
-
-
-
-
-
     }else{
       _isLoading = false;
       update();

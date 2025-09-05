@@ -274,6 +274,13 @@ class HomeController extends GetxController implements GetxService {
 
   List<book_model.Book> _bookList = [];
   List<book_model.Book> get bookList => _bookList;
+  // 🔹 UPDATED: Filtered Book List (search er jonno)
+  List<book_model.Book> _filteredBookList = [];
+  List<book_model.Book> get filteredBookList => _filteredBookList;
+
+  String _searchText = ""; // 🔹 UPDATED: search text
+  String get searchText => _searchText;
+
 
   int bookCurrentPage = 1;
   int bookLastPage = 1;
@@ -285,9 +292,25 @@ class HomeController extends GetxController implements GetxService {
     update();
   }
 
+  //  UPDATED: setSearchText function
+  void setSearchText(String value) {
+    _searchText = value.trim().toLowerCase();
+
+    if (_searchText.isEmpty) {
+      _filteredBookList = List.from(_bookList);
+    } else {
+      _filteredBookList = _bookList
+          .where((book) => book.name!.toLowerCase().contains(_searchText))
+          .toList();
+    }
+
+    update();
+  }
+
   Future<void> allBook({ int page = 1, required int businessId}) async {
     if (page == 1) {
       _bookList.clear();
+      _filteredBookList.clear(); // 🔹 UPDATED: clear filtered list
     }
 
     isLoadingBooks = true;
@@ -298,9 +321,12 @@ class HomeController extends GetxController implements GetxService {
       try {
         AllBookResponse bookResponse = AllBookResponse.fromJson(apiResponse.response!.data);
         if (bookResponse.data != null) {
-          _bookList.addAll(bookResponse.data!.books ?? []);
+          _bookList.addAll(bookResponse.data!.data ?? []);
           bookCurrentPage = bookResponse.data!.currentPage ?? page;
           bookLastPage = bookResponse.data!.lastPage ?? page;
+
+          //  UPDATED: filtered list update
+          setSearchText(_searchText);
         }
       } catch (e) {
         showCustomSnackBar("Book parse error: $e", isError: true);
@@ -470,7 +496,7 @@ class HomeController extends GetxController implements GetxService {
         await allBook(businessId: id, page: 1);
       }
     } else {
-      _isLoading = false;
+      isLoading = false;
       update();
     }
 
@@ -503,7 +529,8 @@ class HomeController extends GetxController implements GetxService {
 
 
 
-    } else {
+    }
+    else {
       isLoading = false;
       update();
     }
@@ -517,7 +544,7 @@ class HomeController extends GetxController implements GetxService {
     required int businessId,
     required int bookId,
   }) async {
-    isLoading = true;
+    isLoadingbtn = true;
     update();
 
     ApiResponse apiResponse = await homeRepo.deleteBook(
@@ -540,7 +567,7 @@ class HomeController extends GetxController implements GetxService {
       update();
     }
 
-    isLoading = false;
+    isLoadingbtn = false;
     update();
   }
 

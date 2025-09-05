@@ -1,3 +1,4 @@
+/*
 import 'package:cash_books/features/auth/ui/screens/forgot_password_screen.dart';
 import 'package:cash_books/features/auth/ui/screens/sign_in_screen.dart';
 import 'package:cash_books/features/auth/ui/screens/sign_up_screen.dart';
@@ -67,7 +68,14 @@ class AppRoutes {
       route = const HelpScreen();
     }else if(settings.name == ProfileScreen.name){
       route = const ProfileScreen();
-    }else if(settings.name == UpdateBusinessScreen.name);
+    }else if(settings.name == UpdateBusinessScreen.name){
+      final args = settings.arguments as Map<String, dynamic>;
+      route = UpdateBusinessScreen(
+        businessId: args['businessId'],
+        initialName: args['initialName'],
+        status: args['status'],
+      );
+    };
     return MaterialPageRoute(
       builder: (context) {
         return route;
@@ -75,3 +83,111 @@ class AppRoutes {
     );
   }
 }
+*/
+import 'package:cash_books/features/auth/ui/screens/forgot_password_screen.dart';
+import 'package:cash_books/features/auth/ui/screens/sign_in_screen.dart';
+import 'package:cash_books/features/auth/ui/screens/sign_up_screen.dart';
+import 'package:cash_books/features/auth/ui/screens/splash_screen.dart';
+import 'package:cash_books/features/auth/ui/screens/verify_otp_screen.dart';
+import 'package:cash_books/features/book/model/SpecificBookDetailsRespons.dart';
+import 'package:cash_books/features/book/ui/screens/transaction_details.dart';
+import 'package:cash_books/features/businessteam/business_team_handel_veiw_screen.dart';
+import 'package:cash_books/features/businessteam/choose_role_screen.dart';
+import 'package:cash_books/features/businessteam/member_add_to_book_view.dart';
+import 'package:cash_books/features/businessteam/member_add_to_select_book.dart';
+import 'package:cash_books/features/businessteam/staff_info_screen.dart';
+import 'package:cash_books/features/book/ui/screens/add_cash_in_entry_screen.dart';
+import 'package:cash_books/features/book/ui/screens/add_cash_out_entry_screen.dart';
+import 'package:cash_books/features/help/help_screen.dart';
+import 'package:cash_books/features/home/model/BookResponse.dart';
+import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
+import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
+import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
+import 'package:cash_books/features/businessteam/business_team_screen.dart';
+import 'package:cash_books/features/home/ui/screens/move_book_screen.dart';
+import 'package:cash_books/features/home/ui/screens/update_business_screen.dart';
+import 'package:flutter/material.dart';
+import '../features/book/model/SpecificBookDetailsRespons.dart';
+import '../features/navbar/ui/screens/main_bottom_nav_bar_screen.dart';
+import '../features/settings/profile_screen.dart';
+
+class AppRoutes {
+  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case SplashScreen.name:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
+      case SignInScreen.name:
+        return MaterialPageRoute(builder: (_) => const SignInScreen());
+      case SignUpScreen.name:
+        return MaterialPageRoute(builder: (_) => const SignUpScreen());
+      case ForgotPasswordScreen.name:
+        return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+      case VerifyOtpScreen.name:
+        return MaterialPageRoute(builder: (_) => const VerifyOtpScreen());
+      case MainBottomNavBarScreen.name:
+        return MaterialPageRoute(builder: (_) => const MainBottomNavBarScreen());
+      case AddNewBusinessScreen.name:
+        return MaterialPageRoute(builder: (_) => const AddNewBusinessScreen());
+      case BusinessTeamScreen.name:
+        return MaterialPageRoute(builder: (_) => const BusinessTeamScreen());
+      case AddTeamMemberScreen.name:
+        return MaterialPageRoute(builder: (_) => const AddTeamMemberScreen());
+      case BusinessBookScreen.name:
+        final book = settings.arguments as Book;
+        return MaterialPageRoute(builder: (_) => BusinessBookScreen(book: book));
+      case TransactionDetails.name:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => TransactionDetails(
+            selectedId: args['selectedId'], // ListTile থেকে pass করা ID
+            bookId: args['bookId'],         // Book ID
+          ),
+        );
+
+      case AddCashInEntryScreen.name:
+        final book = settings.arguments as Book;//  expect int
+        return MaterialPageRoute(
+          builder: (_) => AddCashInEntryScreen(book: book),
+        );
+
+      case AddCashOutEntryScreen.name:
+        final book = settings.arguments as Book;
+        return MaterialPageRoute(builder: (_) =>  AddCashOutEntryScreen(book:book),);
+      case MoveBookScreen.name:
+        return MaterialPageRoute(builder: (_) => const MoveBookScreen());
+      case ChooseRoleScreen.name:
+        return MaterialPageRoute(builder: (_) => const ChooseRoleScreen());
+      case BusinessTeamHandelViewScreen.name:
+        return MaterialPageRoute(builder: (_) => const BusinessTeamHandelViewScreen());
+      case StaffInfoScreen.name:
+        return MaterialPageRoute(builder: (_) => const StaffInfoScreen());
+      case MemberAddToBookView.name:
+        return MaterialPageRoute(builder: (_) => const MemberAddToBookView());
+      case MemberAddToSelectBook.name:
+        return MaterialPageRoute(builder: (_) => const MemberAddToSelectBook());
+      case HelpScreen.name:
+        return MaterialPageRoute(builder: (_) => const HelpScreen());
+      case ProfileScreen.name:
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case UpdateBusinessScreen.name:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => UpdateBusinessScreen(
+            businessId: args['businessId'],
+            initialName: args['initialName'],
+            status: args['status'],
+          ),
+        );
+      default:
+      //  fallback (route na pele crash korbe na)
+        return MaterialPageRoute(
+          builder: (_) => const Scaffold(
+            body: Center(
+              child: Text("Route not found"),
+            ),
+          ),
+        );
+    }
+  }
+}
+

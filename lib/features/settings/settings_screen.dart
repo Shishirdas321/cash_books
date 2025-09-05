@@ -114,7 +114,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         actionsPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         actions: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _dialogButton(
                 label: 'Cancel',
@@ -132,9 +132,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           _dialogButton(
-            label: 'Logout All',
+            label: 'Logout All Device',
             color: Colors.red,
             background: Colors.red.shade100,
             onPressed: () {

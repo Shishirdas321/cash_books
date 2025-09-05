@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/widgets/custom_button.dart';
+
 class UpdateBusinessScreen extends StatefulWidget {
   const UpdateBusinessScreen({
     super.key,
@@ -48,46 +50,49 @@ class _UpdateBusinessScreenState extends State<UpdateBusinessScreen> {
       ),
       body: Form(
         key: _formKey,
-        child: Padding(
-          padding: EdgeInsets.all(16.w),
-          child: Column(
-            children: [
-              SizedBox(height: 30.h),
-              TextFormField(
-                controller: _updateBusinessNameTEController,
-                textInputAction: TextInputAction.done,
-                decoration: const InputDecoration(
-                  hintText: 'Business Name',
-                  prefixIcon: Icon(Icons.business_center_outlined),
-                ),
-                validator: (String? value) {
-                  if (value?.trim().isEmpty ?? true) {
-                    return 'Enter your business name';
-                  }
-                  return null;
-                },
-              ),
-              const Expanded(child: SizedBox()),
-              Padding(
-                padding: EdgeInsets.only(bottom: 18.h, left: 8.w, right: 8.w, top: 18.h),
-                child: SizedBox(
-                  width: double.maxFinite,
-                  child: ElevatedButton(
-                    onPressed: () {
+        child: GetBuilder<HomeController>(
+          builder: (controller) {
+            return Padding(
+              padding: EdgeInsets.all(16.w),
+              child: Column(
+                children: [
+                  SizedBox(height: 30.h),
+                  TextFormField(
+                    controller: _updateBusinessNameTEController,
+                    textInputAction: TextInputAction.done,
+                    decoration: const InputDecoration(
+                      hintText: 'Business Name',
+                      prefixIcon: Icon(Icons.business_center_outlined),
+                    ),
+                    validator: (String? value) {
+                      if (value?.trim().isEmpty ?? true) {
+                        return 'Enter your business name';
+                      }
+                      return null;
+                    },
+                  ),
+                  const Expanded(child: SizedBox()),
+                  CustomButton(
+                    loading:controller.isLoading ,
+                    onTap:   () {
                       if (_formKey.currentState!.validate()) {
-                        Get.find<HomeController>().updateBusiness(
+                       controller.updateBusiness(
                           id: widget.businessId,
                           name: _updateBusinessNameTEController.text.trim(),
                           status: widget.status,
                         );
                       }
                     },
-                    child: const Text('UPDATE'),
+
+                    textSize: 20.sp,
+
+                    buttonText: 'Update Business',
+
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            );
+          }
         ),
       ),
     );

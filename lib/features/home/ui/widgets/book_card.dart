@@ -1,5 +1,7 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/core/widgets/custom_button.dart';
+import 'package:cash_books/features/book/controllers/book_controller.dart';
 import 'package:cash_books/features/businessteam/add_team_member_screen.dart';
 import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
 import 'package:cash_books/features/home/ui/screens/move_book_screen.dart';
@@ -29,9 +31,27 @@ class _BookCardState extends State<BookCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.pushNamed(context, BusinessBookScreen.name);
+      onTap: () async {
+        final bookId = widget.book.id ?? 0;
+        final businessId = widget.book.businessId ?? 0;
+
+
+        await Get.find<BookController>().specificBookDetails(
+          businessId: businessId,
+          bookId: bookId,
+        );
+
+
+        Navigator.pushNamed(
+          context,
+          BusinessBookScreen.name,
+          arguments: widget.book, // Book object
+
+
+        );
+
       },
+
       child: Card(
         margin:  EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         elevation: 6,
@@ -54,7 +74,23 @@ class _BookCardState extends State<BookCard> {
           leading:  CircleAvatar(
               radius: 20.r, child: const Icon(Icons.book, color: AppColors.themeColor)),
           title:  Text(widget.book.name ?? 'Unknown Book',style: AppTextStyles.titleSmall(),),
-          subtitle:  Text('Created on ${widget.book.createdAt != null ? widget.book.createdAt!.substring(0, 10) : '-'}',style: AppTextStyles.subtitleSmall(),),
+          subtitle: Text(
+            'Created on :${widget.book.createdAt != null
+                ? (() {
+              final date = DateTime.tryParse(widget.book.createdAt!);
+              if (date != null) {
+                final day = date.day.toString().padLeft(2, '0');
+                final month = date.month.toString().padLeft(2, '0');
+                final year = date.year.toString();
+                return "$day/$month/$year";
+              } else {
+                return "-";
+              }
+            })()
+                : '-'}',
+            style: AppTextStyles.subtitleSmall(),
+          ),
+
         ),
       ),
     );
@@ -164,58 +200,67 @@ class _BookCardState extends State<BookCard> {
             padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Form(
               key: _formKey,
-              child: Padding(
-                padding:  EdgeInsets.all(8.0.w),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
+              child: GetBuilder<HomeController>(
+                builder: (controller) {
+                  return Padding(
+                    padding:  EdgeInsets.all(8.0.w),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.close,
-                            color: AppColors.themeColor,
-                          ),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                                color: AppColors.themeColor,
+                              ),
+                            ),
+                             Text(
+                              'Rename Cashbook',
+                              style:
+                              AppTextStyles.bodyMediumPopins(color: AppColors.themeColor),
+                            )
+                          ],
                         ),
-                         Text(
-                          'Rename Cashbook',
-                          style:
-                          AppTextStyles.bodyMediumPopins(color: AppColors.themeColor),
-                        )
+                         SizedBox(height: 20.h),
+                       TextFormField(
+                         controller: _renameCashBookTEController,
+                         textInputAction: TextInputAction.done,
+                         decoration: const InputDecoration(hintText: 'Business Name',prefixIcon: Icon(Icons.drive_file_rename_outline_outlined,color: Colors.grey,)),
+                         validator: (String? value) {
+                           if (value?.trim().isEmpty ?? true) {
+                             return 'Enter your business name';
+                           }
+                           return null;
+                         },
+                       ),
+                         SizedBox(height: 15.h),
+                        CustomButton(
+                          loading:controller.isLoading ,
+                          onTap:    () {
+                            if(_formKey.currentState!.validate()){
+                              Get.find<HomeController>().updateBook(
+                                businessId: widget.book.businessId ?? 0,
+                                bookId: widget.book.id ?? 0,
+                                name: _renameCashBookTEController.text.trim(),
+                              );
+                              Navigator.pop(context);
+                            }
+
+                          },
+
+                          textSize: 20.sp,
+
+                          buttonText: 'SAVE',
+
+                        ),
                       ],
                     ),
-                     SizedBox(height: 20.h),
-                   TextFormField(
-                     controller: _renameCashBookTEController,
-                     textInputAction: TextInputAction.done,
-                     decoration: const InputDecoration(hintText: 'Business Name',prefixIcon: Icon(Icons.drive_file_rename_outline_outlined,color: Colors.grey,)),
-                     validator: (String? value) {
-                       if (value?.trim().isEmpty ?? true) {
-                         return 'Enter your business name';
-                       }
-                       return null;
-                     },
-                   ),
-                     SizedBox(height: 15.h),
-                    ElevatedButton(
-                      onPressed: () {
-                        if(_formKey.currentState!.validate()){
-                          Get.find<HomeController>().updateBook(
-                            businessId: widget.book.businessId ?? 0,
-                            bookId: widget.book.id ?? 0,
-                            name: _renameCashBookTEController.text.trim(),
-                          );
-                            Navigator.pop(context);
-                        }
-
-                      },
-                      child: const Text('SAVE'),
-                    ),
-                  ],
-                ),
+                  );
+                }
               ),
             ),
           );

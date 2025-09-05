@@ -109,6 +109,7 @@ ThemeData lightTheme(BuildContext context) => ThemeData(
   textTheme: buildTextThemeLight(context),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
+      foregroundColor: Colors.white,
       backgroundColor: AppColors.themeColor,
       textStyle: buildTextThemeLight(
         context,

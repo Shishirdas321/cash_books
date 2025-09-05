@@ -1,5 +1,6 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/core/widgets/custom_button.dart';
 import 'package:cash_books/features/home/controllers/home_controller.dart';
 
 import 'package:flutter/material.dart';
@@ -43,36 +44,50 @@ class _AddNewBusinessScreenState extends State<AddNewBusinessScreen> {
       ),
       body: Form(
           key: _formKey,
-          child: Padding(
-            padding:  EdgeInsets.all(16.w),
-            child: Column(
-              children: [
-                SizedBox(height: 30.h),
-                TextFormField(
-                  controller: _businessNameTEController,
-                  textInputAction: TextInputAction.done,
-                  decoration: const InputDecoration(hintText: 'Business Name',prefixIcon: Icon(Icons.business_center_outlined)),
-                  validator: (String? value) {
-                    if (value?.trim().isEmpty ?? true) {
-                      return 'Enter your business name';
-                    }
-                    return null;
-                  },
-                ),
-                const Expanded(child: SizedBox()),
-                Padding(
-                  padding:  EdgeInsets.only(
-                      bottom: 18.h, left: 8.w, right: 8.w, top: 18.h),
+          child: GetBuilder<HomeController>(
+            builder: (controller) {
+              return Padding(
+                padding:  EdgeInsets.all(16.w),
+                child: Column(
+                  children: [
+                    SizedBox(height: 30.h),
+                    TextFormField(
+                      controller: _businessNameTEController,
+                      textInputAction: TextInputAction.done,
+                      decoration: const InputDecoration(hintText: 'Business Name',prefixIcon: Icon(Icons.business_center_outlined)),
+                      validator: (String? value) {
+                        if (value?.trim().isEmpty ?? true) {
+                          return 'Enter your business name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const Expanded(child: SizedBox()),
+                    Padding(
+                      padding:  EdgeInsets.only(
+                          bottom: 18.h, left: 8.w, right: 8.w, top: 18.h),
                   child: SizedBox(
                       width: double.maxFinite,
-                      child: ElevatedButton(onPressed: () {
-                        if(_formKey.currentState!.validate()){
-                          Get.find<HomeController>().createNewBusiness(name: _businessNameTEController.text);
-                        }
-                      }, child: const Text('NEXT'))),
+                      child: CustomButton(
+                        loading:controller.isLoading ,
+                        onTap:     () {
+                          if (_formKey.currentState!.validate()) {
+                            controller.createNewBusiness(
+                                name: _businessNameTEController.text);
+                          }
+                        },
+
+                        textSize: 20.sp,
+
+                        buttonText: 'NEXT',
+
+                      ),),
+
                 )
-              ],
-            ),
+                  ],
+                ),
+              );
+            }
           ),
         ),
     );

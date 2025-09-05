@@ -1,5 +1,6 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/core/widgets/custom_button.dart';
 import 'package:cash_books/features/home/controllers/home_controller.dart';
 import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
 import 'package:cash_books/features/businessteam/business_team_screen.dart';
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _createBookTEController = TextEditingController();
   final ScrollController _scrollController = ScrollController(); // [1] ScrollController added
+  final ScrollController _businessScrollController = ScrollController(); // [NEW] for business selector
   bool _isScrollingDown = false;// [2] Track scroll direction
   //final AllBusinessController allBusinessController = Get.find();
 
@@ -91,6 +93,29 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     });
+    //  Scroll listener for pagination in Business selector
+    _businessScrollController.addListener(() {
+      final controller = Get.find<HomeController>();
+      if (_businessScrollController.position.pixels ==
+          _businessScrollController.position.maxScrollExtent &&
+          !controller.isLoadingbtn &&
+          controller.currentPage < controller.lastPage) {
+        controller.loadNextPage(); // [NEW] Load next page when scroll reaches bottom
+      }
+    });
+    //book
+    _scrollController.addListener(() {
+      final controller = Get.find<HomeController>();
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent &&
+          !controller.isLoadingBooks &&
+          controller.bookCurrentPage < controller.bookLastPage) {
+        controller.loadNextBookPage(
+          controller.businessList[controller.selectedBusinessIndex].id!,
+        );
+      }
+    });
+
   }
 
 
@@ -112,20 +137,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   _showBusinessSelector(context);
                 },
-                child:  Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Top Man',
-                      style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold,
-                     color: Colors.white ),maxLines: 1,overflow: TextOverflow.ellipsis,
+                child:  GetBuilder<HomeController>(
+                  builder: (controller) {
+                    // Selected business name
+                    String businessName = controller.businessList.isNotEmpty
+                        ? controller.businessList[controller.selectedBusinessIndex].name ?? 'No Name'
+                        : 'No Business';
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          businessName,
+                          style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.bold,
+                         color: Colors.white ),maxLines: 1,overflow: TextOverflow.ellipsis,
 
-                    ),
-                    Text(
-                      'Tap to switch business',
-                      style: TextStyle(fontSize: 12.sp,color: Colors.white54)
-                    ),
-                  ],
+                        ),
+                        Text(
+                          'Tap to switch business',
+                          style: TextStyle(fontSize: 12.sp,color: Colors.white54)
+                        ),
+                      ],
+                    );
+                  }
                 ),
               ),
             ),
@@ -153,26 +186,64 @@ class _HomeScreenState extends State<HomeScreen> {
                         'Your Books',
                         style: AppTextStyles.titleSmall(fontWeight: FontWeight.bold),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.search,
-                          color: AppColors.themeColor,
+                      SizedBox(width: 40,),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 8,top: 8,bottom: 8),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                hintText: 'Search',
+                                prefixIcon: Icon(Icons.search_rounded)
+                            ),
+                            onChanged: (value) {
+                              Get.find<HomeController>().setSearchText(value); // 🔹 UPDATED: call search filter in controller
+                            },
+                          ),
                         ),
                       ),
+
                     ],
                   ),
                 ),
-                ListView.builder(
+                controller.filteredBookList.isEmpty
+                    ? controller.isLoadingBooks
+                    ? const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.themeColor,
+                  ),
+                )
+                    : Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                    child: Text("No books found"),
+                  ),
+                )
+                    : ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: controller.bookList.length,
+                  itemCount: controller.filteredBookList.length +
+                      (controller.bookCurrentPage < controller.bookLastPage &&
+                          controller.searchText.isEmpty // 🔹 loader only when search is empty
+                          ? 1
+                          : 0),
                   itemBuilder: (context, index) {
-                    final book = controller.bookList[index];
-                    return  BookCard(book: book,);
+                    if (index < controller.filteredBookList.length) {
+                      final book = controller.filteredBookList[index];
+                      return BookCard(book: book);
+                    } else {
+                      return const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: LinearProgressIndicator(color: AppColors.themeColor),
+                        ),
+                      );
+                    }
                   },
                 ),
-                 SizedBox(height: 50.h),
+
+
+
+                SizedBox(height: 50.h),
               ],
                       );
             }
@@ -226,72 +297,81 @@ class _HomeScreenState extends State<HomeScreen> {
               width: double.maxFinite,
               child: Form(
                 key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                child: GetBuilder<HomeController>(
+                  builder: (controller) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.close,
-                            color: AppColors.themeColor,
-                          ),
-                        ),
-                         Text(
-                          'Add New Book',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                     Divider(
-                      color: Colors.grey,
-                      thickness: 2.0.h,
-                    ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      controller: _createBookTEController,
-                      decoration: const InputDecoration(
-                          hintText: 'Enter Book name',
-                          prefixIcon: Icon(
-                            Icons.email_outlined,
-                           // color: Colors.grey,
-                          )),
-                      validator: (String? value){
-                        if(value?.trim().isEmpty ?? true){
-                          return 'Enter your book name';
-                        }
-                        return null;
-                      },
-                    ),
-                     SizedBox(height: 60.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if(_formKey.currentState!.validate()){
-                                final controller = Get.find<HomeController>();
-                                int selectedBusinessId = controller.businessList[controller.selectedBusinessIndex].id!;
-                                controller.createNewBook(name: _createBookTEController.text.trim(), balance: 0.00, id: selectedBusinessId);
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
                                 Navigator.pop(context);
-                              }
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                                color: AppColors.themeColor,
+                              ),
+                            ),
+                             Text(
+                              'Add New Book',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                         Divider(
+                          color: Colors.grey,
+                          thickness: 2.0.h,
+                        ),
+                        const SizedBox(height: 10),
+                        TextFormField(
+                          controller: _createBookTEController,
+                          decoration: const InputDecoration(
+                              hintText: 'Enter Book name',
+                              prefixIcon: Icon(
+                                Icons.email_outlined,
+                               // color: Colors.grey,
+                              )),
+                          validator: (String? value){
+                            if(value?.trim().isEmpty ?? true){
+                              return 'Enter your book name';
+                            }
+                            return null;
+                          },
+                        ),
+                         SizedBox(height: 60.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: CustomButton(
+                                loading:controller.isLoading ,
+                                onTap:   () {
+                                  if(_formKey.currentState!.validate()){
+                                    int selectedBusinessId = controller.businessList[controller.selectedBusinessIndex].id!;
+                                    controller.createNewBook(name: _createBookTEController.text.trim(), balance: 0.00, id: selectedBusinessId);
+                                    _createBookTEController.clear();
+                                    Navigator.pop(context);
+                                  }
 
-                            },
-                            child: const Text('Add NEW BOOK'),
-                          ),
+                                },
+
+                                textSize: 20.sp,
+
+                                buttonText: 'ADD NEW BOOK',
+
+                              ),
+                            ),
+                          ],
                         ),
                       ],
-                    ),
-                  ],
+                    );
+                  }
                 ),
               ),
             ),
@@ -311,6 +391,13 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context) {
         return GetBuilder<HomeController>(
           builder: (controller) {
+            //new added
+            if (controller.isLoadingbtn && controller.businessList.isEmpty) { // [6] loader when first loading
+              return SizedBox(
+                height: 200.h,
+                child: const Center(child: CircularProgressIndicator()),
+              );
+            }//...
             return Padding(
               padding: EdgeInsets.all(16.w),
               child: Column(
@@ -331,9 +418,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 10.h),
                   Flexible(
                     child: ListView.builder(
+                      controller: _businessScrollController, // Added controller
                       shrinkWrap: true,
-                      itemCount: controller.businessList.length,
+                      itemCount: controller.businessList.length +
+                          (controller.currentPage < controller.lastPage ? 1 : 0), // loader item
                       itemBuilder: (context, index) {
+                        if(index < controller.businessList.length){//new added
                         final business = controller.businessList[index];
                         return BusinessListTile(
                           title: business.name ?? '',
@@ -362,6 +452,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             ));
                           },
                         );
+                      }else {
+                          return const Padding( // [NEW] Loader at the bottom for pagination
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                              child: LinearProgressIndicator(color: AppColors.themeColor),
+                            ),
+                          );
+                        }
                       },
                     ),
                   ),
@@ -521,6 +619,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _createBookTEController.dispose();
     super.dispose();
   }
 }

@@ -8,7 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TeamDiagram extends StatelessWidget {
   const TeamDiagram({super.key});
-
   @override
   Widget build(BuildContext context) {
     return  Column(
@@ -49,7 +48,7 @@ class TeamDiagram extends StatelessWidget {
               ],
             ),
           ],
-        )
+        ),
       ],
     );
   }
