@@ -65,4 +65,8 @@ enum ImageType {
   asset
 }
 
-
+enum CashInSettingType {
+  contact,
+  category,
+  payment
+}
