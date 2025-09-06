@@ -175,6 +175,7 @@ class BookController extends GetxController implements GetxService {
     }
 
     isLoadingbtn = false;
+    update();
   }
 
   Future<void> loadContactNextPage() async {
