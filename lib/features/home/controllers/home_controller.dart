@@ -310,7 +310,7 @@ class HomeController extends GetxController implements GetxService {
   Future<void> allBook({ int page = 1, required int businessId}) async {
     if (page == 1) {
       _bookList.clear();
-      _filteredBookList.clear(); // 🔹 UPDATED: clear filtered list
+      _filteredBookList.clear(); //  UPDATED: clear filtered list
     }
 
     isLoadingBooks = true;

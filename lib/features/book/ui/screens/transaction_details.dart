@@ -4,7 +4,9 @@ import 'package:cash_books/features/book/controllers/book_controller.dart';
 import 'package:cash_books/features/book/model/AllCategoriesResponse.dart';
 import 'package:cash_books/features/book/model/AllContactPerson.dart';
 import 'package:cash_books/features/book/model/AllPaymentMethodResponse.dart';
+import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
 import 'package:cash_books/features/book/ui/widgets/coustom_dropdown.dart';
+import 'package:cash_books/features/home/model/BookResponse.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,7 +14,9 @@ import 'package:get/get.dart';
 class TransactionDetails extends StatefulWidget {
   final int selectedId;
   final int bookId;
-  const TransactionDetails({super.key, required this.selectedId, required this.bookId});
+  final Book book;
+
+  const TransactionDetails({super.key, required this.selectedId, required this.bookId, required this.book, });
 
   static const String name = '/transaction-details';
 
@@ -29,9 +33,9 @@ class _TransactionDetailsState extends State<TransactionDetails> {
   final TextEditingController paymentMethodController = TextEditingController();
   final TextEditingController noteController = TextEditingController();
 
-  String? contact;
-  String? category;
-  String? payment;
+  String? selectedContactName;
+  String? selectedCategoryName;
+  String? selectedPaymentName;
   ContactPerson? selectedContact;
   Category? selectedCategory;
   PaymentMethod? selectedPayment;
@@ -48,7 +52,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
       );
       Get.find<BookController>().allCategory(bookId: widget.bookId);
       Get.find<BookController>().allContactPerson(bookId: widget.bookId);
-     // Get.find<BookController>().allPaymentMethod(businessId: widget.book.businessId!);
+      Get.find<BookController>().allPaymentMethod(businessId: widget.book.businessId!);
     });
   }
 
@@ -58,7 +62,13 @@ class _TransactionDetailsState extends State<TransactionDetails> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<BookController>();
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pop();
+        return false;
+      },
+      child:
+     Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.themeColor,
         leading: const BackButton(color: Colors.white),
@@ -98,9 +108,12 @@ class _TransactionDetailsState extends State<TransactionDetails> {
             amountController.text = data.amount?.toString() ?? '';
             transactionTypeController.text =
             (data.type == 1) ? 'Cash In' : (data.type == 2) ? 'Cash Out' : '';
-            categoryController.text = (data.category?.name.toString() ?? '');
-            paymentMethodController.text = (data.paymentMode?.name.toString() ?? '');
+           // categoryController.text = (data.category?.name.toString() ?? '');
+           // paymentMethodController.text = (data.paymentMode?.name.toString() ?? '');
             noteController.text = data.remarks ?? '';
+            selectedContactName = data.contact?.name;
+            selectedCategoryName = data.category?.name;
+            selectedPaymentName = data.paymentMode?.name;
           }
 
 
@@ -178,68 +191,67 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               const SizedBox(height: 16),
 
                               // Row 3: Category and Payment Method
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: GetBuilder<BookController>(
-                                      builder: (controller) {
-                                        return PopupSearchableDropdownField(
-                                            controller: categoryController,
-                                            label: 'Category',
-                                            items: controller.categoryList.map((e) =>e.name!).toList(),
-                                            onChanged: (val) {
-                                              setState(() {
-                                                selectedCategory = controller.categoryList.firstWhere((e) => e.name == val);
-                                              });
-                                            },
-                                          value: category,
-                                        );
-                                      }
-                                    )),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                      child: GetBuilder<BookController>(
-                                          builder: (controller) {
-                                            return PopupSearchableDropdownField(
-                                              controller: paymentMethodController,
-                                              label: 'Payment method',
-                                              items: controller.paymentMethodList.map((e) =>e.name!).toList(),
-                                              onChanged: (val) {
-                                                setState(() {
-                                                  selectedPayment = controller.paymentMethodList.firstWhere((e) => e.name == val);
-                                                });
-                                              },
-                                              value: payment,
-                                            );
-                                          }
-                                      )),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              Row(
-                                children: [
-                                  Expanded(
-                                      child: GetBuilder<BookController>(
-                                          builder: (controller) {
-                                            return PopupSearchableDropdownField(
-                                              label: 'Contact Name',
-                                              items: controller.contactPerList.map((e) =>e.name!).toList(),
-                                              //subItems: controller.contactPerList.map((e)=>e.mobileNo!).toList(),
-                                              onChanged: (val) {
-                                                setState(() {
-                                                  selectedContact = controller.contactPerList.firstWhere((e) => e.name == val);
-                                                });
-                                              },
-                                              value: category,
-                                              subItems: Map.fromEntries(
-                                                  controller.contactPerList
-                                                      .where((e) => e.mobileNo != null)
-                                                      .map((e) => MapEntry(e.name!, [e.mobileNo!]))
+                              GetBuilder<BookController>(
+                                builder: (controller) {
+                                  return Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: PopupSearchableDropdownField(
+                                                    controller: categoryController,
+                                                    label: 'Category',
+                                                    items: controller.categoryList.map((e) =>e.name!).toList(),
+                                                    onChanged: (val) {
+                                                      setState(() {
+                                                        selectedCategory = controller.categoryList.firstWhere((e) => e.name == val);
+                                                      });
+                                                    },
+                                                  value:  selectedCategoryName,
+                                                )
+                                             ),
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                              child:PopupSearchableDropdownField(
+                                                      controller: paymentMethodController,
+                                                      label: 'Payment method',
+                                                      items: controller.paymentMethodList.map((e) =>e.name!).toList(),
+                                                      onChanged: (val) {
+                                                        setState(() {
+                                                          selectedPayment = controller.paymentMethodList.firstWhere((e) => e.name == val);
+                                                        });
+                                                      },
+                                                      value: selectedPaymentName,
+                                                    )
+                                             ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 16),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                              child:  PopupSearchableDropdownField(
+                                                      label: 'Contact Name',
+                                                      items: controller.contactPerList.map((e) =>e.name!).toList(),
+                                                      //subItems: controller.contactPerList.map((e)=>e.mobileNo!).toList(),
+                                                      onChanged: (val) {
+                                                        setState(() {
+                                                          selectedContact = controller.contactPerList.firstWhere((e) => e.name == val);
+                                                        });
+                                                      },
+                                                      value: selectedContactName,
+                                                      subItems: Map.fromEntries(
+                                                          controller.contactPerList
+                                                              .where((e) => e.mobileNo != null)
+                                                              .map((e) => MapEntry(e.name!, [e.mobileNo!]))
+                                                      ),
+                                                    )
                                               ),
-                                            );
-                                          }
-                                      )),
-                                ],
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                }
                               ),
                               const SizedBox(height: 16),
                               // Row 4: Note/Remark (Full Width)
@@ -266,6 +278,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
           );
         }
       ),
+    )
     );
   }
 
@@ -431,8 +444,17 @@ class _TransactionDetailsState extends State<TransactionDetails> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                Get.find<BookController>().deleteTransactionDetails(widget.bookId,widget.selectedId);
+                //Get.off(() => BusinessBookScreen(book: widget.book));
+                // Dialog এর onPressed এ:
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => BusinessBookScreen(book: widget.book),
+                  ),
+                      (route) => route.isFirst,
+                );
                 // Delete transaction logic here
-                _deleteTransaction();
+                //_deleteTransaction();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,

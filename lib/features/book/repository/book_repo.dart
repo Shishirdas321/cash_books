@@ -331,6 +331,19 @@ class BookRepo {
     }
   }
 
+  //delete transaction details
+  Future<ApiResponse> deleteTransactionDetails( int bookId,int selectedId) async {
+    // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
+    try{
+      Response response= await dioClient.delete('${AppConstants.DELETE_TRANSACTION_DETAILS}/$bookId/items/$selectedId', );
+      return ApiResponse.withSuccess(response);
+    }catch(e){
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "deleteTransactionDetails", mustShowErrorInReleaseMode: true),
+      );
+    }
+  }
+
 
 
 

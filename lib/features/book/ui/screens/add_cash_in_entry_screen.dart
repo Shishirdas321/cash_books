@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:cash_books/core/enums/enums.dart';
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/core/widgets/custom_snackbar.dart';
 import 'package:cash_books/features/book/controllers/book_controller.dart';
 import 'package:cash_books/features/book/model/AllCategoriesResponse.dart';
 import 'package:cash_books/features/book/model/AllContactPerson.dart';
@@ -259,7 +260,7 @@ class _AddCashInEntryScreenState extends State<AddCashInEntryScreen> {
                       child: GetBuilder<BookController>(
                         builder: (controller) {
                           return PopupSearchableDropdownField(
-                            label: "Category",textStyle: AppTextStyles.subtitleSmall(color: Colors.grey),
+                            label: "Category",
                             actionIcon: IconButton(
                               onPressed: () {
                                 showCustomBottomSheet(context: context,
@@ -323,7 +324,7 @@ class _AddCashInEntryScreenState extends State<AddCashInEntryScreen> {
                 GetBuilder<BookController>(
                   builder: (controller) {
                     return PopupSearchableDropdownField(
-                      label: "Payment method",textStyle: AppTextStyles.subtitleSmall(color: Colors.grey),
+                      label: "Payment method",
                       actionIcon: IconButton(
                         onPressed: () {
                           showCustomBottomSheet(context: context,
@@ -414,7 +415,8 @@ class _AddCashInEntryScreenState extends State<AddCashInEntryScreen> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           if (selectedPayment == null) {
-                            Get.snackbar("Error", "Please select a payment method");
+                            showCustomSnackBar( "Please select a payment method", isError: true, isPosition: false);
+                           // Get.snackbar("Error", "Please select a payment method");
                             return;
                           }
                           // Remove commas and parse as double

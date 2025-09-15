@@ -1,6 +1,7 @@
 import 'package:cash_books/core/enums/enums.dart';
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/core/widgets/custom_snackbar.dart';
 import 'package:cash_books/features/book/model/AllCategoriesResponse.dart';
 import 'package:cash_books/features/book/model/AllContactPerson.dart';
 import 'package:cash_books/features/book/model/AllPaymentMethodResponse.dart';
@@ -313,7 +314,7 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
                                           return 'Enter your new method';
                                         }
                                         return null;
-                                      },cancelText: 'Cancel',cancelColor: Colors.grey,confirmText: 'Update',confirmColor: Colors.green,title: 'Update your Payment method', onCancel: () { Navigator.pop(context); },
+                                      },cancelText: 'Cancel',initialValue:selectedPayment.name,cancelColor: Colors.grey,confirmText: 'Update',confirmColor: Colors.green,title: 'Update your Payment method', onCancel: () { Navigator.pop(context); },
                                         onConfirm: (String? text,String? text1) {
                                           controller.updatePaymentMethod(businessId: widget.book.businessId!, paymentMethodId: selectedPayment.id!, name: text!.trim());
                                         });
@@ -380,7 +381,8 @@ class _AddCashOutEntryScreenState extends State<AddCashOutEntryScreen> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             if (selectedPayment == null) {
-                              Get.snackbar("Error", "Please select a payment method");
+                              showCustomSnackBar( "Please select a payment method", isError: true, isPosition: false);
+                            //  Get.snackbar("Error", "Please select a payment method");
                               return;
                             }
                             // Remove commas and parse as double

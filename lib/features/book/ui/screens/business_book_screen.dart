@@ -30,11 +30,16 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
   @override
   void initState() {
     super.initState();
-    // Initial data load
-    _loadInitialData();
+
+    // Initial data load AFTER build finishes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadInitialData();
+    });
+
     // Setup scroll listener for pagination
     _setupScrollListener();
   }
+
 
   void _loadInitialData() {
     final controller = Get.find<BookController>();
@@ -456,6 +461,7 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
             context,
             TransactionDetails.name,
             arguments: {
+              'book': widget.book,
               'selectedId': item.id,
               'bookId': item.bookId,
             },

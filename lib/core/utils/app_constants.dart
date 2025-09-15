@@ -40,7 +40,7 @@ class AppConstants {
   static const String CREATE_CASH_IN = 'books';
   static const String TRANSACTION_HISTORY = 'books';
   static const String SPECIFIC_TRANSACTION_DETAILS = 'books';
-
+  static const String DELETE_TRANSACTION_DETAILS = 'books';
 
 
 

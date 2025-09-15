@@ -139,10 +139,12 @@ class AppRoutes {
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
           builder: (_) => TransactionDetails(
-            selectedId: args['selectedId'], // ListTile থেকে pass করা ID
-            bookId: args['bookId'],         // Book ID
+            book: args['book'] as Book,
+            selectedId: args['selectedId'] as int,
+            bookId: args['bookId'] as int,
           ),
         );
+
 
       case AddCashInEntryScreen.name:
         final book = settings.arguments as Book;//  expect int
