@@ -37,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Get.find<HomeController>().allBusiness(page: 1);
+   // Get.find<HomeController>().allBusiness(page: 1);
   }
 
   @override

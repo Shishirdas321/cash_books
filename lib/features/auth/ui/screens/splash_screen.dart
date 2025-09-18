@@ -1,8 +1,11 @@
+import 'package:cash_books/datasource/local/session.dart';
 import 'package:cash_books/features/auth/ui/screens/sign_in_screen.dart';
 import 'package:cash_books/features/auth/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../../../navbar/ui/screens/main_bottom_nav_bar_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,7 +29,12 @@ class _SplashScreenState extends State<SplashScreen> {
     //   context,
     //   MaterialPageRoute(builder: (context) => SignInScreen()),
     // );
-    Get.offAllNamed(SignInScreen.name);
+    if(Session.isLoggedOn()){
+      Get.offAllNamed(MainBottomNavBarScreen.name);
+    }else{
+      Get.offAllNamed(SignInScreen.name);
+    }
+
   }
 
   @override

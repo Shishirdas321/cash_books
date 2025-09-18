@@ -43,7 +43,7 @@ class _SignInScreenState extends State<SignInScreen> {
       Get.find<AuthController>().init();
     });
 
-    Get.find<HomeController>().allBusiness(page: 1);
+
   }
 
   @override
