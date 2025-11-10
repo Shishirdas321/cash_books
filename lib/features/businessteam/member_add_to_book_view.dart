@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MemberAddToBookView extends StatelessWidget {
-  const MemberAddToBookView({super.key});
+  final int businessId;
+  final int userId;
+  const MemberAddToBookView({super.key, required this.businessId, required this.userId});
 
   static const String name = '/add-to-book-view';
 
@@ -109,7 +111,10 @@ class MemberAddToBookView extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, MemberAddToSelectBook.name);
+                    Navigator.pushNamed(context, MemberAddToSelectBook.name,arguments: {
+                      'businessId': businessId,
+                      'userId': userId,
+                    },);
                   },
                   child: const Text("NEXT"),
                 ),

@@ -1,16 +1,28 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/features/businessteam/controllers/business_team_controller.dart';
 import 'package:cash_books/features/businessteam/member_add_to_book_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class StaffInfoScreen extends StatelessWidget {
-  const StaffInfoScreen({super.key});
+  final dynamic member;
+  final int businessId;
+  const StaffInfoScreen({super.key, this.member, required this.businessId});
 
   static const String name = '/staff-info';
 
   @override
   Widget build(BuildContext context) {
+
+    final controller = Get.find<BusinessTeamController>();
+
+
+
+
+
+
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.93),
       //resizeToAvoidBottomInset: false,
@@ -30,112 +42,131 @@ class StaffInfoScreen extends StatelessWidget {
           style: AppTextStyles.appbar(),
         ),
       ),
-      body: ListView(
-          padding:  EdgeInsets.all(16.w),
-          children: [
-             ListTile(
-              leading: CircleAvatar(
-                radius: 24.r,
-                child: const Icon(Icons.person_outline,color: AppColors.themeColor,),
-              ),
-              title: Text('dknnn22@gmail.com',style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
-              trailing: const Chip(elevation: 6,
-                label: Text('Staff', style: TextStyle(color: Colors.white)),
-                backgroundColor: AppColors.themeColor,
-              ),
-            ),
-             Divider(height: 32.h),
+      body: GetBuilder<BusinessTeamController>(
+        builder: (controller) {
 
-            /*Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+
+          final userId = member.user?.id ?? 0;
+          // Updated member find kora controller er list theke
+          final updatedMember = controller.businessTeam.firstWhere(
+                (m) => m.user?.id == userId,
+            orElse: () => member, // Na paile original member return korbe
+          );
+          final firstName = updatedMember.user?.firstName ?? 'Unknown';
+          final email = updatedMember.user?.email ?? 'No email';
+          final role = updatedMember.role ?? '';
+
+          return ListView(
+              padding:  EdgeInsets.all(16.w),
               children: [
-                const CircleAvatar(
-                  radius: 24,
-                  child: Icon(Icons.person_outline),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Shishir', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 4),
-                      Text('dknnn22@gmail.com'),
-                    ],
+                 ListTile(
+                  leading: CircleAvatar(
+                    radius: 24.r,
+                    child: const Icon(Icons.person_outline,color: AppColors.themeColor,),
+                  ),
+                  title: Text(email,style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
+                  trailing:  Chip(elevation: 6,
+                    label: Text(role, style: TextStyle(color: Colors.white)),
+                    backgroundColor: AppColors.themeColor,
                   ),
                 ),
-                const Chip(
-                  label: Text('Staff', style: TextStyle(color: Colors.white)),
-                  backgroundColor: AppColors.themeColor,
-                )
+                 Divider(height: 32.h),
+
+                /*Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const CircleAvatar(
+                      radius: 24,
+                      child: Icon(Icons.person_outline),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text('Shishir', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          SizedBox(height: 4),
+                          Text('dknnn22@gmail.com'),
+                        ],
+                      ),
+                    ),
+                    const Chip(
+                      label: Text('Staff', style: TextStyle(color: Colors.white)),
+                      backgroundColor: AppColors.themeColor,
+                    )
+                  ],
+                ),*/
+                 SizedBox(height: 24.h),
+                 Divider(height: 32.h),
+                 ListTile(
+                  onTap: (){
+                    _buildStaffPermissionBottomSheet(context,);
+                  },
+                  leading: const Icon(Icons.badge, color: Colors.black87),
+                  title:  Text('Staff Permissions',
+                  style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
+                  subtitle:  Text('List of actions staff can take',
+                  style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
+                    trailing:  Icon(
+                      Icons.arrow_forward_ios,
+                      size: 18.w,
+                      color: Colors.black87,
+                    ),
+                  ),
+
+                 Divider(height: 32.h),
+
+                 Text('Books (0)', style: AppTextStyles.bodyMediumWhite(fontWeight: FontWeight.bold,color: Colors.black54)),
+                 SizedBox(height: 8.h),
+
+                ListTile(
+                  leading: const CircleAvatar(
+                    child: Icon(Icons.add, color: Colors.black87),
+                  ),
+                    title:  Text('Add to books',
+                        style: AppTextStyles.bodyMediumPopins(color: Colors.black54)),
+                    subtitle:  Text(
+                      'Add & Assign Role',
+                      style: AppTextStyles.subtitleSmall(color: Colors.black45),
+                    ),
+                    onTap: () {
+                    Navigator.pushNamed(context, MemberAddToBookView.name, arguments: {
+                      'businessId': businessId,
+                      'userId': userId,
+                    },);
+                  },
+                ),
+
+                 SizedBox(height: 8.h),
+                ListTile(
+                  leading:  const Icon(Icons.switch_account_outlined, color: Colors.black87),
+                  title:  Text('Change role ', style: AppTextStyles.bodyMediumPopins(color: Colors.black54)),
+                  onTap: () {
+                    _buildBottomSheetChangeRoleToPartner(context,firstName,email,userId,role);
+                  },
+                ),
+                 SizedBox(height: 8.h),
+                ListTile(
+                  leading: const Icon(Icons.person_remove_outlined, color: Colors.red),
+                  title:  Text('Remove from business', style: AppTextStyles.bodyMediumPopins(color: Colors.black54)),
+                  onTap: () {
+                    _showRemoveFromBusiness(context,firstName,userId);
+                  },
+                ),
               ],
-            ),*/
-             SizedBox(height: 24.h),
-             Divider(height: 32.h),
-             ListTile(
-              onTap: (){
-                _buildStaffPermissionBottomSheet(context);
-              },
-              leading: const Icon(Icons.badge, color: Colors.black87),
-              title:  Text('Staff Permissions',
-              style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
-              subtitle:  Text('List of actions Staff can take',
-              style: AppTextStyles.bodyMediumWhite(color: Colors.black54),),
-                trailing:  Icon(
-                  Icons.arrow_forward_ios,
-                  size: 18.w,
-                  color: Colors.black87,
-                ),
-              ),
-
-             Divider(height: 32.h),
-
-             Text('Books (0)', style: AppTextStyles.bodyMediumWhite(fontWeight: FontWeight.bold,color: Colors.black54)),
-             SizedBox(height: 8.h),
-
-            ListTile(
-              leading: const CircleAvatar(
-                child: Icon(Icons.add, color: Colors.black87),
-              ),
-                title:  Text('Add to books',
-                    style: AppTextStyles.bodyMediumPopins(color: Colors.black54)),
-                subtitle:  Text(
-                  'Add & Assign Role',
-                  style: AppTextStyles.subtitleSmall(color: Colors.black45),
-                ),
-                onTap: () {
-                Navigator.pushNamed(context, MemberAddToBookView.name);
-              },
-            ),
-
-             SizedBox(height: 8.h),
-            ListTile(
-              leading:  const Icon(Icons.switch_account_outlined, color: Colors.black87),
-              title:  Text('Change role to Partner', style: AppTextStyles.bodyMediumPopins(color: Colors.black54)),
-              onTap: () {
-                _buildBottomSheetChangeRoleToPartner(context);
-              },
-            ),
-             SizedBox(height: 8.h),
-            ListTile(
-              leading: const Icon(Icons.person_remove_outlined, color: Colors.red),
-              title:  Text('Remove from business', style: AppTextStyles.bodyMediumPopins(color: Colors.black54)),
-              onTap: () {
-                _showRemoveFromBusiness(context);
-              },
-            ),
-          ],
-        ),
+            );
+        }
+      ),
     );
   }
 
 
-  Future<dynamic> _showRemoveFromBusiness(context) {
+  Future<dynamic> _showRemoveFromBusiness(context,String name,int userId) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title:  Text(
-          'Remove Shishir from Business Book?',
+          'Remove $name from Business Book?',
           style: AppTextStyles.bodyMedium(color: Colors.black),
         ),
         actions: [
@@ -144,7 +175,7 @@ class StaffInfoScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Are you sure?',style: TextStyle(fontFamily: 'popins',fontSize: 16.sp,color: Colors.grey),),
-              Text('Shishir will loss access to this book',style: TextStyle(fontFamily: 'popins',fontSize: 16.sp,color: Colors.grey),),
+              Text('$name will loss access to this book',style: TextStyle(fontFamily: 'popins',fontSize: 16.sp,color: Colors.grey),),
                 SizedBox(height: 18.h),
                 Card(
                   color: AppColors.themeColor,
@@ -154,7 +185,7 @@ class StaffInfoScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Icon(Icons.info_outline,color: Colors.white,),
-                        Expanded(child: Text('shishir will stil be a part of your business',style: TextStyle(
+                        Expanded(child: Text('$name will stil be a part of your business',style: TextStyle(
                           fontSize: 10.sp,color: Colors.white,fontFamily: 'appBarText'
                         ),))
                       ],
@@ -183,15 +214,22 @@ class StaffInfoScreen extends StatelessWidget {
               ),
               Card(
                 color: Colors.red.shade100,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text(
-                    'Delete',
-                    style:
-                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-                  ),
+                child: GetBuilder<BusinessTeamController>(
+                  builder: (controller) {
+                    return TextButton(
+                      onPressed: () async{
+                        await controller.removeTeamMember(userId: userId, businessId: businessId);
+                        // if (context.mounted) {
+                        //   Navigator.pop(context);
+                        // }
+                      },
+                      child: const Text(
+                        'Delete',
+                        style:
+                        TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  }
                 ),
               ),
             ],
@@ -201,7 +239,7 @@ class StaffInfoScreen extends StatelessWidget {
     );
   }
 
-  Future<dynamic> _buildStaffPermissionBottomSheet(BuildContext context) {
+  Future<dynamic> _buildStaffPermissionBottomSheet(BuildContext context,) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -277,7 +315,20 @@ class StaffInfoScreen extends StatelessWidget {
     );
   }
 
-  Future<dynamic> _buildBottomSheetChangeRoleToPartner(BuildContext context) {
+  // Current role theke new role determine kora
+  String getNewRole(String currentRole) {
+    if (currentRole.toLowerCase() == 'staff') {
+      return 'partner';
+    } else if (currentRole.toLowerCase() == 'partner') {
+      return 'staff';
+    }
+    return currentRole; // default return current role
+  }
+
+  Future<dynamic> _buildBottomSheetChangeRoleToPartner(BuildContext context,String firstName,String email,int userId,String currentRole) {
+
+    // New role calculate kora
+    String newRole = getNewRole(currentRole);
     return showModalBottomSheet(
               context: context,
               isScrollControlled: true,
@@ -297,7 +348,7 @@ class StaffInfoScreen extends StatelessWidget {
                             Navigator.pop(context);
                           }, icon: const Icon(Icons.close,color: AppColors.themeColor,)),
                            Text(
-                            "Change role to Partner",
+                            'Change role to ${newRole.toUpperCase()}',
                             style: AppTextStyles.bodyMediumPopins(color: Colors.black,fontSize: 18.sp),
                           ),
                         ],
@@ -318,8 +369,8 @@ class StaffInfoScreen extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Opu", style: AppTextStyles.titleSmall(color: Colors.black87)),
-                                Text("dknnn22@gmail.com",style: AppTextStyles.subtitleSmall(color: Colors.black54),),
+                                Text(firstName, style: AppTextStyles.titleSmall(color: Colors.black87)),
+                                Text(email,style: AppTextStyles.subtitleSmall(color: Colors.black54),),
                               ],
                             ),
                           ],
@@ -355,14 +406,21 @@ class StaffInfoScreen extends StatelessWidget {
                        SizedBox(height: 16.h),
                       Padding(
                         padding:  EdgeInsets.symmetric(horizontal: 16.w),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize:  Size.fromHeight(48.h),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text("CHANGE ROLE TO PARTNER"),
+                        child: GetBuilder<BusinessTeamController>(
+                          builder: (controller) {
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                minimumSize:  Size.fromHeight(48.h),
+                              ),
+                              onPressed: () async{
+                                await controller.changeRole(userId: userId, businessId: businessId, role: newRole);
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                }
+                              },
+                              child:  Text('CHANGE ROLE TO ${newRole.toUpperCase()}'),
+                            );
+                          }
                         ),
                       ),
                        SizedBox(height: 16.h),

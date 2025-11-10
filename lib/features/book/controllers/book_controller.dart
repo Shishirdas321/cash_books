@@ -19,6 +19,7 @@ import 'package:cash_books/features/book/model/UpdatePaymentMethodResponse.dart'
 import 'package:cash_books/features/book/repository/book_repo.dart';
 import 'package:cash_books/features/book/ui/screens/add_cash_in_entry_screen.dart';
 import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
+import 'package:cash_books/features/home/controllers/home_controller.dart';
 import 'package:cash_books/features/home/ui/screens/add_new_business_screen.dart';
 import 'package:get/get.dart';
 import '../../../core/fonts/app_text_style.dart';
@@ -86,6 +87,7 @@ class BookController extends GetxController implements GetxService {
   Future<void> specificBookDetails({required int businessId,required int bookId}) async {
 
     isLoadingbtn = true;
+    update();
 
     ApiResponse apiResponse = await bookRepo.specificBookDetails(businessId: businessId, bookId: bookId);
 
@@ -104,12 +106,13 @@ class BookController extends GetxController implements GetxService {
     }
 
     isLoadingbtn = false;
+    update();
   }
   //for get book category
   int? _currentBookId;
-  // FIX 1: allCategory method এ _currentBookId set করুন
+  // FIX 1: allCategory method এ _currentBookId set
   Future<void> allCategory({int page = 1,required int bookId}) async {
-    _currentBookId = bookId; // ✅ এই line add করুন
+    _currentBookId = bookId; //
 
     if (page == 1) {
      // _catecoryList.clear();
@@ -197,7 +200,7 @@ class BookController extends GetxController implements GetxService {
 
 // FIX 2: allContactPerson method এ _currentBookId set করুন
   Future<void> allContactPerson({int page = 1,required int bookId}) async {
-    _currentBookId = bookId; // ✅ এই line add করুন
+    _currentBookId = bookId; //
 
     if (page == 1) {
       //_contactPerList.clear();
@@ -220,7 +223,7 @@ class BookController extends GetxController implements GetxService {
           contactCurrentPage = contactPersonResponse.data!.currentPage ?? page;
           contactLastPage = contactPersonResponse.data!.lastPage ?? page;
 
-          // ✅ শুধু page 1 এ success message
+          //  শুধু page 1 এ success message
           if (page == 1) {
             showCustomSnackBar(contactPersonResponse.message ?? "Success", isError: false, isPosition: true);
           }
@@ -695,7 +698,11 @@ class BookController extends GetxController implements GetxService {
       CashInResponse.fromJson(apiResponse.response?.data);
       String msg = cashInResponse.message ?? "";
       showCustomSnackBar(msg, isError: false, isPosition: true);
+      final controller = Get.find<HomeController>();
+      await controller.allBook(businessId: _currentBusinessId);
       await specificBookDetails(businessId: _currentBusinessId, bookId: bookId);
+      await transactionHistory(bookId: bookId, page: 1);
+      update();
       Get.back();
     } else {
       errorMsg = apiResponse.error.toString();

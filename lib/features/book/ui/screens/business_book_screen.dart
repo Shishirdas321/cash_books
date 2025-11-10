@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../book/model/SpecificBookDetailsRespons.dart';
+import '../../../home/controllers/home_controller.dart';
 import '../../../home/model/BookResponse.dart';
 
 class BusinessBookScreen extends StatefulWidget {
@@ -129,91 +130,187 @@ class _BusinessBookScreenState extends State<BusinessBookScreen> {
       ),
     );
   }
-
   Widget _buildBalanceCard() {
-    return Container(
-      margin: EdgeInsets.all(16.w),
-      child: Card(
-        elevation: 6,
-        child: Padding(
-          padding: EdgeInsets.all(16.w),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Net Balance',
-                style: AppTextStyles.bodyMedium(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              FittedBox(
-                child: Text(
-                  '${widget.book.balance ?? '0.00'}',
-                  style: AppTextStyles.bodyMedium(
+    return GetBuilder<BookController>(
+      builder: (controller) {
+        // ✅ HomeController থেকে updated book নিন
+        final homeController = Get.find<HomeController>();
+        final updatedBook = homeController.bookList.firstWhereOrNull(
+                (book) => book.id == widget.book.id
+        );
+
+        // ✅ Updated book use করুন, না থাকলে widget.book
+        final bookData = updatedBook ?? widget.book;
+
+        return Container(
+          margin: EdgeInsets.all(16.w),
+          child: Card(
+            elevation: 6,
+            child: Padding(
+              padding: EdgeInsets.all(16.w),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Net Balance',
+                    style: AppTextStyles.bodyMedium(
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
-                      fontSize: 24.sp),
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      'Total In (+)',
-                      style: AppTextStyles.bodyMediumPopins(
-                          color: AppColors.themeColor,
-                          fontSize: 14.sp),
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Flexible(
+                  SizedBox(height: 10.h),
+                  FittedBox(
                     child: Text(
-                      '${widget.book.totalCashIn ?? '0.00'}',
-                      style: AppTextStyles.bodyMediumPopins(color: Colors.green),
-                      overflow: TextOverflow.ellipsis,
+                      '${bookData.balance ?? '0.00'}',
+                      style: AppTextStyles.bodyMedium(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24.sp),
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          'Total In (+)',
+                          style: AppTextStyles.bodyMediumPopins(
+                              color: AppColors.themeColor,
+                              fontSize: 14.sp),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Flexible(
+                        child: Text(
+                          '${bookData.totalCashIn ?? '0.00'}',
+                          style: AppTextStyles.bodyMediumPopins(color: Colors.green),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          'Total Out (-)',
+                          style: AppTextStyles.bodyMediumPopins(
+                              color: AppColors.themeColor,
+                              fontSize: 14.sp),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Flexible(
+                        child: Text(
+                          '${bookData.totalCashOut ?? '0.00'}',
+                          style: AppTextStyles.bodyMediumPopins(color: Colors.red),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16.h),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('VIEW REPORTS'),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 8.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      'Total Out (-)',
-                      style: AppTextStyles.bodyMediumPopins(
-                          color: AppColors.themeColor,
-                          fontSize: 14.sp),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Flexible(
-                    child: Text(
-                      ' ${widget.book.totalCashOut ?? '0.00'}',
-                      style: AppTextStyles.bodyMediumPopins(color: Colors.red),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.h),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('VIEW REPORTS'),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
+  // Widget _buildBalanceCard() {
+  //   return Container(
+  //     margin: EdgeInsets.all(16.w),
+  //     child: Card(
+  //       elevation: 6,
+  //       child: Padding(
+  //         padding: EdgeInsets.all(16.w),
+  //         child: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             Text(
+  //               'Net Balance',
+  //               style: AppTextStyles.bodyMedium(
+  //                 fontSize: 18.sp,
+  //                 fontWeight: FontWeight.bold,
+  //               ),
+  //             ),
+  //             SizedBox(height: 10.h),
+  //             FittedBox(
+  //               child: Text(
+  //                 '${widget.book.balance ?? '0.00'}',
+  //                 style: AppTextStyles.bodyMedium(
+  //                     fontWeight: FontWeight.bold,
+  //                     fontSize: 24.sp),
+  //               ),
+  //             ),
+  //             SizedBox(height: 16.h),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Flexible(
+  //                   child: Text(
+  //                     'Total In (+)',
+  //                     style: AppTextStyles.bodyMediumPopins(
+  //                         color: AppColors.themeColor,
+  //                         fontSize: 14.sp),
+  //                     overflow: TextOverflow.ellipsis,
+  //                   ),
+  //                 ),
+  //                 Flexible(
+  //                   child: Text(
+  //                     '${widget.book.totalCashIn ?? '0.00'}',
+  //                     style: AppTextStyles.bodyMediumPopins(color: Colors.green),
+  //                     overflow: TextOverflow.ellipsis,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //             SizedBox(height: 8.h),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Flexible(
+  //                   child: Text(
+  //                     'Total Out (-)',
+  //                     style: AppTextStyles.bodyMediumPopins(
+  //                         color: AppColors.themeColor,
+  //                         fontSize: 14.sp),
+  //                     overflow: TextOverflow.ellipsis,
+  //                   ),
+  //                 ),
+  //                 Flexible(
+  //                   child: Text(
+  //                     ' ${widget.book.totalCashOut ?? '0.00'}',
+  //                     style: AppTextStyles.bodyMediumPopins(color: Colors.red),
+  //                     overflow: TextOverflow.ellipsis,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //             SizedBox(height: 16.h),
+  //             SizedBox(
+  //               width: double.infinity,
+  //               child: ElevatedButton(
+  //                 onPressed: () {},
+  //                 child: const Text('VIEW REPORTS'),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildPrivacyNotice() {
     return Container(

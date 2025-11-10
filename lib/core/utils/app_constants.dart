@@ -41,7 +41,10 @@ class AppConstants {
   static const String TRANSACTION_HISTORY = 'books';
   static const String SPECIFIC_TRANSACTION_DETAILS = 'books';
   static const String DELETE_TRANSACTION_DETAILS = 'books';
-
+  static const String ADD_TEME_MEMBER = 'business-access';
+  static const String GET_TEAM_MEMBER = 'business-access';
+  static const String CHANGE_ROLE = 'business-access';
+  static const String REMOVE_TEAM_BUSINESS = 'business-access';
 
 
 

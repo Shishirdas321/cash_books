@@ -1,5 +1,7 @@
 
 import 'package:cash_books/features/book/repository/book_repo.dart';
+import 'package:cash_books/features/businessteam/controllers/business_team_controller.dart';
+import 'package:cash_books/features/businessteam/repository/business_team_repo.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -38,6 +40,7 @@ Future<void> init() async {
   Get.put(AuthRepo(dioClient: Get.find(), sharedPreferences: sharedPreferences));
   Get.put(HomeRepo(dioClient: Get.find(), sharedPreferences: sharedPreferences));
   Get.put(BookRepo(dioClient: Get.find(), sharedPreferences: sharedPreferences));
+  Get.put(BusinessTeamRepo(dioClient: Get.find(), sharedPreferences: sharedPreferences));
 
 
  ///Controller
@@ -46,6 +49,7 @@ Future<void> init() async {
   Get.put( AuthController(  authRepo: Get.find()));
   Get.put( HomeController(  homeRepo: Get.find()));
   Get.put(BookController(bookRepo: Get.find()));
+  Get.put(BusinessTeamController(businessTeamRepo: Get.find()));
 
 
 

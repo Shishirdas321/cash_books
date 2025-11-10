@@ -1,11 +1,15 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/businessteam/business_team_handel_veiw_screen.dart';
+import 'package:cash_books/features/businessteam/controllers/business_team_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class ChooseRoleScreen extends StatefulWidget {
-  const ChooseRoleScreen({super.key});
+  final String email;
+  final int businessId;
+  const ChooseRoleScreen({super.key, required this.email, required this.businessId});
 
   static const String name = '/choose-role';
 
@@ -15,6 +19,7 @@ class ChooseRoleScreen extends StatefulWidget {
 
 class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
   String selectedRole = 'Staff';
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +65,11 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "dknnn22@gmail.com",
+                            widget.email,
                             style: AppTextStyles.bodyMediumPopins(color: Colors.black54),
                           ),
                           Text(
-                            "dknnn22@gmail.com",
+                            widget.email,
                             style: AppTextStyles.appbar(color: Colors.black45,fontSize: 16.sp),
                           ),
                         ],
@@ -154,21 +159,26 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                   ),
                   Padding(
                     padding:  EdgeInsets.only(bottom: 20.h),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize:  Size.fromHeight(50.h),
-                      ),
-                      onPressed: () {
-                        // Handle add action here
-                        Navigator.pushNamed(
-                            context, BusinessTeamHandelViewScreen.name);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Team member added done'),
+                    child: GetBuilder<BusinessTeamController>(
+                      builder: (controller) {
+                        return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize:  Size.fromHeight(50.h),
                           ),
+                          onPressed: () async{
+                            // Handle add action here
+                           await controller.addTeamMember(email: widget.email, businessId: widget.businessId, role: selectedRole.toLowerCase());
+                            // Navigator.pushNamed(
+                            //     context, BusinessTeamHandelViewScreen.name);
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   const SnackBar(
+                            //     content: Text('Team member added done'),
+                            //   ),
+                            // );
+                          },
+                          child: Text("+ ADD AS ${selectedRole.toUpperCase()}"),
                         );
-                      },
-                      child: Text("+ ADD AS ${selectedRole.toUpperCase()}"),
+                      }
                     ),
                   ),
                 ],

@@ -2,8 +2,12 @@ import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/businessteam/choose_role_screen.dart';
 import 'package:cash_books/features/home/ui/widgets/team_diagram.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import '../home/controllers/home_controller.dart';
 
 class AddTeamMemberScreen extends StatefulWidget {
   const AddTeamMemberScreen({super.key});
@@ -51,15 +55,18 @@ class _AddTeamMemberScreenState extends State<AddTeamMemberScreen> {
                //const SizedBox(height: 20),
                 TextFormField(
                   controller: _emailTEController,
+                  keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.done,
                     decoration: const InputDecoration(
                         fillColor: Colors.white,
                         hintText: 'Email Address',hintStyle: TextStyle(color: Colors.grey),
                       prefixIcon: Icon(Icons.email_outlined,color: Colors.grey,)
                     ),
-                    validator: (String? value) {
-                    if (value?.trim().isEmpty ?? true) {
-                      return 'Enter your business name';
+                  validator: (String? value){
+                    String email = value ?? '';
+
+                    if(!EmailValidator.validate(email)){
+                      return 'Enter a valid email';
                     }
                     return null;
                   },
@@ -67,7 +74,18 @@ class _AddTeamMemberScreenState extends State<AddTeamMemberScreen> {
                 const TeamDiagram(),
                 //const SizedBox(height: 50),
                 ElevatedButton(onPressed: () {
-                  Navigator.pushNamed(context, ChooseRoleScreen.name);
+                  if(_formKey.currentState!.validate()){
+                    //home controller theke business id nin
+                    final homeController = Get.find<HomeController>();
+                    final businessId = homeController
+                        .businessList[homeController.selectedBusinessIndex].id;
+                    Navigator.pushNamed(context, ChooseRoleScreen.name,
+                    arguments: {
+                      'email': _emailTEController.text.trim(),
+                      'businessId': businessId,
+                    });
+                  }
+
                 }, child: const Text('NEXT'),
                 ),
               ],

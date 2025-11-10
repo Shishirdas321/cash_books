@@ -158,15 +158,41 @@ class AppRoutes {
       case MoveBookScreen.name:
         return MaterialPageRoute(builder: (_) => const MoveBookScreen());
       case ChooseRoleScreen.name:
-        return MaterialPageRoute(builder: (_) => const ChooseRoleScreen());
-      case BusinessTeamHandelViewScreen.name:
-        return MaterialPageRoute(builder: (_) => const BusinessTeamHandelViewScreen());
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => ChooseRoleScreen(
+            email: args['email'] as String,
+            businessId: args['businessId'] as int,
+          ),
+        );
+      // case BusinessTeamHandelViewScreen.name:
+      //   return MaterialPageRoute(builder: (_) => const BusinessTeamHandelViewScreen());
       case StaffInfoScreen.name:
-        return MaterialPageRoute(builder: (_) => const StaffInfoScreen());
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => StaffInfoScreen(
+            member: args['member'],
+            businessId: args['businessId'] as int,
+          ),
+        );
       case MemberAddToBookView.name:
-        return MaterialPageRoute(builder: (_) => const MemberAddToBookView());
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => MemberAddToBookView(
+            businessId: args['businessId'] as int,
+            userId: args['userId'] as int,
+          ),
+        );
+
       case MemberAddToSelectBook.name:
-        return MaterialPageRoute(builder: (_) => const MemberAddToSelectBook());
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => MemberAddToSelectBook(
+            businessId: args['businessId'] as int,
+            userId: args['userId'] as int,
+          ),
+        );
+
       case HelpScreen.name:
         return MaterialPageRoute(builder: (_) => const HelpScreen());
       case ProfileScreen.name:

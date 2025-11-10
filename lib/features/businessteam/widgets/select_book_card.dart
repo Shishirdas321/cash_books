@@ -1,18 +1,21 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
+import 'package:cash_books/features/home/model/BookResponse.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class SelectBookCard extends StatefulWidget {
   final int index;
   final int? selectedIndex;
   final Function(int) onSelected;
+  final Book book;
 
   const SelectBookCard({
     super.key,
     required this.index,
     required this.selectedIndex,
-    required this.onSelected,
+    required this.onSelected, required this.book,
   });
 
   @override
@@ -20,8 +23,8 @@ class SelectBookCard extends StatefulWidget {
 }
 
 class _SelectBookCardState extends State<SelectBookCard> {
-  String selectedRole = "Data Operator"; // real Role
-  String tempRole = "Data Operator"; // BottomSheet temp Role
+  String selectedRole = "editor"; // real Role
+  String tempRole = "editor"; // BottomSheet temp Role
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +61,7 @@ class _SelectBookCardState extends State<SelectBookCard> {
               onChanged: (bool? value) {
                 widget.onSelected(widget.index);
               }),
-          title: Text('Business book', style: AppTextStyles.titleSmall()),
+          title: Text(widget.book.name!, style: AppTextStyles.titleSmall()),
         ),
       ),
     );
@@ -83,7 +86,7 @@ class _SelectBookCardState extends State<SelectBookCard> {
         tempRole = value;
         if (value == 'Admin') {
           _buildAdminBottomSheet(context);
-        } else if (value == 'Data Operator') {
+        } else if (value == 'editor') {
           _buildDataOperatorBottomSheet(context);
         } else if (value == 'Viewer') {
           _buildViewerBottomSheet(context);
@@ -98,10 +101,10 @@ class _SelectBookCardState extends State<SelectBookCard> {
           ),
         ),
         PopupMenuItem<String>(
-          value: 'Data Operator',
+          value: 'editor',
           child: ListTile(
             leading: const Icon(Icons.dataset_linked, color: AppColors.themeColor),
-            title: Text('Data Operator', style: AppTextStyles.titleSmall()),
+            title: Text('editor', style: AppTextStyles.titleSmall()),
           ),
         ),
         PopupMenuItem<String>(

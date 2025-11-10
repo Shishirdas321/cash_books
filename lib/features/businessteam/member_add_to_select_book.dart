@@ -1,11 +1,16 @@
 import 'package:cash_books/core/fonts/app_text_style.dart';
 import 'package:cash_books/core/theme/app_colors.dart';
 import 'package:cash_books/features/businessteam/widgets/select_book_card.dart';
+import 'package:cash_books/features/home/controllers/home_controller.dart';
+import 'package:cash_books/features/home/model/BookResponse.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class MemberAddToSelectBook extends StatefulWidget {
-  const MemberAddToSelectBook({super.key});
+  final int businessId;
+  final int userId;
+  const MemberAddToSelectBook({super.key, required this.businessId, required this.userId});
 
   static const String name = '/member-add-to-select-book';
 
@@ -16,6 +21,17 @@ class MemberAddToSelectBook extends StatefulWidget {
 class _MemberAddToSelectBookState extends State<MemberAddToSelectBook> {
 
   int? selectedIndex;
+  final HomeController homeController = Get.find<HomeController>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      homeController.allBook(businessId: widget.businessId, page: 1);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,29 +59,36 @@ class _MemberAddToSelectBookState extends State<MemberAddToSelectBook> {
           padding:  EdgeInsets.only(bottom: 16.h),
           child: Column(
             children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return  SelectBookCard(
-                            selectedIndex: selectedIndex,
-                            index: index,
-                            onSelected: (i){
-                              selectedIndex = i;
-                              setState(() {});
-                            },
-                          );
-                        },
-                      ),
+              GetBuilder<HomeController>(
+                builder: (controller) {
 
-                    ],
-                  ),
-                ),
+                  final books = controller.bookList;
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: books.length,
+                            itemBuilder: (context, index) {
+                              final book = books[index];
+                              return  SelectBookCard(
+                                selectedIndex: selectedIndex,
+                                index: index,
+                                onSelected: (i){
+                                  selectedIndex = i;
+                                  setState(() {});
+                                }, book: book,
+                              );
+                            },
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  );
+                }
               ),
               Padding(
                 padding: EdgeInsets.all(16.w),
