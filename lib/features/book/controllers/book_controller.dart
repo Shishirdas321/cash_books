@@ -16,6 +16,7 @@ import 'package:cash_books/features/book/model/TransactionHistoryResponse.dart';
 import 'package:cash_books/features/book/model/UpdateCategoryResponse.dart';
 import 'package:cash_books/features/book/model/UpdateContactPersonResponse.dart';
 import 'package:cash_books/features/book/model/UpdatePaymentMethodResponse.dart';
+import 'package:cash_books/features/book/model/UpdateTransactionResponse.dart' as update_trans;
 import 'package:cash_books/features/book/repository/book_repo.dart';
 import 'package:cash_books/features/book/ui/screens/add_cash_in_entry_screen.dart';
 import 'package:cash_books/features/book/ui/screens/business_book_screen.dart';
@@ -41,6 +42,8 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 
 import 'package:cash_books/features/home/model/BookResponse.dart' as book_model;
+
+import '../model/UpdateTransactionResponse.dart';
 
 class BookController extends GetxController implements GetxService {
   final BookRepo bookRepo;
@@ -135,7 +138,7 @@ class BookController extends GetxController implements GetxService {
           currentPage = allCategoriesResponse.data!.currentPage ?? page;
           lastPage = allCategoriesResponse.data!.lastPage ?? page;
 
-          // ✅ শুধু page 1 এ success message
+
           if (page == 1) {
             showCustomSnackBar(allCategoriesResponse.message ?? "Success", isError: false, isPosition: true);
           }
@@ -768,6 +771,38 @@ class BookController extends GetxController implements GetxService {
   }
 
   //specific transaction details
+  SpecificTransactionDetailsResponse? transactionDetails;
+
+  Future<void> specificTransaction({required int selectedId, required int bookId}) async {
+
+    transactionDetails = null;
+    update();
+
+    isLoadingbtn = true;
+    update();
+
+    ApiResponse apiResponse = await bookRepo.specificTransaction(
+      selectedId: selectedId,
+      bookId: bookId,
+    );
+
+    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+      try {
+        transactionDetails = SpecificTransactionDetailsResponse.fromJson(apiResponse.response!.data);
+        showCustomSnackBar(transactionDetails?.message ?? "Success", isError: false, isPosition: true);
+      } catch (e) {
+        showCustomSnackBar(apiResponse.error.toString(), isError: true);
+      }
+    } else {
+      errorMsg = apiResponse.error ?? "Unknown error occurred";
+      showCustomSnackBar(errorMsg!, isError: true);
+    }
+
+    isLoadingbtn = false;
+    update(); // UI refresh
+  }
+
+/*  //specific transaction details
 
 
 
@@ -796,7 +831,7 @@ class BookController extends GetxController implements GetxService {
 
   isLoadingbtn = false;
   update(); // UI refresh
-  }
+  }*/
 
   //delete transaction details
   Future<void> deleteTransactionDetails(int bookId, int selectedId) async {
@@ -812,9 +847,68 @@ class BookController extends GetxController implements GetxService {
       showCustomSnackBar(msg, isError: false, isPosition: true);
       //g.Get.off(BusinessBookScreen(book:widget.book));
 
-      await transactionHistory(bookId: bookId,page: 1);
+      final homeController = Get.find<HomeController>();
+      await Future.wait([
+        transactionHistory(bookId: bookId, page: 1),
+        homeController.allBook(businessId: _currentBusinessId),
+        specificBookDetails(businessId: _currentBusinessId, bookId: bookId),
+      ]);
       update();
 
+    } else {
+      errorMsg = apiResponse.error.toString();
+      showCustomSnackBar(errorMsg, isError: true);
+    }
+
+    isLoading = false;
+    update();
+  }
+
+//Update transaction
+  Future<void> updateTransaction({
+    required int bookId,
+    required int selectedId,
+    required int amount,
+    required String remarks,
+    required String date,
+    required String time,
+    required int type,
+    int? contactId,
+    int? categoryId,
+    required int paymentModeId,
+  }) async {
+    isLoading = true;
+    update();
+
+    ApiResponse apiResponse = await bookRepo.updateTransaction(
+      bookId: bookId,
+      selectedId: selectedId,
+      remarks: remarks,
+      date: date,
+      time: time,
+      amount: amount,
+      type: type,
+      contactId: contactId,
+      categoryId: categoryId,
+      paymentModeId: paymentModeId,
+    );
+
+    if ((apiResponse.response?.statusCode ?? -1) == 200) {
+      UpdateTransactionResponse updateTransactionResponse =
+      UpdateTransactionResponse.fromJson(apiResponse.response?.data);
+
+      String msg = updateTransactionResponse.message ?? "";
+      showCustomSnackBar(msg, isError: false, isPosition: true);
+
+      // Refresh data
+      final homeController = Get.find<HomeController>();
+      await Future.wait([
+        transactionHistory(bookId: bookId, page: 1),
+        homeController.allBook(businessId: _currentBusinessId),
+        specificBookDetails(businessId: _currentBusinessId, bookId: bookId),
+      ]);
+
+      update();
     } else {
       errorMsg = apiResponse.error.toString();
       showCustomSnackBar(errorMsg, isError: true);
@@ -923,3 +1017,4 @@ class BookController extends GetxController implements GetxService {
 
 
 }
+

@@ -45,7 +45,11 @@ class AppConstants {
   static const String GET_TEAM_MEMBER = 'business-access';
   static const String CHANGE_ROLE = 'business-access';
   static const String REMOVE_TEAM_BUSINESS = 'business-access';
-
+  static const String ALLBOOKACCESSLISTUSERWISH = 'businesses';
+  static const String ADDBOOKACCESS = 'businesses';
+  static const String CHANGE_BOOK_ROLE = 'businesses';
+  static const String REMOVE_BOOK_ACCESS = 'businesses';
+  static const String UPDATE_TRANSACTION = 'books';
 
 
 

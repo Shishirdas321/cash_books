@@ -344,6 +344,49 @@ class BookRepo {
     }
   }
 
+  //UPDATE transaction
+  Future<ApiResponse> updateTransaction({
+    required int bookId,
+    required int selectedId,
+    required String remarks,
+    required String date,
+    required String time,
+    required int amount,
+    required int type,
+    int? contactId,
+    int? categoryId,
+    required int paymentModeId,
+  }) async {
+    try {
+      final data = {
+        "remarks": remarks,
+        "payment_mode_id": paymentModeId,
+        "amount": amount,
+        "type": type,
+        "opt_time": time,
+        "opt_date": date,
+      };
+
+      // Nullable fields - শুধু মান থাকলে পাঠান
+      if (contactId != null) data["contact_id"] = contactId;
+      if (categoryId != null) data["category_id"] = categoryId;
+
+      Response response = await dioClient.put(
+        '${AppConstants.UPDATE_TRANSACTION}/$bookId/items/$selectedId',
+        data: data,
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(
+          e,
+          "updateTransaction",
+          mustShowErrorInReleaseMode: true,
+        ),
+      );
+    }
+  }
+
 
 
 

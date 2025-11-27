@@ -107,6 +107,93 @@ class BusinessTeamRepo {
 
   }
 
+  //Get all book accessList user wish
+  Future<ApiResponse> allBookAccessListUserWish({ required int businessId,required int userId
+  }) async {
+    try {
+      Response response = await dioClient.get(
+        '${AppConstants.ALLBOOKACCESSLISTUSERWISH}/$businessId/users/$userId/books',
+      );
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "allBookAccessListUserWish", mustShowErrorInReleaseMode: true),
+      );
+    }
+  }
+
+  //Add book access
+  Future<ApiResponse> addBookAccess({
+    required int bookId,
+    required int businessId,
+    required String role,
+    required int userId
+
+  }) async {
+    // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
+    try{
+      Response response= await dioClient.post(
+          '${AppConstants.ADDBOOKACCESS}/$businessId/books/$bookId/access',
+          data: {
+            "user_id":userId,
+            "role":role,
+          });
+      return ApiResponse.withSuccess(response);
+    }catch(e){
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "addBookAccess", mustShowErrorInReleaseMode: true),
+      );
+    }
+
+
+  }
+
+  //Change Book role
+  Future<ApiResponse> changeBookRole({
+    required int userId,
+    required int businessId,
+    required String role,
+    required int bookId
+  }) async {
+    // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
+    try{
+      Response response= await dioClient.put(
+          '${AppConstants.CHANGE_BOOK_ROLE}/$businessId/books/$bookId/access',
+          data: {
+            "user_id":userId,
+            "role":role,
+          });
+      return ApiResponse.withSuccess(response);
+    }catch(e){
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "changeBookRole", mustShowErrorInReleaseMode: true),
+      );
+    }
+  }
+
+  //delete book access
+  Future<ApiResponse> deleteBookAccess({
+    required int userId,
+    required int businessId,
+    required int bookId
+  }) async {
+    // return await apiClient.postData(AppConstants.LOGIN_URI, {"jsonData":jsonEncode(loginBody.toJson())});
+    try{
+      Response response= await dioClient.delete(
+          '${AppConstants.REMOVE_BOOK_ACCESS}/$businessId/books/$bookId/access',
+          data: {
+            "user_id":userId,
+          });
+      return ApiResponse.withSuccess(response);
+    }catch(e){
+      return ApiResponse.withError(
+        ApiErrorHandler.handle(e, "deleteBookAccess", mustShowErrorInReleaseMode: true),
+      );
+    }
+  }
+
+
+
 
 
 
